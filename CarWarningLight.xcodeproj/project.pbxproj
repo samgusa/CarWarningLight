@@ -1,0 +1,839 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FE014E73254B6CA3000D32F6 /* InfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE014E72254B6CA3000D32F6 /* InfoData.swift */; };
+		FE014E76254B6D51000D32F6 /* SelfConfiguringCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE014E75254B6D51000D32F6 /* SelfConfiguringCell.swift */; };
+		FE15B2F8254E635F00531245 /* TestArr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE15B2F7254E635F00531245 /* TestArr.swift */; };
+		FE1DBD5025632E6A003B7684 /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1DBD4F25632E6A003B7684 /* ImageCollectionViewController.swift */; };
+		FE26F0D7253F80E600909DE4 /* LargeLbl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE26F0D6253F80E600909DE4 /* LargeLbl.swift */; };
+		FE29C489256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29C488256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift */; };
+		FE29C491256339B60047A0A3 /* ImageCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29C490256339B60047A0A3 /* ImageCollectionCell.swift */; };
+		FE29C4A0256375DC0047A0A3 /* ImgCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29C49F256375DC0047A0A3 /* ImgCollectionViewController.swift */; };
+		FE29C4A6256378340047A0A3 /* ImgCollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29C4A5256378340047A0A3 /* ImgCollectionExtension.swift */; };
+		FE330304253BD69600D14F27 /* InfoBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE330303253BD69600D14F27 /* InfoBtn.swift */; };
+		FE38214523A58EFE00F91DCE /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE38214423A58EFE00F91DCE /* FloatingButton.swift */; };
+		FE38214723A5904400F91DCE /* FloatingButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE38214623A5904400F91DCE /* FloatingButtonItem.swift */; };
+		FE38E44525422B01003730C5 /* CameraChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE38E44425422B01003730C5 /* CameraChildView.swift */; };
+		FE41126A2558AA47000E352E /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4112692558AA47000E352E /* DataViewController.swift */; };
+		FE41CBA625BA0E9000F7AB17 /* DataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE41CBA525BA0E9000F7AB17 /* DataDetailView.swift */; };
+		FE4659742534FA2500D1A795 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4659732534FA2500D1A795 /* Helper.swift */; };
+		FE514ACC26360A93006C331A /* RequestPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE514ACB26360A93006C331A /* RequestPermission.swift */; };
+		FE55F2DA25477622004330BD /* InfoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE55F2D925477622004330BD /* InfoDataView.swift */; };
+		FE55F2DD2547762F004330BD /* InfoDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE55F2DC2547762F004330BD /* InfoDataCell.swift */; };
+		FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */; };
+		FE65A01D254CB96700C4E691 /* car.json in Resources */ = {isa = PBXBuildFile; fileRef = FE65A01C254CB96700C4E691 /* car.json */; };
+		FE65A020254CBA0700C4E691 /* Bundle-Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */; };
+		FE68AEF62249B7E20055E8B1 /* CarImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68AEF52249B7E20055E8B1 /* CarImg.swift */; };
+		FE794530253E3C390000892E /* TestViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE79452F253E3C390000892E /* TestViewExtensions.swift */; };
+		FE794533253E783A0000892E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE794532253E783A0000892E /* Extensions.swift */; };
+		FE8EB2C125BA368600185826 /* MainDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8EB2C025BA368600185826 /* MainDataSource.swift */; };
+		FE8EB2D625BA835300185826 /* CollectionViewExtension+Animate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8EB2D525BA835300185826 /* CollectionViewExtension+Animate.swift */; };
+		FEA55CAD2545057600B58138 /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA55CAC2545057600B58138 /* CollectionViewExtension.swift */; };
+		FEA55CB02545064700B58138 /* MainCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA55CAF2545064700B58138 /* MainCollectionCell.swift */; };
+		FEB9CEBC23274541009A4A0B /* SwiftSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB9CEBB23274541009A4A0B /* SwiftSpinner.swift */; };
+		FEBDF534223F229E0056F464 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBDF533223F229D0056F464 /* AppDelegate.swift */; };
+		FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53A223F22A10056F464 /* Assets.xcassets */; };
+		FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */; };
+		FEBDF547223F22E10056F464 /* CarArr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBDF546223F22E10056F464 /* CarArr.swift */; };
+		FEBDF549223F25290056F464 /* CarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBDF548223F25290056F464 /* CarData.swift */; };
+		FEBE8C2F2546521200C74D56 /* MainCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBE8C2E2546521200C74D56 /* MainCellView.swift */; };
+		FEC3CCA223948C92004F805C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC3CCA123948C91004F805C /* SceneDelegate.swift */; };
+		FECB3C8523D54C06005E935B /* UserDefaults+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECB3C8423D54C05005E935B /* UserDefaults+Key.swift */; };
+		FEE5313423D6A8EE004975F7 /* NanoPB-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FEE5312D23D6A8EE004975F7 /* NanoPB-LICENSE */; };
+		FEE5313523D6A8EE004975F7 /* OpenMeasurement-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FEE5312E23D6A8EE004975F7 /* OpenMeasurement-LICENSE */; };
+		FEE5313623D6A8EE004975F7 /* GoogleUtilities-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FEE5312F23D6A8EE004975F7 /* GoogleUtilities-LICENSE */; };
+		FEE5313723D6A8EE004975F7 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE5313023D6A8EE004975F7 /* GoogleMobileAds.framework */; };
+		FEE5313823D6A8EE004975F7 /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE5313123D6A8EE004975F7 /* GoogleAppMeasurement.framework */; };
+		FEE5313923D6A8EE004975F7 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE5313223D6A8EE004975F7 /* GoogleUtilities.framework */; };
+		FEE5313A23D6A8EE004975F7 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE5313323D6A8EE004975F7 /* nanopb.framework */; };
+		FEF69EE923D5427300EE94C1 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF69EE823D5427300EE94C1 /* AppStoreReviewManager.swift */; };
+		FEF7960B253CC05D008A4FFB /* CollectionChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF7960A253CC05D008A4FFB /* CollectionChildView.swift */; };
+		FEF7960E253CC7DC008A4FFB /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */; };
+		FEFDF7732781114A00A2B543 /* CarWarningLightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FEFDF7752781114A00A2B543 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FEBDF528223F229D0056F464 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FEBDF52F223F229D0056F464;
+			remoteInfo = CarWarningLight;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FE014E72254B6CA3000D32F6 /* InfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoData.swift; sourceTree = "<group>"; };
+		FE014E75254B6D51000D32F6 /* SelfConfiguringCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfConfiguringCell.swift; sourceTree = "<group>"; };
+		FE15B2F7254E635F00531245 /* TestArr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestArr.swift; sourceTree = "<group>"; };
+		FE1DBD4F25632E6A003B7684 /* ImageCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewController.swift; sourceTree = "<group>"; };
+		FE26F0D6253F80E600909DE4 /* LargeLbl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeLbl.swift; sourceTree = "<group>"; };
+		FE29C488256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageCollectionViewExtension+ImageRecog.swift"; sourceTree = "<group>"; };
+		FE29C490256339B60047A0A3 /* ImageCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionCell.swift; sourceTree = "<group>"; };
+		FE29C49F256375DC0047A0A3 /* ImgCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImgCollectionViewController.swift; sourceTree = "<group>"; };
+		FE29C4A5256378340047A0A3 /* ImgCollectionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImgCollectionExtension.swift; sourceTree = "<group>"; };
+		FE330303253BD69600D14F27 /* InfoBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBtn.swift; sourceTree = "<group>"; };
+		FE38214423A58EFE00F91DCE /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		FE38214623A5904400F91DCE /* FloatingButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonItem.swift; sourceTree = "<group>"; };
+		FE38E44425422B01003730C5 /* CameraChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraChildView.swift; sourceTree = "<group>"; };
+		FE4112692558AA47000E352E /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
+		FE41CBA525BA0E9000F7AB17 /* DataDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDetailView.swift; sourceTree = "<group>"; };
+		FE4659732534FA2500D1A795 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		FE514ACB26360A93006C331A /* RequestPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermission.swift; sourceTree = "<group>"; };
+		FE55F2D925477622004330BD /* InfoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDataView.swift; sourceTree = "<group>"; };
+		FE55F2DC2547762F004330BD /* InfoDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDataCell.swift; sourceTree = "<group>"; };
+		FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MainCarImg4.mlmodel; sourceTree = "<group>"; };
+		FE65A01C254CB96700C4E691 /* car.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car.json; sourceTree = "<group>"; };
+		FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle-Decodable.swift"; sourceTree = "<group>"; };
+		FE68AEF52249B7E20055E8B1 /* CarImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarImg.swift; sourceTree = "<group>"; };
+		FE79452F253E3C390000892E /* TestViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewExtensions.swift; sourceTree = "<group>"; };
+		FE794532253E783A0000892E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		FE8EB2C025BA368600185826 /* MainDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDataSource.swift; sourceTree = "<group>"; };
+		FE8EB2D525BA835300185826 /* CollectionViewExtension+Animate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionViewExtension+Animate.swift"; sourceTree = "<group>"; };
+		FEA55CAC2545057600B58138 /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
+		FEA55CAF2545064700B58138 /* MainCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionCell.swift; sourceTree = "<group>"; };
+		FEB9CEBB23274541009A4A0B /* SwiftSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinner.swift; sourceTree = "<group>"; };
+		FEBDF530223F229D0056F464 /* CarWarningLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarWarningLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEBDF533223F229D0056F464 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FEBDF53A223F22A10056F464 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FEBDF53D223F22A10056F464 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FEBDF53F223F22A10056F464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEBDF546223F22E10056F464 /* CarArr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarArr.swift; sourceTree = "<group>"; };
+		FEBDF548223F25290056F464 /* CarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarData.swift; sourceTree = "<group>"; };
+		FEBE8C2E2546521200C74D56 /* MainCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellView.swift; sourceTree = "<group>"; };
+		FEC3CCA123948C91004F805C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		FECB3C8423D54C05005E935B /* UserDefaults+Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Key.swift"; sourceTree = "<group>"; };
+		FEE5312D23D6A8EE004975F7 /* NanoPB-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "NanoPB-LICENSE"; sourceTree = "<group>"; };
+		FEE5312E23D6A8EE004975F7 /* OpenMeasurement-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenMeasurement-LICENSE"; sourceTree = "<group>"; };
+		FEE5312F23D6A8EE004975F7 /* GoogleUtilities-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GoogleUtilities-LICENSE"; sourceTree = "<group>"; };
+		FEE5313023D6A8EE004975F7 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../../../Downloads/GoogleMobileAdsSdkiOS-7.53.1/GoogleMobileAds.framework"; sourceTree = "<group>"; };
+		FEE5313123D6A8EE004975F7 /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppMeasurement.framework; path = "../../../../Downloads/GoogleMobileAdsSdkiOS-7.53.1/GoogleAppMeasurement.framework"; sourceTree = "<group>"; };
+		FEE5313223D6A8EE004975F7 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = "../../../../Downloads/GoogleMobileAdsSdkiOS-7.53.1/GoogleUtilities.framework"; sourceTree = "<group>"; };
+		FEE5313323D6A8EE004975F7 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nanopb.framework; path = "../../../../Downloads/GoogleMobileAdsSdkiOS-7.53.1/nanopb.framework"; sourceTree = "<group>"; };
+		FEF69EE823D5427300EE94C1 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
+		FEF7960A253CC05D008A4FFB /* CollectionChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionChildView.swift; sourceTree = "<group>"; };
+		FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
+		FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarWarningLightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarWarningLightTests.swift; sourceTree = "<group>"; };
+		FEFDF7742781114A00A2B543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FEBDF52D223F229D0056F464 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEE5313923D6A8EE004975F7 /* GoogleUtilities.framework in Frameworks */,
+				FEE5313823D6A8EE004975F7 /* GoogleAppMeasurement.framework in Frameworks */,
+				FEE5313A23D6A8EE004975F7 /* nanopb.framework in Frameworks */,
+				FEE5313723D6A8EE004975F7 /* GoogleMobileAds.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEFDF76D2781114A00A2B543 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FE311B5C254FA43800D20786 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				FE38E44425422B01003730C5 /* CameraChildView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		FE311B5D254FA44200D20786 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				FEF7960A253CC05D008A4FFB /* CollectionChildView.swift */,
+				FEA55CAC2545057600B58138 /* CollectionViewExtension.swift */,
+				FE8EB2D525BA835300185826 /* CollectionViewExtension+Animate.swift */,
+				FE29C49F256375DC0047A0A3 /* ImgCollectionViewController.swift */,
+				FE29C4A5256378340047A0A3 /* ImgCollectionExtension.swift */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		FE311B5E254FA44E00D20786 /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				FEF69EE823D5427300EE94C1 /* AppStoreReviewManager.swift */,
+				FECB3C8423D54C05005E935B /* UserDefaults+Key.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
+		FE311B5F254FA46500D20786 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				FE4659732534FA2500D1A795 /* Helper.swift */,
+				FE794532253E783A0000892E /* Extensions.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		FE311B60254FA51200D20786 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				FE1DBD4F25632E6A003B7684 /* ImageCollectionViewController.swift */,
+				FE29C488256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		FE311B63254FA57900D20786 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FE55F2DC2547762F004330BD /* InfoDataCell.swift */,
+				FEA55CAF2545064700B58138 /* MainCollectionCell.swift */,
+				FE014E75254B6D51000D32F6 /* SelfConfiguringCell.swift */,
+				FE29C490256339B60047A0A3 /* ImageCollectionCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		FE311B64254FA59800D20786 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FE55F2D925477622004330BD /* InfoDataView.swift */,
+				FEBE8C2E2546521200C74D56 /* MainCellView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FE311B65254FA64900D20786 /* CarData */ = {
+			isa = PBXGroup;
+			children = (
+				FEBDF546223F22E10056F464 /* CarArr.swift */,
+				FE15B2F7254E635F00531245 /* TestArr.swift */,
+				FEBDF548223F25290056F464 /* CarData.swift */,
+				FE68AEF52249B7E20055E8B1 /* CarImg.swift */,
+			);
+			path = CarData;
+			sourceTree = "<group>";
+		};
+		FE311B66254FA65A00D20786 /* InfoData */ = {
+			isa = PBXGroup;
+			children = (
+				FE014E72254B6CA3000D32F6 /* InfoData.swift */,
+				FE65A01C254CB96700C4E691 /* car.json */,
+			);
+			path = InfoData;
+			sourceTree = "<group>";
+		};
+		FE41CBA225BA0DD200F7AB17 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */,
+				FE79452F253E3C390000892E /* TestViewExtensions.swift */,
+				FE4112692558AA47000E352E /* DataViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		FE41CBA425BA0E1100F7AB17 /* DetailViews */ = {
+			isa = PBXGroup;
+			children = (
+				FE41CBA525BA0E9000F7AB17 /* DataDetailView.swift */,
+			);
+			path = DetailViews;
+			sourceTree = "<group>";
+		};
+		FE496DB0225EC89D00FCD1B0 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FEC05AAE23B30026005F3096 /* Child */,
+				FE41CBA225BA0DD200F7AB17 /* ViewController */,
+				FE311B60254FA51200D20786 /* CollectionView */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FE514ACA26360A75006C331A /* Permission */ = {
+			isa = PBXGroup;
+			children = (
+				FE514ACB26360A93006C331A /* RequestPermission.swift */,
+			);
+			path = Permission;
+			sourceTree = "<group>";
+		};
+		FE63C2AD23A9C2C3002810D1 /* Floating Action Button */ = {
+			isa = PBXGroup;
+			children = (
+				FE38214423A58EFE00F91DCE /* FloatingButton.swift */,
+				FE38214623A5904400F91DCE /* FloatingButtonItem.swift */,
+			);
+			path = "Floating Action Button";
+			sourceTree = "<group>";
+		};
+		FE7ABD04225D431D0061E30A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FE8EB2BF25BA364F00185826 /* Objects */,
+				FE41CBA425BA0E1100F7AB17 /* DetailViews */,
+				FE311B64254FA59800D20786 /* Views */,
+				FE311B63254FA57900D20786 /* Cells */,
+				FE330303253BD69600D14F27 /* InfoBtn.swift */,
+				FE26F0D6253F80E600909DE4 /* LargeLbl.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FE8EB2BF25BA364F00185826 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				FE8EB2C025BA368600185826 /* MainDataSource.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		FEBDF527223F229D0056F464 = {
+			isa = PBXGroup;
+			children = (
+				FEBDF532223F229D0056F464 /* CarWarningLight */,
+				FEFDF7712781114A00A2B543 /* CarWarningLightTests */,
+				FEBDF531223F229D0056F464 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FEBDF531223F229D0056F464 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FEBDF530223F229D0056F464 /* CarWarningLight.app */,
+				FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FEBDF532223F229D0056F464 /* CarWarningLight */ = {
+			isa = PBXGroup;
+			children = (
+				FED06A3F23D7AEAA00BBB718 /* Model */,
+				FE7ABD04225D431D0061E30A /* View */,
+				FE496DB0225EC89D00FCD1B0 /* ViewControllers */,
+				FEBDF533223F229D0056F464 /* AppDelegate.swift */,
+				FEC3CCA123948C91004F805C /* SceneDelegate.swift */,
+				FEBDF53A223F22A10056F464 /* Assets.xcassets */,
+				FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */,
+				FEBDF53F223F22A10056F464 /* Info.plist */,
+				FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */,
+				FEE5313123D6A8EE004975F7 /* GoogleAppMeasurement.framework */,
+				FEE5313023D6A8EE004975F7 /* GoogleMobileAds.framework */,
+				FEE5313223D6A8EE004975F7 /* GoogleUtilities.framework */,
+				FEE5312C23D6A8EE004975F7 /* Licenses */,
+				FEE5313323D6A8EE004975F7 /* nanopb.framework */,
+			);
+			path = CarWarningLight;
+			sourceTree = "<group>";
+		};
+		FEBDF545223F22B40056F464 /* Car Data */ = {
+			isa = PBXGroup;
+			children = (
+				FE311B66254FA65A00D20786 /* InfoData */,
+				FE311B65254FA64900D20786 /* CarData */,
+			);
+			path = "Car Data";
+			sourceTree = "<group>";
+		};
+		FEC05AAE23B30026005F3096 /* Child */ = {
+			isa = PBXGroup;
+			children = (
+				FE311B5D254FA44200D20786 /* CollectionView */,
+				FE311B5C254FA43800D20786 /* Camera */,
+			);
+			path = Child;
+			sourceTree = "<group>";
+		};
+		FED06A3F23D7AEAA00BBB718 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FE514ACA26360A75006C331A /* Permission */,
+				FE63C2AD23A9C2C3002810D1 /* Floating Action Button */,
+				FEBDF545223F22B40056F464 /* Car Data */,
+				FE311B5F254FA46500D20786 /* Helper */,
+				FE311B5E254FA44E00D20786 /* Review */,
+				FEB9CEBB23274541009A4A0B /* SwiftSpinner.swift */,
+				FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FEE5312C23D6A8EE004975F7 /* Licenses */ = {
+			isa = PBXGroup;
+			children = (
+				FEE5312D23D6A8EE004975F7 /* NanoPB-LICENSE */,
+				FEE5312E23D6A8EE004975F7 /* OpenMeasurement-LICENSE */,
+				FEE5312F23D6A8EE004975F7 /* GoogleUtilities-LICENSE */,
+			);
+			path = Licenses;
+			sourceTree = "<group>";
+		};
+		FEFDF7712781114A00A2B543 /* CarWarningLightTests */ = {
+			isa = PBXGroup;
+			children = (
+				FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */,
+				FEFDF7742781114A00A2B543 /* Info.plist */,
+			);
+			path = CarWarningLightTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FEBDF52F223F229D0056F464 /* CarWarningLight */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEBDF542223F22A10056F464 /* Build configuration list for PBXNativeTarget "CarWarningLight" */;
+			buildPhases = (
+				FEBDF52C223F229D0056F464 /* Sources */,
+				FEBDF52D223F229D0056F464 /* Frameworks */,
+				FEBDF52E223F229D0056F464 /* Resources */,
+				FE19804022503B1100A6BD5C /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CarWarningLight;
+			productName = CarWarningLight;
+			productReference = FEBDF530223F229D0056F464 /* CarWarningLight.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FEFDF76F2781114A00A2B543 /* CarWarningLightTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEFDF7792781114A00A2B543 /* Build configuration list for PBXNativeTarget "CarWarningLightTests" */;
+			buildPhases = (
+				FEFDF76C2781114A00A2B543 /* Sources */,
+				FEFDF76D2781114A00A2B543 /* Frameworks */,
+				FEFDF76E2781114A00A2B543 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FEFDF7762781114A00A2B543 /* PBXTargetDependency */,
+			);
+			name = CarWarningLightTests;
+			productName = CarWarningLightTests;
+			productReference = FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FEBDF528223F229D0056F464 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1210;
+				ORGANIZATIONNAME = simplyAmazingMachines;
+				TargetAttributes = {
+					FEBDF52F223F229D0056F464 = {
+						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1030;
+					};
+					FEFDF76F2781114A00A2B543 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = FEBDF52F223F229D0056F464;
+					};
+				};
+			};
+			buildConfigurationList = FEBDF52B223F229D0056F464 /* Build configuration list for PBXProject "CarWarningLight" */;
+			compatibilityVersion = "Xcode 12.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FEBDF527223F229D0056F464;
+			productRefGroup = FEBDF531223F229D0056F464 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FEBDF52F223F229D0056F464 /* CarWarningLight */,
+				FEFDF76F2781114A00A2B543 /* CarWarningLightTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FEBDF52E223F229D0056F464 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEE5313623D6A8EE004975F7 /* GoogleUtilities-LICENSE in Resources */,
+				FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */,
+				FE65A01D254CB96700C4E691 /* car.json in Resources */,
+				FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */,
+				FEE5313423D6A8EE004975F7 /* NanoPB-LICENSE in Resources */,
+				FEE5313523D6A8EE004975F7 /* OpenMeasurement-LICENSE in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEFDF76E2781114A00A2B543 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FE19804022503B1100A6BD5C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FEBDF52C223F229D0056F464 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE1DBD5025632E6A003B7684 /* ImageCollectionViewController.swift in Sources */,
+				FE55F2DD2547762F004330BD /* InfoDataCell.swift in Sources */,
+				FE514ACC26360A93006C331A /* RequestPermission.swift in Sources */,
+				FE15B2F8254E635F00531245 /* TestArr.swift in Sources */,
+				FEBDF549223F25290056F464 /* CarData.swift in Sources */,
+				FECB3C8523D54C06005E935B /* UserDefaults+Key.swift in Sources */,
+				FE68AEF62249B7E20055E8B1 /* CarImg.swift in Sources */,
+				FE8EB2C125BA368600185826 /* MainDataSource.swift in Sources */,
+				FE29C489256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift in Sources */,
+				FEA55CB02545064700B58138 /* MainCollectionCell.swift in Sources */,
+				FE65A020254CBA0700C4E691 /* Bundle-Decodable.swift in Sources */,
+				FEB9CEBC23274541009A4A0B /* SwiftSpinner.swift in Sources */,
+				FE29C4A6256378340047A0A3 /* ImgCollectionExtension.swift in Sources */,
+				FE26F0D7253F80E600909DE4 /* LargeLbl.swift in Sources */,
+				FEF7960E253CC7DC008A4FFB /* TestingViewController.swift in Sources */,
+				FE38E44525422B01003730C5 /* CameraChildView.swift in Sources */,
+				FEBDF547223F22E10056F464 /* CarArr.swift in Sources */,
+				FE29C491256339B60047A0A3 /* ImageCollectionCell.swift in Sources */,
+				FEBE8C2F2546521200C74D56 /* MainCellView.swift in Sources */,
+				FE41126A2558AA47000E352E /* DataViewController.swift in Sources */,
+				FEF7960B253CC05D008A4FFB /* CollectionChildView.swift in Sources */,
+				FEC3CCA223948C92004F805C /* SceneDelegate.swift in Sources */,
+				FE38214723A5904400F91DCE /* FloatingButtonItem.swift in Sources */,
+				FE8EB2D625BA835300185826 /* CollectionViewExtension+Animate.swift in Sources */,
+				FE4659742534FA2500D1A795 /* Helper.swift in Sources */,
+				FE794533253E783A0000892E /* Extensions.swift in Sources */,
+				FE014E73254B6CA3000D32F6 /* InfoData.swift in Sources */,
+				FEBDF534223F229E0056F464 /* AppDelegate.swift in Sources */,
+				FE41CBA625BA0E9000F7AB17 /* DataDetailView.swift in Sources */,
+				FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */,
+				FE330304253BD69600D14F27 /* InfoBtn.swift in Sources */,
+				FEF69EE923D5427300EE94C1 /* AppStoreReviewManager.swift in Sources */,
+				FE014E76254B6D51000D32F6 /* SelfConfiguringCell.swift in Sources */,
+				FE38214523A58EFE00F91DCE /* FloatingButton.swift in Sources */,
+				FEA55CAD2545057600B58138 /* CollectionViewExtension.swift in Sources */,
+				FE55F2DA25477622004330BD /* InfoDataView.swift in Sources */,
+				FE29C4A0256375DC0047A0A3 /* ImgCollectionViewController.swift in Sources */,
+				FE794530253E3C390000892E /* TestViewExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEFDF76C2781114A00A2B543 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEFDF7732781114A00A2B543 /* CarWarningLightTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FEFDF7762781114A00A2B543 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FEBDF52F223F229D0056F464 /* CarWarningLight */;
+			targetProxy = FEFDF7752781114A00A2B543 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FEBDF53D223F22A10056F464 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FEBDF540223F22A10056F464 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FEBDF541223F22A10056F464 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FEBDF543223F22A10056F464 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4LBT7283WA;
+				"EXCLUDED_ARCHS[sdk=*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/CarWarningLight",
+				);
+				INFOPLIST_FILE = CarWarningLight/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.03;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.simple.CarWarningLight;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		FEBDF544223F22A10056F464 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4LBT7283WA;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/CarWarningLight",
+				);
+				INFOPLIST_FILE = CarWarningLight/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.03;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.simple.CarWarningLight;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		FEFDF7772781114A00A2B543 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4LBT7283WA;
+				INFOPLIST_FILE = CarWarningLightTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.simple-amazing-machines.CarWarningLightTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarWarningLight.app/CarWarningLight";
+			};
+			name = Debug;
+		};
+		FEFDF7782781114A00A2B543 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4LBT7283WA;
+				INFOPLIST_FILE = CarWarningLightTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.simple-amazing-machines.CarWarningLightTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarWarningLight.app/CarWarningLight";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FEBDF52B223F229D0056F464 /* Build configuration list for PBXProject "CarWarningLight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEBDF540223F22A10056F464 /* Debug */,
+				FEBDF541223F22A10056F464 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FEBDF542223F22A10056F464 /* Build configuration list for PBXNativeTarget "CarWarningLight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEBDF543223F22A10056F464 /* Debug */,
+				FEBDF544223F22A10056F464 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FEFDF7792781114A00A2B543 /* Build configuration list for PBXNativeTarget "CarWarningLightTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEFDF7772781114A00A2B543 /* Debug */,
+				FEFDF7782781114A00A2B543 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FEBDF528223F229D0056F464 /* Project object */;
+}
