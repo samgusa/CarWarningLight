@@ -26,13 +26,13 @@ class ImageCollectionViewController: UIViewController, GADBannerViewDelegate, UI
     
     let carPredictionView = ImgCollectionViewController()
     
-    var bannerView: GADBannerView!
+    var bannerView = GADBannerView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = colors.Colors.views2
         addCollection()
-        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView = GADBannerView(adSize: GADAdSizeBanner)
         bannerView.rootViewController = self
         bannerView.adUnitID = "ca-app-pub-8573862990894439/2373350152"
         bannerView.delegate = self

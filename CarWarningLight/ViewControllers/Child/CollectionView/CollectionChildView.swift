@@ -17,7 +17,7 @@ class CollectionChildView: UIViewController, BlurDelegate, UINavigationControlle
     
     let blursView = UIVisualEffectView()
     
-    var bannerView: GADBannerView!
+    var bannerView = GADBannerView()
     
     var blurPressed = false
     
@@ -39,7 +39,7 @@ class CollectionChildView: UIViewController, BlurDelegate, UINavigationControlle
         self.definesPresentationContext = true
         self.view.backgroundColor = colors.Colors.views2
         addCollection()
-        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView = GADBannerView(adSize: GADAdSizeBanner)
         bannerView.rootViewController = self
         bannerView.adUnitID = "ca-app-pub-8573862990894439/2373350152"
         bannerView.delegate = self

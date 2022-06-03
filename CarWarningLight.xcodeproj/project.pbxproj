@@ -45,13 +45,7 @@
 		FEBE8C2F2546521200C74D56 /* MainCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBE8C2E2546521200C74D56 /* MainCellView.swift */; };
 		FEC3CCA223948C92004F805C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC3CCA123948C91004F805C /* SceneDelegate.swift */; };
 		FECB3C8523D54C06005E935B /* UserDefaults+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECB3C8423D54C05005E935B /* UserDefaults+Key.swift */; };
-		FEE5313423D6A8EE004975F7 /* NanoPB-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FEE5312D23D6A8EE004975F7 /* NanoPB-LICENSE */; };
-		FEE5313523D6A8EE004975F7 /* OpenMeasurement-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FEE5312E23D6A8EE004975F7 /* OpenMeasurement-LICENSE */; };
-		FEE5313623D6A8EE004975F7 /* GoogleUtilities-LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = FEE5312F23D6A8EE004975F7 /* GoogleUtilities-LICENSE */; };
-		FEE5313723D6A8EE004975F7 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE5313023D6A8EE004975F7 /* GoogleMobileAds.framework */; };
-		FEE5313823D6A8EE004975F7 /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE5313123D6A8EE004975F7 /* GoogleAppMeasurement.framework */; };
-		FEE5313923D6A8EE004975F7 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE5313223D6A8EE004975F7 /* GoogleUtilities.framework */; };
-		FEE5313A23D6A8EE004975F7 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE5313323D6A8EE004975F7 /* nanopb.framework */; };
+		FEF0271D2849956B00042926 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = FEF0271C2849956B00042926 /* GoogleMobileAds */; };
 		FEF69EE923D5427300EE94C1 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF69EE823D5427300EE94C1 /* AppStoreReviewManager.swift */; };
 		FEF7960B253CC05D008A4FFB /* CollectionChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF7960A253CC05D008A4FFB /* CollectionChildView.swift */; };
 		FEF7960E253CC7DC008A4FFB /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */; };
@@ -109,13 +103,6 @@
 		FEBE8C2E2546521200C74D56 /* MainCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellView.swift; sourceTree = "<group>"; };
 		FEC3CCA123948C91004F805C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FECB3C8423D54C05005E935B /* UserDefaults+Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Key.swift"; sourceTree = "<group>"; };
-		FEE5312D23D6A8EE004975F7 /* NanoPB-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "NanoPB-LICENSE"; sourceTree = "<group>"; };
-		FEE5312E23D6A8EE004975F7 /* OpenMeasurement-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenMeasurement-LICENSE"; sourceTree = "<group>"; };
-		FEE5312F23D6A8EE004975F7 /* GoogleUtilities-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GoogleUtilities-LICENSE"; sourceTree = "<group>"; };
-		FEE5313023D6A8EE004975F7 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../../../Downloads/GoogleMobileAdsSdkiOS-7.53.1/GoogleMobileAds.framework"; sourceTree = "<group>"; };
-		FEE5313123D6A8EE004975F7 /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppMeasurement.framework; path = "../../../../Downloads/GoogleMobileAdsSdkiOS-7.53.1/GoogleAppMeasurement.framework"; sourceTree = "<group>"; };
-		FEE5313223D6A8EE004975F7 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = "../../../../Downloads/GoogleMobileAdsSdkiOS-7.53.1/GoogleUtilities.framework"; sourceTree = "<group>"; };
-		FEE5313323D6A8EE004975F7 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nanopb.framework; path = "../../../../Downloads/GoogleMobileAdsSdkiOS-7.53.1/nanopb.framework"; sourceTree = "<group>"; };
 		FEF69EE823D5427300EE94C1 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		FEF7960A253CC05D008A4FFB /* CollectionChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionChildView.swift; sourceTree = "<group>"; };
 		FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
@@ -129,10 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEE5313923D6A8EE004975F7 /* GoogleUtilities.framework in Frameworks */,
-				FEE5313823D6A8EE004975F7 /* GoogleAppMeasurement.framework in Frameworks */,
-				FEE5313A23D6A8EE004975F7 /* nanopb.framework in Frameworks */,
-				FEE5313723D6A8EE004975F7 /* GoogleMobileAds.framework in Frameworks */,
+				FEF0271D2849956B00042926 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,11 +313,6 @@
 				FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */,
 				FEBDF53F223F22A10056F464 /* Info.plist */,
 				FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */,
-				FEE5313123D6A8EE004975F7 /* GoogleAppMeasurement.framework */,
-				FEE5313023D6A8EE004975F7 /* GoogleMobileAds.framework */,
-				FEE5313223D6A8EE004975F7 /* GoogleUtilities.framework */,
-				FEE5312C23D6A8EE004975F7 /* Licenses */,
-				FEE5313323D6A8EE004975F7 /* nanopb.framework */,
 			);
 			path = CarWarningLight;
 			sourceTree = "<group>";
@@ -370,16 +349,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		FEE5312C23D6A8EE004975F7 /* Licenses */ = {
-			isa = PBXGroup;
-			children = (
-				FEE5312D23D6A8EE004975F7 /* NanoPB-LICENSE */,
-				FEE5312E23D6A8EE004975F7 /* OpenMeasurement-LICENSE */,
-				FEE5312F23D6A8EE004975F7 /* GoogleUtilities-LICENSE */,
-			);
-			path = Licenses;
-			sourceTree = "<group>";
-		};
 		FEFDF7712781114A00A2B543 /* CarWarningLightTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,13 +368,15 @@
 				FEBDF52C223F229D0056F464 /* Sources */,
 				FEBDF52D223F229D0056F464 /* Frameworks */,
 				FEBDF52E223F229D0056F464 /* Resources */,
-				FE19804022503B1100A6BD5C /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = CarWarningLight;
+			packageProductDependencies = (
+				FEF0271C2849956B00042926 /* GoogleMobileAds */,
+			);
 			productName = CarWarningLight;
 			productReference = FEBDF530223F229D0056F464 /* CarWarningLight.app */;
 			productType = "com.apple.product-type.application";
@@ -457,6 +428,10 @@
 				Base,
 			);
 			mainGroup = FEBDF527223F229D0056F464;
+			packageReferences = (
+				FE6C99C72849931D00805DAD /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				FEF0271B2849956B00042926 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			productRefGroup = FEBDF531223F229D0056F464 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -472,12 +447,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEE5313623D6A8EE004975F7 /* GoogleUtilities-LICENSE in Resources */,
 				FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */,
 				FE65A01D254CB96700C4E691 /* car.json in Resources */,
 				FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */,
-				FEE5313423D6A8EE004975F7 /* NanoPB-LICENSE in Resources */,
-				FEE5313523D6A8EE004975F7 /* OpenMeasurement-LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,26 +461,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		FE19804022503B1100A6BD5C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FEBDF52C223F229D0056F464 /* Sources */ = {
@@ -834,6 +786,33 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FE6C99C72849931D00805DAD /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		FEF0271B2849956B00042926 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FEF0271C2849956B00042926 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE6C99C72849931D00805DAD /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FEBDF528223F229D0056F464 /* Project object */;
 }
