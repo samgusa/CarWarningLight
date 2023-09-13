@@ -7,17 +7,14 @@
 //
 
 import UIKit
-import GoogleMobileAds
 
 //collectionView on main VC
 
-class CollectionChildView: UIViewController, BlurDelegate, UINavigationControllerDelegate, GADBannerViewDelegate {
+class CollectionChildView: UIViewController, BlurDelegate, UINavigationControllerDelegate {
     
     let carData = createCarData()
     
     let blursView = UIVisualEffectView()
-    
-    var bannerView = GADBannerView()
     
     var blurPressed = false
     
@@ -39,11 +36,6 @@ class CollectionChildView: UIViewController, BlurDelegate, UINavigationControlle
         self.definesPresentationContext = true
         self.view.backgroundColor = colors.Colors.views2
         addCollection()
-        bannerView = GADBannerView(adSize: GADAdSizeBanner)
-        bannerView.rootViewController = self
-        bannerView.adUnitID = "ca-app-pub-8573862990894439/2373350152"
-        bannerView.delegate = self
-        bannerView.load(GADRequest())
     }
 
     func addCollection() {

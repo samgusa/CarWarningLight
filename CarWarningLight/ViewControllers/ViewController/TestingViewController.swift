@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Combine
+//GOOD
 
 //MAIN View
 class TestingViewController: UIViewController {
@@ -24,6 +26,10 @@ class TestingViewController: UIViewController {
     var floatBtn: FloatingButton!
     
     var colors = DefaultStyle.self
+
+    var infoDataSubject = PassthroughSubject<Void, Never>()
+
+    var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +38,6 @@ class TestingViewController: UIViewController {
         childSetUp()
         setUpFloatingBtn()
         setUpInfoBtn()
-        requestPermission()
     }
     
     //MARK: Set up tableView
@@ -53,11 +58,32 @@ class TestingViewController: UIViewController {
     
     //MARK: Sets up Info Btn
     func setUpInfoBtn() {
-        infoBtn.action = { item in
-            self.presentInfoView()
-        }
-        let item1 = UIBarButtonItem(customView: infoBtn)
-        self.navigationItem.setRightBarButton(item1, animated: true)
+        let customBtn = UIBarButtonItem()
+        customBtn.image = UIImage(systemName: "info.circle")
+        customBtn.tintColor = .black
+        customBtn.target = self
+        customBtn.action = #selector(infoBtnPressed)
+        navigationItem.rightBarButtonItem = customBtn
+        infoDataSubject
+          .sink { [weak self] _ in
+            let vc = BottomSheetViewController()
+            vc.modalPresentationStyle = .overCurrentContext
+            self?.present(vc, animated: false)
+          }
+          .store(in: &cancellables)
+//        infoBtn.action = { item in
+//            self.presentInfoView()
+//        }
+//        let item1 = UIBarButtonItem(customView: infoBtn)
+//        self.navigationItem.setRightBarButton(item1, animated: true)
+    }
+
+    @objc func infoBtnPressed() {
+      //infoDataSubject.send()
+        print("Testing")
+        let vc = BottomSheetViewController()
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
     }
     
     //MARK: Presents infoview when infoBtn pressed

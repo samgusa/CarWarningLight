@@ -23,3 +23,54 @@ struct CarArr {
     var drivable: String
 
 }
+
+struct CarDatum: Codable {
+    let id: Int
+    let name, image, carDatumDescription: String
+    let symbolType: SymbolType
+    let fixDescr: String
+    let drivable: Drivable
+
+    enum CodingKeys: String, CodingKey {
+        case id, name, image
+        case carDatumDescription = "description"
+        case symbolType, fixDescr, drivable
+    }
+}
+
+enum Drivable: String, Codable {
+    case no = "no"
+    case uncertain = "uncertain"
+    case yes = "yes"
+
+    var drivable: String {
+        switch self {
+        case .yes:
+            return "Yes"
+        case .no:
+            return "No"
+        case .uncertain:
+            return "Uncertain"
+        }
+    }
+}
+
+enum SymbolType: String, Codable {
+    case advisory = "advisory"
+    case info = "info"
+    case warning = "warning"
+
+    var symbolColor: UIColor {
+        switch self {
+        case .warning:
+            return .systemRed
+        case .info:
+            return .systemGreen
+        case .advisory:
+            return .systemYellow
+        }
+    }
+}
+
+
+typealias CarData = [CarDatum]

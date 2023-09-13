@@ -7,14 +7,11 @@
 //
 
 import UIKit
-import GoogleMobileAds
 
 //collectionview child when img recog 
-class ImgCollectionViewController: UIViewController, UINavigationControllerDelegate, GADBannerViewDelegate {
+class ImgCollectionViewController: UIViewController, UINavigationControllerDelegate {
 
     let carData = createCarData()
-    
-    var bannerView = GADBannerView()
     
     let colors = DefaultStyle.self
     
@@ -30,11 +27,6 @@ class ImgCollectionViewController: UIViewController, UINavigationControllerDeleg
         self.definesPresentationContext = true
         self.view.backgroundColor = colors.Colors.views2
         addCollection()
-        bannerView = GADBannerView(adSize: GADAdSizeBanner)
-        bannerView.rootViewController = self
-        bannerView.adUnitID = "ca-app-pub-8573862990894439/2373350152"
-        bannerView.delegate = self
-        bannerView.load(GADRequest())
     }
     
     

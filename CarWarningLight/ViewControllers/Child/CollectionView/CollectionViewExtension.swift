@@ -37,10 +37,7 @@ extension CollectionChildView:  UICollectionViewDelegate, UICollectionViewDataSo
         warning.text = "Never Use When Driving"
         warning.textColor = UIColor.systemRed
         warning.font = UIFont.systemFont(ofSize: 15)
-        headerView.addSubview(bannerView)
         headerView.addSubview(warning)
-        bannerView.center = headerView.center
-        bannerView.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
 
         return headerView
     }

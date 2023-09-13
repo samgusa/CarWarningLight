@@ -27,6 +27,15 @@
 		FE55F2DA25477622004330BD /* InfoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE55F2D925477622004330BD /* InfoDataView.swift */; };
 		FE55F2DD2547762F004330BD /* InfoDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE55F2DC2547762F004330BD /* InfoDataCell.swift */; };
 		FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */; };
+		FE60B73B2AAFB7FA006F86B4 /* carLights.json in Resources */ = {isa = PBXBuildFile; fileRef = FE60B73A2AAFB7FA006F86B4 /* carLights.json */; };
+		FE60B73D2AAFB912006F86B4 /* UIButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B73C2AAFB912006F86B4 /* UIButton+Combine.swift */; };
+		FE60B73F2AAFB940006F86B4 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B73E2AAFB940006F86B4 /* PaddingLabel.swift */; };
+		FE60B7442AAFB995006F86B4 /* BottomSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B7432AAFB995006F86B4 /* BottomSheetViewModel.swift */; };
+		FE60B7472AAFB9C8006F86B4 /* LowBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B7462AAFB9C8006F86B4 /* LowBottomView.swift */; };
+		FE60B7492AAFBD27006F86B4 /* HighBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B7482AAFBD27006F86B4 /* HighBottomView.swift */; };
+		FE60B74B2AAFBD9E006F86B4 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B74A2AAFBD9E006F86B4 /* BottomSheetViewController.swift */; };
+		FE60B74D2AAFBDD4006F86B4 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B74C2AAFBDD4006F86B4 /* BottomSheetView.swift */; };
+		FE60B7502AAFC3F6006F86B4 /* BottomSheetViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B74F2AAFC3F6006F86B4 /* BottomSheetViewController+Extension.swift */; };
 		FE65A01D254CB96700C4E691 /* car.json in Resources */ = {isa = PBXBuildFile; fileRef = FE65A01C254CB96700C4E691 /* car.json */; };
 		FE65A020254CBA0700C4E691 /* Bundle-Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */; };
 		FE68AEF62249B7E20055E8B1 /* CarImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68AEF52249B7E20055E8B1 /* CarImg.swift */; };
@@ -82,6 +91,15 @@
 		FE55F2D925477622004330BD /* InfoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDataView.swift; sourceTree = "<group>"; };
 		FE55F2DC2547762F004330BD /* InfoDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDataCell.swift; sourceTree = "<group>"; };
 		FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MainCarImg4.mlmodel; sourceTree = "<group>"; };
+		FE60B73A2AAFB7FA006F86B4 /* carLights.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = carLights.json; sourceTree = "<group>"; };
+		FE60B73C2AAFB912006F86B4 /* UIButton+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Combine.swift"; sourceTree = "<group>"; };
+		FE60B73E2AAFB940006F86B4 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		FE60B7432AAFB995006F86B4 /* BottomSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewModel.swift; sourceTree = "<group>"; };
+		FE60B7462AAFB9C8006F86B4 /* LowBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowBottomView.swift; sourceTree = "<group>"; };
+		FE60B7482AAFBD27006F86B4 /* HighBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighBottomView.swift; sourceTree = "<group>"; };
+		FE60B74A2AAFBD9E006F86B4 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		FE60B74C2AAFBDD4006F86B4 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		FE60B74F2AAFC3F6006F86B4 /* BottomSheetViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetViewController+Extension.swift"; sourceTree = "<group>"; };
 		FE65A01C254CB96700C4E691 /* car.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car.json; sourceTree = "<group>"; };
 		FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle-Decodable.swift"; sourceTree = "<group>"; };
 		FE68AEF52249B7E20055E8B1 /* CarImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarImg.swift; sourceTree = "<group>"; };
@@ -202,6 +220,7 @@
 				FE15B2F7254E635F00531245 /* TestArr.swift */,
 				FEBDF548223F25290056F464 /* CarData.swift */,
 				FE68AEF52249B7E20055E8B1 /* CarImg.swift */,
+				FE60B73A2AAFB7FA006F86B4 /* carLights.json */,
 			);
 			path = CarData;
 			sourceTree = "<group>";
@@ -218,6 +237,7 @@
 		FE41CBA225BA0DD200F7AB17 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				FE60B7402AAFB96F006F86B4 /* BottomSheet */,
 				FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */,
 				FE79452F253E3C390000892E /* TestViewExtensions.swift */,
 				FE4112692558AA47000E352E /* DataViewController.swift */,
@@ -251,6 +271,60 @@
 			path = Permission;
 			sourceTree = "<group>";
 		};
+		FE60B7392AAFB423006F86B4 /* Remove */ = {
+			isa = PBXGroup;
+			children = (
+				FE8EB2BF25BA364F00185826 /* XXObjects */,
+				FE514ACA26360A75006C331A /* Permission */,
+			);
+			path = Remove;
+			sourceTree = "<group>";
+		};
+		FE60B7402AAFB96F006F86B4 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				FE60B7452AAFB9AA006F86B4 /* View */,
+				FE60B7422AAFB97E006F86B4 /* ViewModel */,
+				FE60B7412AAFB977006F86B4 /* ViewController */,
+				FE60B74E2AAFC3CF006F86B4 /* Extension */,
+			);
+			path = BottomSheet;
+			sourceTree = "<group>";
+		};
+		FE60B7412AAFB977006F86B4 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FE60B74A2AAFBD9E006F86B4 /* BottomSheetViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		FE60B7422AAFB97E006F86B4 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FE60B7432AAFB995006F86B4 /* BottomSheetViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		FE60B7452AAFB9AA006F86B4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FE60B7462AAFB9C8006F86B4 /* LowBottomView.swift */,
+				FE60B7482AAFBD27006F86B4 /* HighBottomView.swift */,
+				FE60B74C2AAFBDD4006F86B4 /* BottomSheetView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FE60B74E2AAFC3CF006F86B4 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FE60B74F2AAFC3F6006F86B4 /* BottomSheetViewController+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		FE63C2AD23A9C2C3002810D1 /* Floating Action Button */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,22 +337,23 @@
 		FE7ABD04225D431D0061E30A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FE8EB2BF25BA364F00185826 /* Objects */,
-				FE41CBA425BA0E1100F7AB17 /* DetailViews */,
-				FE311B64254FA59800D20786 /* Views */,
-				FE311B63254FA57900D20786 /* Cells */,
-				FE330303253BD69600D14F27 /* InfoBtn.swift */,
 				FE26F0D6253F80E600909DE4 /* LargeLbl.swift */,
+				FE60B73C2AAFB912006F86B4 /* UIButton+Combine.swift */,
+				FE60B73E2AAFB940006F86B4 /* PaddingLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		FE8EB2BF25BA364F00185826 /* Objects */ = {
+		FE8EB2BF25BA364F00185826 /* XXObjects */ = {
 			isa = PBXGroup;
 			children = (
+				FE41CBA425BA0E1100F7AB17 /* DetailViews */,
+				FE311B64254FA59800D20786 /* Views */,
+				FE311B63254FA57900D20786 /* Cells */,
+				FE330303253BD69600D14F27 /* InfoBtn.swift */,
 				FE8EB2C025BA368600185826 /* MainDataSource.swift */,
 			);
-			path = Objects;
+			path = XXObjects;
 			sourceTree = "<group>";
 		};
 		FEBDF527223F229D0056F464 = {
@@ -302,6 +377,7 @@
 		FEBDF532223F229D0056F464 /* CarWarningLight */ = {
 			isa = PBXGroup;
 			children = (
+				FE60B7392AAFB423006F86B4 /* Remove */,
 				FED06A3F23D7AEAA00BBB718 /* Model */,
 				FE7ABD04225D431D0061E30A /* View */,
 				FE496DB0225EC89D00FCD1B0 /* ViewControllers */,
@@ -336,7 +412,6 @@
 		FED06A3F23D7AEAA00BBB718 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FE514ACA26360A75006C331A /* Permission */,
 				FE63C2AD23A9C2C3002810D1 /* Floating Action Button */,
 				FEBDF545223F22B40056F464 /* Car Data */,
 				FE311B5F254FA46500D20786 /* Helper */,
@@ -445,6 +520,7 @@
 				FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */,
 				FE65A01D254CB96700C4E691 /* car.json in Resources */,
 				FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */,
+				FE60B73B2AAFB7FA006F86B4 /* carLights.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,8 +544,10 @@
 				FE15B2F8254E635F00531245 /* TestArr.swift in Sources */,
 				FEBDF549223F25290056F464 /* CarData.swift in Sources */,
 				FECB3C8523D54C06005E935B /* UserDefaults+Key.swift in Sources */,
+				FE60B7472AAFB9C8006F86B4 /* LowBottomView.swift in Sources */,
 				FE68AEF62249B7E20055E8B1 /* CarImg.swift in Sources */,
 				FE8EB2C125BA368600185826 /* MainDataSource.swift in Sources */,
+				FE60B74D2AAFBDD4006F86B4 /* BottomSheetView.swift in Sources */,
 				FE29C489256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift in Sources */,
 				FEA55CB02545064700B58138 /* MainCollectionCell.swift in Sources */,
 				FE65A020254CBA0700C4E691 /* Bundle-Decodable.swift in Sources */,
@@ -481,11 +559,16 @@
 				FEBDF547223F22E10056F464 /* CarArr.swift in Sources */,
 				FE29C491256339B60047A0A3 /* ImageCollectionCell.swift in Sources */,
 				FEBE8C2F2546521200C74D56 /* MainCellView.swift in Sources */,
+				FE60B7442AAFB995006F86B4 /* BottomSheetViewModel.swift in Sources */,
 				FE41126A2558AA47000E352E /* DataViewController.swift in Sources */,
+				FE60B73D2AAFB912006F86B4 /* UIButton+Combine.swift in Sources */,
+				FE60B74B2AAFBD9E006F86B4 /* BottomSheetViewController.swift in Sources */,
 				FEF7960B253CC05D008A4FFB /* CollectionChildView.swift in Sources */,
 				FEC3CCA223948C92004F805C /* SceneDelegate.swift in Sources */,
+				FE60B7502AAFC3F6006F86B4 /* BottomSheetViewController+Extension.swift in Sources */,
 				FE38214723A5904400F91DCE /* FloatingButtonItem.swift in Sources */,
 				FE8EB2D625BA835300185826 /* CollectionViewExtension+Animate.swift in Sources */,
+				FE60B7492AAFBD27006F86B4 /* HighBottomView.swift in Sources */,
 				FE4659742534FA2500D1A795 /* Helper.swift in Sources */,
 				FE794533253E783A0000892E /* Extensions.swift in Sources */,
 				FE014E73254B6CA3000D32F6 /* InfoData.swift in Sources */,
@@ -497,6 +580,7 @@
 				FE014E76254B6D51000D32F6 /* SelfConfiguringCell.swift in Sources */,
 				FE38214523A58EFE00F91DCE /* FloatingButton.swift in Sources */,
 				FEA55CAD2545057600B58138 /* CollectionViewExtension.swift in Sources */,
+				FE60B73F2AAFB940006F86B4 /* PaddingLabel.swift in Sources */,
 				FE55F2DA25477622004330BD /* InfoDataView.swift in Sources */,
 				FE29C4A0256375DC0047A0A3 /* ImgCollectionViewController.swift in Sources */,
 				FE794530253E3C390000892E /* TestViewExtensions.swift in Sources */,
