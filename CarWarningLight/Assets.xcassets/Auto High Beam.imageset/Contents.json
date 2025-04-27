@@ -1,23 +1,23 @@
 {
   "images" : [
     {
+      "filename" : "Auto High beams 3.png",
       "idiom" : "universal",
-      "filename" : "Auto High Beam.png",
       "scale" : "1x"
     },
     {
+      "filename" : "Auto High beams 1.png",
       "idiom" : "universal",
-      "filename" : "Auto High Beam@2x.png",
       "scale" : "2x"
     },
     {
+      "filename" : "Auto High beams 2.png",
       "idiom" : "universal",
-      "filename" : "Auto High Beam@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

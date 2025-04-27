@@ -30,18 +30,6 @@ extension CollectionChildView:  UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
-    //MARK: Create Header
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerView", for: indexPath)
-        let warning = UILabel()
-        warning.text = "Never Use When Driving"
-        warning.textColor = UIColor.systemRed
-        warning.font = UIFont.systemFont(ofSize: 15)
-        headerView.addSubview(warning)
-
-        return headerView
-    }
-    
     //MARK: Cells Pressed
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         AppStoreReviewManager.requestReviewIfAppropriate()

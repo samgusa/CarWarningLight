@@ -41,10 +41,8 @@ class CollectionChildView: UIViewController, BlurDelegate, UINavigationControlle
     func addCollection() {
         
         let layout = UICollectionViewFlowLayout()
-        layout.headerReferenceSize = CGSize(width: self.view.bounds.width, height: 50)
         let collection = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView")
         collection.backgroundColor = colors.Colors.views2
         layout.minimumLineSpacing = 25
         layout.minimumInteritemSpacing = 5

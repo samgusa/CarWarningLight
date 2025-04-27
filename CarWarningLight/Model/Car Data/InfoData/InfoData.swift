@@ -35,6 +35,28 @@ enum InfoEnum: String, Codable {
             return "INFORMATION"
         }
     }
+
+    var infoLights: String {
+        switch self {
+        case .warning:
+            return "Warning Lights"
+        case .advisory:
+            return "Advisory Lights"
+        case .info:
+            return "Information Lights"
+        }
+    }
+
+    var infoColor: UIColor {
+        switch self {
+        case .warning:
+            return .systemRed
+        case .advisory:
+            return .systemOrange
+        case .info:
+            return .systemGreen
+        }
+    }
 }
 
 typealias Root = [Section]

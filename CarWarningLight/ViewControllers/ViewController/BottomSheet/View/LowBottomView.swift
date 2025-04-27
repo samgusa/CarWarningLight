@@ -2,142 +2,98 @@ import UIKit
 
 final class LowBottomView: UIView {
 
-    lazy var warningLbl: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.boldSystemFont(ofSize: 30.0)
-        lbl.textColor = .white
-        lbl.clipsToBounds = true
-        lbl.layer.cornerRadius = 10
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.backgroundColor = .systemRed
-        lbl.textAlignment = .center
-        lbl.text = "Warning"
-        lbl.numberOfLines = 1
-        lbl.adjustsFontSizeToFitWidth = true
-
-        return lbl
+    lazy var warningNameView: NameView = {
+        let view = NameView(infoEnum: .warning)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
-
-    lazy var warningData: UILabel = {
-      let lbl = UILabel()
-      lbl.font = UIFont.boldSystemFont(ofSize: 15.0)
-      lbl.textColor = .label
-      lbl.clipsToBounds = true
-      lbl.layer.cornerRadius = 10
-      lbl.translatesAutoresizingMaskIntoConstraints = false
-      lbl.textAlignment = .left
-      lbl.numberOfLines = 0
-      lbl.adjustsFontSizeToFitWidth = true
-      return lbl
+    lazy var warningTextView: TextView = {
+        let view = TextView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
-    lazy var advisoryLbl: UILabel = {
-      let lbl = UILabel()
-      lbl.font = UIFont.boldSystemFont(ofSize: 30.0)
-      lbl.textColor = .white
-      lbl.clipsToBounds = true
-      lbl.layer.cornerRadius = 10
-      lbl.translatesAutoresizingMaskIntoConstraints = false
-      lbl.backgroundColor = .systemOrange
-      lbl.textAlignment = .center
-      lbl.text = "Advisory"
-      lbl.numberOfLines = 1
-      lbl.adjustsFontSizeToFitWidth = true
-      return lbl
+    lazy var advisoryNameView: NameView = {
+        let view = NameView(infoEnum: .advisory)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
-    lazy var advisoryData: UILabel = {
-      let lbl = UILabel()
-      lbl.font = UIFont.boldSystemFont(ofSize: 15.0)
-      lbl.textColor = .label
-      lbl.clipsToBounds = true
-      lbl.layer.cornerRadius = 10
-      lbl.translatesAutoresizingMaskIntoConstraints = false
-      lbl.textAlignment = .left
-      lbl.numberOfLines = 0
-      lbl.adjustsFontSizeToFitWidth = true
-      return lbl
+    lazy var advisoryTextView: TextView = {
+        let view = TextView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
-    lazy var infoLbl: UILabel = {
-      let lbl = UILabel()
-      lbl.font = UIFont.boldSystemFont(ofSize: 30.0)
-      lbl.textColor = .white
-      lbl.clipsToBounds = true
-      lbl.layer.cornerRadius = 10
-      lbl.translatesAutoresizingMaskIntoConstraints = false
-      lbl.backgroundColor = .systemGreen
-      lbl.textAlignment = .center
-      lbl.text = "Information"
-      lbl.numberOfLines = 1
-      lbl.adjustsFontSizeToFitWidth = true
-      return lbl
+    lazy var infoNameView: NameView = {
+        let view = NameView(infoEnum: .info)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
-    lazy var infoData: UILabel = {
-      let lbl = UILabel()
-      lbl.font = UIFont.boldSystemFont(ofSize: 15.0)
-      lbl.textColor = .label
-      lbl.clipsToBounds = true
-      lbl.layer.cornerRadius = 10
-      lbl.translatesAutoresizingMaskIntoConstraints = false
-      lbl.textAlignment = .left
-      lbl.numberOfLines = 0
-      lbl.adjustsFontSizeToFitWidth = true
-      return lbl
+    lazy var infoTextView: TextView = {
+        let view = TextView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
 
     lazy var warningStack: UIStackView = {
-      let stack = UIStackView()
-      stack.translatesAutoresizingMaskIntoConstraints = false
-      stack.axis = .horizontal
-      stack.distribution = .fillProportionally
-      stack.spacing = 20
-      return stack
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .fillProportionally
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.spacing = 20
+        return stack
     }()
 
     lazy var advisoryStack: UIStackView = {
-      let stack = UIStackView()
-      stack.translatesAutoresizingMaskIntoConstraints = false
-      stack.axis = .horizontal
-      stack.spacing = 20
-      return stack
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .fillProportionally
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.spacing = 20
+        return stack
     }()
 
     lazy var infoStack: UIStackView = {
-      let stack = UIStackView()
-      stack.translatesAutoresizingMaskIntoConstraints = false
-      stack.axis = .horizontal
-      stack.spacing = 20
-      return stack
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .fillProportionally
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.spacing = 20
+        return stack
     }()
 
     lazy var mainStack: UIStackView = {
-      let stack = UIStackView()
-      stack.translatesAutoresizingMaskIntoConstraints = false
-      stack.axis = .vertical
-      stack.distribution = .fillEqually
-      stack.spacing = 20
-      return stack
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.spacing = 10
+        return stack
     }()
 
     init() {
-      super.init(frame: .zero)
-      setup()
+        super.init(frame: .zero)
+        setup()
     }
 
     required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented")
     }
 
     func setup() {
         self.addSubview(mainStack)
-        [warningLbl, warningData]
+        [warningNameView, warningTextView]
             .forEach { warningStack.addArrangedSubview($0) }
-        [advisoryLbl, advisoryData]
+        [advisoryNameView, advisoryTextView]
             .forEach { advisoryStack.addArrangedSubview($0) }
-        [infoLbl, infoData]
+        [infoNameView, infoTextView]
             .forEach { infoStack.addArrangedSubview($0) }
 
         [warningStack, advisoryStack, infoStack]
@@ -148,6 +104,10 @@ final class LowBottomView: UIView {
             mainStack.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             mainStack.heightAnchor.constraint(equalTo: self.heightAnchor),
             mainStack.widthAnchor.constraint(equalTo: self.widthAnchor),
+            mainStack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            warningNameView.widthAnchor.constraint(equalTo: mainStack.widthAnchor, multiplier: 0.3),
+            advisoryNameView.widthAnchor.constraint(equalTo: mainStack.widthAnchor, multiplier: 0.3),
+            infoNameView.widthAnchor.constraint(equalTo: mainStack.widthAnchor, multiplier: 0.3)
         ])
     }
 

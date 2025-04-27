@@ -1,23 +1,23 @@
 {
   "images" : [
     {
+      "filename" : "Brake Hold.png",
       "idiom" : "universal",
-      "filename" : "Brake Hold Light.png",
       "scale" : "1x"
     },
     {
+      "filename" : "Brake Hold 1.png",
       "idiom" : "universal",
-      "filename" : "Brake Hold Light@2x.png",
       "scale" : "2x"
     },
     {
+      "filename" : "Brake Hold 2.png",
       "idiom" : "universal",
-      "filename" : "Brake Hold Light@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
