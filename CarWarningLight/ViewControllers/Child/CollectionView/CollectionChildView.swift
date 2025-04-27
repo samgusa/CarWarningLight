@@ -12,7 +12,7 @@ import UIKit
 
 class CollectionChildView: UIViewController, BlurDelegate, UINavigationControllerDelegate {
     
-    let carData = createCarData()
+    //let carData = createCarData()
     
     let blursView = UIVisualEffectView()
     

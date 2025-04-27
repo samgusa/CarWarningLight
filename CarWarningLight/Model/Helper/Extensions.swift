@@ -39,22 +39,22 @@ extension UIViewController {
                 dump(descriptions)
                 DispatchQueue.main.async {
                     
-                    let carData = createCarData()
-                    
-                    var testArr = [TestArr]()
-                    for i in descriptions {
-                        for car in carData {
-                            if i == car.name {
-                                testArr.append(TestArr(name: car.name, image: car.image, description: car.description.components(separatedBy: ". ").filter({$0 != ""}), symbolType: car.symbolType, openBool: car.openBool, fixDescr: car.fixDescr.components(separatedBy: ". ").filter({$0 != ""}), drivable: car.drivable))
-                                GlobalArr.otherArr = testArr
-                            }
-                        }
-                    }
-                    
-                    //Create presentation for camera view
-                    self?.presentCameraView(btn: btn)
-                
-                    SwiftSpinner.hide()
+//                    let carData = createCarData()
+//                    
+//                    var testArr = [TestArr]()
+//                    for i in descriptions {
+//                        for car in carData {
+//                            if i == car.name {
+//                                testArr.append(TestArr(name: car.name, image: car.image, description: car.description.components(separatedBy: ". ").filter({$0 != ""}), symbolType: car.symbolType, openBool: car.openBool, fixDescr: car.fixDescr.components(separatedBy: ". ").filter({$0 != ""}), drivable: car.drivable))
+//                                GlobalArr.otherArr = testArr
+//                            }
+//                        }
+//                    }
+//                    
+//                    //Create presentation for camera view
+//                    self?.presentCameraView(btn: btn)
+//                
+//                    SwiftSpinner.hide()
                 }
             }
         }

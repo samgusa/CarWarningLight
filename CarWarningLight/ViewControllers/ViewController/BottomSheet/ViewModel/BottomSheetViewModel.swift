@@ -24,7 +24,7 @@ final class BottomSheetViewModel {
           img.translatesAutoresizingMaskIntoConstraints = false
           img.image = UIImage(named: element)
           img.contentMode = .scaleAspectFit
-          img.tintColor = systemColor.symbolColor
+          //img.tintColor = systemColor.symbolColor
           img.layer.cornerRadius = 5
           img.tag = index
           return img

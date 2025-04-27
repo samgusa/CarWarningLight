@@ -11,7 +11,7 @@ import UIKit
 //collectionview child when img recog 
 class ImgCollectionViewController: UIViewController, UINavigationControllerDelegate {
 
-    let carData = createCarData()
+    //let carData = createCarData()
     
     let colors = DefaultStyle.self
     

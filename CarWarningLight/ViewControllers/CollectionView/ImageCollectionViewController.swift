@@ -15,7 +15,7 @@ class ImageCollectionViewController: UIViewController, UIImagePickerControllerDe
     
     let childView = CameraChildView()
     
-    var carData = createCarData()
+    //var carData = createCarData()
     
     var carArr = [String]()
     

@@ -12,10 +12,28 @@ import UIKit
 class MainCollectionCell: UICollectionViewCell {
     
     let colors = DefaultStyle.self
-    
-    var carImg = UIImageView()
-    
-    var imageName = UILabel()
+
+    lazy var carImg: UIImageView = {
+      let img = UIImageView()
+      img.contentMode = .scaleAspectFit
+      img.translatesAutoresizingMaskIntoConstraints = false
+      return img
+    }()
+
+    lazy var imageName: PaddingLabel = {
+        let lbl = PaddingLabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textColor = .label
+        //lbl.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 18, weight: .regular))
+        lbl.font = UIFontMetrics.default.scaledFont(for: UIFont.preferredFont(forTextStyle: .caption1))
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.minimumScaleFactor = 0.5
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 2
+        lbl.lineBreakMode = .byWordWrapping
+
+        return lbl
+    }()
     
     private lazy var setUpCell: Void = {
         self.contentView.addSubview(carImg)
@@ -30,27 +48,24 @@ class MainCollectionCell: UICollectionViewCell {
         self.clipsToBounds = false
         self.layer.masksToBounds = false
 
-        //carImg
-        carImg.contentMode = .scaleAspectFit
-        
-        //imageName
-        imageName.textColor = .label
-        imageName.font = UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: 15, weight: .regular))
-        imageName.textAlignment = .left
-        imageName.numberOfLines = 0
-        imageName.adjustsFontSizeToFitWidth = true
+        imageName.layer.borderWidth = 1
+        imageName.layer.borderColor = UIColor.black.cgColor
         
         NSLayoutConstraint.activate([
-            carImg.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
-            carImg.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
-            carImg.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            carImg.heightAnchor.constraint(equalToConstant: 75),
-            
-            imageName.topAnchor.constraint(equalTo: carImg.bottomAnchor, constant: 10),
-            imageName.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
-            imageName.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3),
-            imageName.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3)
-        
+            carImg.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            carImg.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            carImg.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4),
+            carImg.widthAnchor.constraint(equalTo: carImg.heightAnchor),
+//            carImg.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            carImg.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            carImg.bottomAnchor.constraint(equalTo: imageName.topAnchor, constant: -10),
+
+            imageName.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            imageName.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            imageName.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+//            imageName.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
+//            imageName.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.3),
+            imageName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2)
         ])
     }()
     

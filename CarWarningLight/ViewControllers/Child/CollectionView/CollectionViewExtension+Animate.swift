@@ -29,26 +29,26 @@ extension CollectionChildView {
             self.setBluringView()
             self.cellInfoView.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(cellInfoView)
-            for data in carData {
-                if info == data.name {
-                    let img = data.image
-                    let name = data.name
-                    let desc = data.description
-                    let symbol = data.symbolType
-                    cellInfoView.imageView.image = img?.withRenderingMode(.alwaysTemplate)
-                    cellInfoView.tintColor = cellInfoView.imageView.image?.caseTesting(str: symbol)
-                    cellInfoView.nameLbl.text = name.uppercased()
-                    cellInfoView.nameLbl.textColor = cellInfoView.nameLbl.caseTesting(str: symbol)
-                    
-                    let concatStr = desc.components(separatedBy: ". ").filter({ $0 != "" })
-
-                    cellInfoView.dataTxt.text = concatStr.joined(separator: "\n\n")
-                    let fixConcat = data.fixDescr.components(separatedBy: ". ")
-                    cellInfoView.fixTxt.text = fixConcat.joined(separator: "\n\n")
-                    cellInfoView.driveData.text = drivableTxtData(str: data.drivable)
-                    cellInfoView.scrolling.setContentOffset(CGPoint.zero, animated: false)
-                }
-            }
+//            for data in carData {
+//                if info == data.name {
+//                    let img = data.image
+//                    let name = data.name
+//                    let desc = data.description
+//                    let symbol = data.symbolType
+//                    cellInfoView.imageView.image = img?.withRenderingMode(.alwaysTemplate)
+//                    cellInfoView.tintColor = cellInfoView.imageView.image?.caseTesting(str: symbol)
+//                    cellInfoView.nameLbl.text = name.uppercased()
+//                    cellInfoView.nameLbl.textColor = cellInfoView.nameLbl.caseTesting(str: symbol)
+//                    
+//                    let concatStr = desc.components(separatedBy: ". ").filter({ $0 != "" })
+//
+//                    cellInfoView.dataTxt.text = concatStr.joined(separator: "\n\n")
+//                    let fixConcat = data.fixDescr.components(separatedBy: ". ")
+//                    cellInfoView.fixTxt.text = fixConcat.joined(separator: "\n\n")
+//                    cellInfoView.driveData.text = drivableTxtData(str: data.drivable)
+//                    cellInfoView.scrolling.setContentOffset(CGPoint.zero, animated: false)
+//                }
+//            }
             cellInfoView.backgroundColor = .systemBackground
             NSLayoutConstraint.activate([
                 cellInfoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

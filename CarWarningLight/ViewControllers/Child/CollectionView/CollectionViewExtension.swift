@@ -15,37 +15,37 @@ extension CollectionChildView:  UICollectionViewDelegate, UICollectionViewDataSo
     //MARK: Number of Cells in CollectionView
         //number in cells
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return carData.count
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionCell
-        let img = carData[indexPath.row].image
-        let name = carData[indexPath.row].name
-        
-        cell.carImg.image = img?.withRenderingMode(.alwaysTemplate)
-        cell.imageName.text = "\(name)"
-        
-        cell.carImg.tintColor = cell.carImg.image?.caseTesting(str: carData[indexPath.row].symbolType)
+//        let img = carData[indexPath.row].image
+//        let name = carData[indexPath.row].name
+//        
+//        cell.carImg.image = img?.withRenderingMode(.alwaysTemplate)
+//        cell.imageName.text = "\(name)"
+//        
+//        cell.carImg.tintColor = cell.carImg.image?.caseTesting(str: carData[indexPath.row].symbolType)
         return cell
     }
     
     //MARK: Cells Pressed
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         AppStoreReviewManager.requestReviewIfAppropriate()
-        let item = carData[indexPath.row].name
-        let cell = collectionView.cellForItem(at: indexPath) as? MainCollectionCell
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            //cell?.layer.shadowOpacity = 0
-            cell?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-            
-        }) { (_) in
-            UIView.animate(withDuration: 0.2) {
-                cell?.transform = .identity
-            } completion: { (_) in
-                self.presentCellInfoView(withInfo: item)
-            }
-        }
+//        let item = carData[indexPath.row].name
+//        let cell = collectionView.cellForItem(at: indexPath) as? MainCollectionCell
+//        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+//            //cell?.layer.shadowOpacity = 0
+//            cell?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//            
+//        }) { (_) in
+//            UIView.animate(withDuration: 0.2) {
+//                cell?.transform = .identity
+//            } completion: { (_) in
+//                self.presentCellInfoView(withInfo: item)
+//            }
+//        }
     }
 }
 

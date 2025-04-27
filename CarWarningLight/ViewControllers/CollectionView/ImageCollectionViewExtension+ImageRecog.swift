@@ -22,49 +22,49 @@ extension ImageCollectionViewController {
         let model2 = try! VNCoreMLModel(for: model.model)
 
         //create request for vision core ML modal loaded
-        let request = VNCoreMLRequest(model: model2) { [weak self] request, error in
-            guard let results = request.results as? [VNClassificationObservation],
-                let _ = results.first else {
-                    fatalError("Unexpected result from VNCoreMLRequest")
-            }
-            if results.isEmpty {
-                print("Nothing Recognized")
-            } else {
-                let topClassification = results.prefix(10)
-
-                let descriptions = topClassification.map { results in
-                    return String(format: "%@", results.identifier)
-                }
-
-                dump(descriptions)
-                DispatchQueue.main.async {
-                    
-                    let carData = createCarData()
-                    
-                    var testArr = [TestArr]()
-
-                    for i in descriptions {
-                        for car in carData {
-                            if i == car.name {
-                                testArr.append(TestArr(name: car.name, image: car.image, description: car.description.components(separatedBy: ". ").filter({$0 != ""}), symbolType: car.symbolType, openBool: car.openBool, fixDescr: car.fixDescr.components(separatedBy: ". ").filter({$0 != ""}), drivable: car.drivable))
-                                GlobalArr.otherArr = testArr
-                                self?.carPredictionView.carCollectionView.setContentOffset(.zero, animated: false)
-                            }
-                        }
-                    }
-                    self?.carPredictionView.carCollectionView.reloadData()
-                }
-                SwiftSpinner.hide()
-            }
-        }
-
-        let handler = VNImageRequestHandler(ciImage: image)
-        DispatchQueue.global(qos: .userInteractive).async {
-            do {
-                try handler.perform([request])
-            } catch {
-                print("error")
-            }
-        }
+//        let request = VNCoreMLRequest(model: model2) { [weak self] request, error in
+//            guard let results = request.results as? [VNClassificationObservation],
+//                let _ = results.first else {
+//                    fatalError("Unexpected result from VNCoreMLRequest")
+//            }
+//            if results.isEmpty {
+//                print("Nothing Recognized")
+//            } else {
+//                let topClassification = results.prefix(10)
+//
+//                let descriptions = topClassification.map { results in
+//                    return String(format: "%@", results.identifier)
+//                }
+//
+//                dump(descriptions)
+//                DispatchQueue.main.async {
+//                    
+//                    let carData = createCarData()
+//                    
+//                    var testArr = [TestArr]()
+//
+//                    for i in descriptions {
+//                        for car in carData {
+//                            if i == car.name {
+//                                testArr.append(TestArr(name: car.name, image: car.image, description: car.description.components(separatedBy: ". ").filter({$0 != ""}), symbolType: car.symbolType, openBool: car.openBool, fixDescr: car.fixDescr.components(separatedBy: ". ").filter({$0 != ""}), drivable: car.drivable))
+//                                GlobalArr.otherArr = testArr
+//                                self?.carPredictionView.carCollectionView.setContentOffset(.zero, animated: false)
+//                            }
+//                        }
+//                    }
+//                    self?.carPredictionView.carCollectionView.reloadData()
+//                }
+//                SwiftSpinner.hide()
+//            }
+//        }
+//
+//        let handler = VNImageRequestHandler(ciImage: image)
+//        DispatchQueue.global(qos: .userInteractive).async {
+//            do {
+//                try handler.perform([request])
+//            } catch {
+//                print("error")
+//            }
+//        }
     }
 }
