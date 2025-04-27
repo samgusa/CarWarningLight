@@ -11,13 +11,9 @@ import SwiftUI
 struct ExpandedView: View {
     let carSymbol: CarSymbol
     var namespace: Namespace.ID
+    
     @StateObject var viewModel = ExpandedViewModel()
-
-    @State private var showText = false
     @State private var textOffset: CGFloat = -50
-    @State private var descriptionOpacity: Double = 0
-    @State private var fixDescriptionOpacity: Double = 0
-    @State private var drivableOpacity: Double = 0
     @Binding var isPressed: Bool
 
     var body: some View {
@@ -51,6 +47,7 @@ struct ExpandedView: View {
                             .renderingMode(.template)
                             .matchedGeometryEffect(id: "\(carSymbol.imageName)", in: namespace)
                             .foregroundStyle(carSymbol.symbolType.color)
+                            .scaledToFit()
                             .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
 
                         Text(carSymbol.name)

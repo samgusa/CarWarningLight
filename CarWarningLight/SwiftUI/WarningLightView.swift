@@ -10,14 +10,11 @@ import SwiftUI
 
 struct WarningLightView: View {
     @StateObject var viewModel = MainViewModel2()
-    let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
     let desiredCellAspectRatio: CGFloat = 1.5 
     let spacing: CGFloat = 16
     let minimumCellWidth: CGFloat = 100
 
     @Namespace var namespace
-    @State var isPressed: Bool = false
-    @State var symbolPressed: CarSymbol = .empty
 
     var backgroundColor: Color {
         viewModel.isPressed ? Color(.systemBackground) : Color(.systemGray4)
