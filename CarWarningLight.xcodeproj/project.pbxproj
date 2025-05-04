@@ -52,6 +52,9 @@
 		FEA55CB02545064700B58138 /* MainCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA55CAF2545064700B58138 /* MainCollectionCell.swift */; };
 		FEB9CEBC23274541009A4A0B /* SwiftSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB9CEBB23274541009A4A0B /* SwiftSpinner.swift */; };
 		FEBD037F2DBE95D800B45AE6 /* ExpandedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBD037E2DBE95D800B45AE6 /* ExpandedView.swift */; };
+		FEBD03D72DBED0F500B45AE6 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBD03D62DBED0F500B45AE6 /* ResultsView.swift */; };
+		FEBD03E12DC0314100B45AE6 /* CameraTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBD03E02DC0314100B45AE6 /* CameraTestView.swift */; };
+		FEBD048E2DC3FF0E00B45AE6 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBD048D2DC3FF0E00B45AE6 /* TestView.swift */; };
 		FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53A223F22A10056F464 /* Assets.xcassets */; };
 		FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */; };
 		FEBDF547223F22E10056F464 /* CarArr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBDF546223F22E10056F464 /* CarArr.swift */; };
@@ -127,6 +130,9 @@
 		FEA55CAF2545064700B58138 /* MainCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionCell.swift; sourceTree = "<group>"; };
 		FEB9CEBB23274541009A4A0B /* SwiftSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinner.swift; sourceTree = "<group>"; };
 		FEBD037E2DBE95D800B45AE6 /* ExpandedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedView.swift; sourceTree = "<group>"; };
+		FEBD03D62DBED0F500B45AE6 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		FEBD03E02DC0314100B45AE6 /* CameraTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTestView.swift; sourceTree = "<group>"; };
+		FEBD048D2DC3FF0E00B45AE6 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FEBDF530223F229D0056F464 /* CarWarningLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarWarningLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEBDF53A223F22A10056F464 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEBDF53D223F22A10056F464 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -152,6 +158,8 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FEBD03802DBE975B00B45AE6 /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
+		FEBD047F2DC2D89F00B45AE6 /* Camera */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Camera; sourceTree = "<group>"; };
+		FEBD051F2DC6DA5B00B45AE6 /* Modifiers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Modifiers; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -475,6 +483,8 @@
 		FEC2CBB42DB9993000D16AA3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				FEBD051F2DC6DA5B00B45AE6 /* Modifiers */,
+				FEBD047F2DC2D89F00B45AE6 /* Camera */,
 				FEBD03802DBE975B00B45AE6 /* ViewModels */,
 				FEC2CBB02DB998F300D16AA3 /* WarningLightCamera.swift */,
 				FEC2CBB22DB9990100D16AA3 /* ContentView.swift */,
@@ -483,6 +493,9 @@
 				FEC2CC9D2DBDA1BB00D16AA3 /* FloatingButtonView.swift */,
 				FEC2CCF02DBDA3D000D16AA3 /* Home.swift */,
 				FEBD037E2DBE95D800B45AE6 /* ExpandedView.swift */,
+				FEBD03D62DBED0F500B45AE6 /* ResultsView.swift */,
+				FEBD03E02DC0314100B45AE6 /* CameraTestView.swift */,
+				FEBD048D2DC3FF0E00B45AE6 /* TestView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -526,6 +539,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				FEBD03802DBE975B00B45AE6 /* ViewModels */,
+				FEBD047F2DC2D89F00B45AE6 /* Camera */,
+				FEBD051F2DC6DA5B00B45AE6 /* Modifiers */,
 			);
 			name = CarWarningLight;
 			packageProductDependencies = (
@@ -632,6 +647,7 @@
 				FE95BF982AB8F68B004316AC /* BottomMainView.swift in Sources */,
 				FE60B7472AAFB9C8006F86B4 /* LowBottomView.swift in Sources */,
 				FE68AEF62249B7E20055E8B1 /* CarImg.swift in Sources */,
+				FEBD03D72DBED0F500B45AE6 /* ResultsView.swift in Sources */,
 				FE95BFA42ABA4BE3004316AC /* MainViewController+Extension.swift in Sources */,
 				FE8EB2C125BA368600185826 /* MainDataSource.swift in Sources */,
 				FE29C489256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift in Sources */,
@@ -656,6 +672,7 @@
 				FE38214723A5904400F91DCE /* FloatingButtonItem.swift in Sources */,
 				FE8EB2D625BA835300185826 /* CollectionViewExtension+Animate.swift in Sources */,
 				FE60B7492AAFBD27006F86B4 /* HighBottomView.swift in Sources */,
+				FEBD048E2DC3FF0E00B45AE6 /* TestView.swift in Sources */,
 				FE4659742534FA2500D1A795 /* Helper.swift in Sources */,
 				FE794533253E783A0000892E /* Extensions.swift in Sources */,
 				FE014E73254B6CA3000D32F6 /* InfoData.swift in Sources */,
@@ -664,6 +681,7 @@
 				FE95BFA02ABA46FA004316AC /* MainView.swift in Sources */,
 				FE41CBA625BA0E9000F7AB17 /* DataDetailView.swift in Sources */,
 				FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */,
+				FEBD03E12DC0314100B45AE6 /* CameraTestView.swift in Sources */,
 				FE330304253BD69600D14F27 /* InfoBtn.swift in Sources */,
 				FEF69EE923D5427300EE94C1 /* AppStoreReviewManager.swift in Sources */,
 				FE014E76254B6D51000D32F6 /* SelfConfiguringCell.swift in Sources */,

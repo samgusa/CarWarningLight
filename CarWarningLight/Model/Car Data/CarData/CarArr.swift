@@ -87,7 +87,7 @@ enum SymbolType: String, Codable {
 
 typealias CarData = [CarDatum]
 
-struct CarSymbol: Identifiable, Codable {
+struct CarSymbol: Identifiable, Codable, Hashable {
     let id: Int
     let name: String
     let imageName: String
@@ -106,6 +106,14 @@ struct CarSymbol: Identifiable, Codable {
 
     var uiImage: UIImage? {
         UIImage(named: imageName)
+    }
+
+    var transitionID: String {
+            return "\(id)-transition"
+    }
+
+    var imageID: String {
+        return "\(id)-image"
     }
 
     static let empty = CarSymbol(

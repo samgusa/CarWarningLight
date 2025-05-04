@@ -71,7 +71,6 @@ struct FloatingButtonView<Label: View>: View {
 
     @ViewBuilder
     func ActionView(_ action: FloatingAction) -> some View {
-        let index = CGFloat(actions.firstIndex(where: { $0.id == action.id }) ?? 0)
 
         Button {
             action.action()
@@ -165,4 +164,5 @@ struct FloatingActionBuilder {
 
 #Preview {
     ContentView()
+        .environmentObject(UIStateManager())
 }

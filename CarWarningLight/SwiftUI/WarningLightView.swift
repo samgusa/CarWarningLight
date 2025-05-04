@@ -10,19 +10,20 @@ import SwiftUI
 
 struct WarningLightView: View {
     @StateObject var viewModel = MainViewModel2()
-    let desiredCellAspectRatio: CGFloat = 1.5 
+
+    let desiredCellAspectRatio: CGFloat = 1.5
     let spacing: CGFloat = 16
     let minimumCellWidth: CGFloat = 100
 
     @Namespace var namespace
 
     var backgroundColor: Color {
-        viewModel.isPressed ? Color(.systemBackground) : Color(.systemGray4)
+         Color(.systemGray4)
     }
 
     var body: some View {
-        ZStack {
-            GeometryReader { geometry in
+        GeometryReader { geometry in
+            NavigationStack {
                 let availableWidth = geometry.size.width - (spacing * 2)
 
                 let possibleColumns = Int((availableWidth + spacing) / (minimumCellWidth + spacing))
@@ -37,35 +38,37 @@ struct WarningLightView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: spacing) {
                         ForEach(viewModel.bundleLight, id: \.id) { carLight in
-                            WarningLightCell(
-                                carData: carLight,
-                                namespace: namespace)
-                            .frame(height: cellHeight) // Set the dynamic height based on the new aspect ratio
-                            .onTapGesture {
-                                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                                    viewModel.selectSymbol(carLight)
+                            NavigationLink(value: carLight) {
+                                WarningLightCell(
+                                    carData: carLight
+                                )
+                                .matchedTransitionSource(id: carLight.id, in: namespace) {
+                                    $0
+                                        .background(.clear)
+                                        .clipShape(.rect(cornerRadius: 15))
                                 }
+                                .frame(height: cellHeight)
                             }
+                            .buttonStyle(CustomButtonStyleNoBorder())
+
                         }
                     }
                     .padding(spacing)
                 }
-                .opacity(viewModel.isPressed ? 0 : 1)
-
-                if viewModel.isPressed {
+                .navigationDestination(for: CarSymbol.self) { carSymbol in
                     ExpandedView(
-                        carSymbol: viewModel.symbolPressed,
-                        namespace: namespace,
-                        isPressed: $viewModel.isPressed
+                        carSymbol: carSymbol,
+                        namespace: namespace
                     )
-                    .edgesIgnoringSafeArea(.all)
+                    .toolbarVisibility(.hidden, for: .navigationBar)
                 }
+                .background(backgroundColor)
             }
         }
-        .background(backgroundColor)
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(UIStateManager())
 }

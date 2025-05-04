@@ -11,11 +11,8 @@ import SwiftUI
 
 class MainViewModel2: ObservableObject {
     let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
-
-
     @Published  var isPressed: Bool = false
     @Published  var symbolPressed: CarSymbol = .empty
-
 
     func selectSymbol(_ carSymbol: CarSymbol) {
         isPressed = true

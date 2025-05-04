@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct WarningLightCamera: View {
     var body: some View {
         Home()
@@ -16,4 +17,5 @@ struct WarningLightCamera: View {
 
 #Preview {
     WarningLightCamera()
+        .environmentObject(UIStateManager())
 }

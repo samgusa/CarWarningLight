@@ -11,9 +11,11 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         Home()
+        //Home()
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(UIStateManager())
 }

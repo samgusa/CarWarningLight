@@ -1,23 +1,23 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
       "filename" : "Eco Mode.png",
+      "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Eco Mode 1.png",
       "idiom" : "universal",
-      "filename" : "Eco Mode@2x.png",
       "scale" : "2x"
     },
     {
+      "filename" : "Eco Mode 2.png",
       "idiom" : "universal",
-      "filename" : "Eco Mode@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

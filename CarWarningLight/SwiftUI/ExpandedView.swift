@@ -9,12 +9,14 @@
 import SwiftUI
 
 struct ExpandedView: View {
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var uiState: UIStateManager
+
     let carSymbol: CarSymbol
     var namespace: Namespace.ID
 
     @StateObject var viewModel = ExpandedViewModel()
     @State private var textOffset: CGFloat = -50
-    @Binding var isPressed: Bool
 
     var body: some View {
         GeometryReader { geometry in
@@ -25,7 +27,6 @@ struct ExpandedView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color(.systemBackground))
-                        .matchedGeometryEffect(id: "\(carSymbol.id)", in: namespace)
                         .frame(maxHeight: .infinity)
                         .ignoresSafeArea()
 
@@ -33,9 +34,7 @@ struct ExpandedView: View {
                         HStack {
                             Spacer()
                             Button {
-                                withAnimation(.easeOut(duration: 0.4)) {
-                                    isPressed.toggle()
-                                }
+                                dismiss()
                             } label: {
                                 Image(systemName: "x.circle.fill")
                                     .font(.largeTitle)
@@ -53,7 +52,6 @@ struct ExpandedView: View {
                                     Image(carSymbol.imageName)
                                         .resizable()
                                         .renderingMode(.template)
-                                        .matchedGeometryEffect(id: "\(carSymbol.imageName)", in: namespace)
                                         .foregroundStyle(carSymbol.symbolType.color)
                                         .scaledToFit()
                                         .frame(width: geometry.size.width / 3, height: geometry.size.width / 3)
@@ -95,7 +93,6 @@ struct ExpandedView: View {
                                 Image(carSymbol.imageName)
                                     .resizable()
                                     .renderingMode(.template)
-                                    .matchedGeometryEffect(id: "\(carSymbol.imageName)", in: namespace)
                                     .foregroundStyle(carSymbol.symbolType.color)
                                     .scaledToFit()
                                     .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
@@ -132,12 +129,22 @@ struct ExpandedView: View {
                 }
             }
             .onAppear {
+                uiState.detailViewAppeared(id: carSymbol.imageName)
+
                 withAnimation(.easeOut(duration: 0.4)) {
                     viewModel.showText = true
                     viewModel.triggerAnimations()
                 }
             }
+            .onDisappear {
+                uiState.detailViewDisappeared(id: carSymbol.imageName)
+            }
         }
+        .ignoresSafeArea()
+        .navigationTransition(
+            .zoom(sourceID: carSymbol.id, in: namespace)
+        )
+
     }
 
     @ViewBuilder
@@ -228,22 +235,20 @@ func coloredText(_ text: String) -> Text {
     return output
 }
 
-
-
-
 #Preview {
     @Previewable @Namespace var namespace
     @Previewable @State var toggled = false
     ExpandedView(
         carSymbol: CarSymbol
             .init(
-                id: 1,
+                id: 0,
                 name: "Adaptive Front Lighting System Warning",
                 imageName: CarWarning.adaptiveOne.rawValue,
                 description: "Depending on the make of the vehicle and the color of the light, this could mean a couple things. Green: Directional Headlights. Indicates that the vehicles automatic directional headlights are operational. Yellow: Adaptive Warning Light: Some Vehicles have lights that turn on automatically and adjust brightness depending on how dark and light it is. If the light is Yellow, that means that there is a malfunction with the sensor for that light.",
                 symbolType: .warning,
                 fixDescription: "If this light is on, a professional mechanic should be contacted. If the air bags don't function as they should, they may not work in the case of an emergency.",
                 drivable: .no),
-        namespace: namespace,
-        isPressed: $toggled)
+        namespace: namespace
+    )
+    .environmentObject(UIStateManager())
 }
