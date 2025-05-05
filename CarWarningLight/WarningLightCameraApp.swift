@@ -18,6 +18,7 @@ struct WarningLightCameraApp: App {
             ContentView()
                 .environmentObject(uiState)
 //            ResultsView()
+//                .environmentObject(uiState)
         }
     }
 }

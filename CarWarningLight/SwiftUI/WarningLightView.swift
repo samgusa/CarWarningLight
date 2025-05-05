@@ -17,52 +17,71 @@ struct WarningLightView: View {
 
     @Namespace var namespace
 
+    let bigImageId: Int = -1
+    @State private var selectedIndex: Int? = nil
+    @State private var isShowingLarge = false
+
     var backgroundColor: Color {
          Color(.systemGray4)
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            NavigationStack {
-                let availableWidth = geometry.size.width - (spacing * 2)
+        NavigationStack  {
+            ZStack {
+                GeometryReader { geometry in
+                    let availableWidth = geometry.size.width - (spacing * 2)
 
-                let possibleColumns = Int((availableWidth + spacing) / (minimumCellWidth + spacing))
-                let actualColumns = max(1, possibleColumns)
+                    let possibleColumns = Int((availableWidth + spacing) / (minimumCellWidth + spacing))
+                    let actualColumns = max(1, possibleColumns)
 
-                let cellWidth = (availableWidth - (CGFloat(actualColumns - 1) * spacing)) / CGFloat(actualColumns)
-                let cellHeight = cellWidth * desiredCellAspectRatio // Calculate height based on the new aspect ratio
+                    let cellWidth = (availableWidth - (CGFloat(actualColumns - 1) * spacing)) / CGFloat(actualColumns)
+                    let cellHeight = cellWidth * desiredCellAspectRatio // Calculate height based on the new aspect ratio
 
-                let gridItem = GridItem(.fixed(cellWidth), spacing: spacing)
-                let columns = Array(repeating: gridItem, count: actualColumns)
+                    let gridItem = GridItem(.fixed(cellWidth), spacing: spacing)
+                    let columns = Array(repeating: gridItem, count: actualColumns)
 
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: spacing) {
-                        ForEach(viewModel.bundleLight, id: \.id) { carLight in
-                            NavigationLink(value: carLight) {
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: spacing) {
+                            ForEach(Array(viewModel.bundleLight.enumerated()), id: \.offset) { index, carLight in
                                 WarningLightCell(
-                                    carData: carLight
+                                    carData: carLight,
+                                    index: index,
+                                    namespace: namespace)
+                                .matchedGeometryEffect(
+                                    id: index,
+                                    in: namespace,
+                                    isSource: true
                                 )
-                                .matchedTransitionSource(id: carLight.id, in: namespace) {
-                                    $0
-                                        .background(.clear)
-                                        .clipShape(.rect(cornerRadius: 15))
+                                .onTapGesture {
+                                    selectedIndex = index
+                                    withAnimation(.easeInOut) {
+                                        isShowingLarge = true
+                                    }
                                 }
                                 .frame(height: cellHeight)
                             }
-                            .buttonStyle(CustomButtonStyleNoBorder())
-
                         }
+                        .padding(spacing)
                     }
-                    .padding(spacing)
+                    .opacity(isShowingLarge ? 0 : 1)
+                    .background(backgroundColor)
                 }
-                .navigationDestination(for: CarSymbol.self) { carSymbol in
+
+                if let index = selectedIndex {
                     ExpandedView(
-                        carSymbol: carSymbol,
-                        namespace: namespace
+                        carSymbol: viewModel.bundleLight[index],
+                        namespace: namespace,
+                        isShowingLarge: $isShowingLarge,
+                        bigImageId: bigImageId,
+                        index: $selectedIndex
                     )
-                    .toolbarVisibility(.hidden, for: .navigationBar)
+                    .matchedGeometryEffect(
+                        id: isShowingLarge ? bigImageId : index,
+                        in: namespace,
+                        isSource: false
+                    )
+                    .opacity(isShowingLarge ? 1 : 0)
                 }
-                .background(backgroundColor)
             }
         }
     }

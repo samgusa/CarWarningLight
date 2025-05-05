@@ -10,12 +10,19 @@ import SwiftUI
 
 struct WarningLightCell: View {
     let carData: CarSymbol
+    let index: Int
+    var namespace: Namespace.ID
 
     var body: some View {
         VStack(spacing: 12) {
             Image(carData.imageName)
                 .resizable()
                 .renderingMode(.template)
+                .matchedGeometryEffect(
+                    id: "\(index) logo",
+                    in: namespace,
+                    isSource: true
+                )
                 .foregroundStyle(carData.symbolType.color)
                 .scaledToFit()
                 .padding(10)

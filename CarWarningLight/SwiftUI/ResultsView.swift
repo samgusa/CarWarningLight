@@ -10,70 +10,97 @@ import SwiftUI
 
 struct ResultsView: View {
     @StateObject var viewModel = ResultsViewModel()
-    @Namespace private var animation
     let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
+    @Namespace private var animation
+    @State private var selectedIndex: Int? = nil
+    @State private var isShowingLarge: Bool = false
+    let bigImageId: Int = -1
 
     var body: some View {
-        GeometryReader { geometry in
-            let cardHeight = min(geometry.size.height / 4, 150)
-            NavigationStack {
+        ZStack {
+            GeometryReader { geometry in
+                let cardHeight = min(geometry.size.height / 4, 150)
                 ScrollView {
                     LazyVStack(spacing: 20) {
-                        ForEach(bundleLight.prefix(10), id: \.id) { carLight in
-                            NavigationLink(value: carLight) {
-                                cardView(carSymbol: carLight, height: cardHeight)
-                                    .matchedTransitionSource(id: carLight.id, in: animation) {
-                                        $0
-                                            .background(.clear)
-                                            .clipShape(.rect(cornerRadius: 15))
+                        ForEach(Array(bundleLight.enumerated().prefix(10)), id: \.offset) { index, carLight in
+                            cardView(carSymbol: carLight, height: cardHeight, index: index)
+                                .matchedGeometryEffect(
+                                    id: index,
+                                    in: animation,
+                                    isSource: true
+                                )
+                                .onTapGesture {
+                                    selectedIndex = index
+                                    withAnimation(.easeInOut) {
+                                        isShowingLarge = true
                                     }
-                            }
-                            .buttonStyle(CustomButtonStyle())
-
+                                }
                         }
                     }
                     .padding(.vertical)
                     .padding(.horizontal)
                     .padding(.bottom, 80)
                 }
-                .navigationDestination(for: CarSymbol.self) { carSymbol in
-                    ExpandedView(carSymbol: carSymbol, namespace: animation)
-                        .toolbarVisibility(.hidden, for: .navigationBar)
-                }
-
+                .opacity(isShowingLarge ? 0 : 1)
             }
+
+            if let index = selectedIndex {
+                ExpandedView2(
+                    carSymbol: bundleLight[index],
+                    namespace: animation,
+                    isShowingLarge: $isShowingLarge,
+                    bigImageId: bigImageId,
+                    index: $selectedIndex
+                )
+                .matchedGeometryEffect(
+                    id: isShowingLarge ? bigImageId : index,
+                    in: animation,
+                    isSource: false
+                )
+                .opacity(isShowingLarge ? 1 : 0)
+            }
+
         }
+    }
+
+    @ViewBuilder
+    func cardView(carSymbol: CarSymbol, height: CGFloat, index: Int) -> some View {
+        ZStack(alignment: .center) {
+            HStack(spacing: 20) {
+                Image(carSymbol.imageName)
+                    .resizable()
+                    .renderingMode(.template)
+                    .matchedGeometryEffect(
+                        id: "\(index) logo",
+                        in: animation,
+                        isSource: true
+                    )
+                    .foregroundStyle(carSymbol.symbolType.color)
+                    .scaledToFit()
+                    .frame(width: height * 0.7)
+                    .padding(.leading, 8)
+
+                Text(carSymbol.name)
+                    .font(.title2)
+                    .foregroundColor(.primary)
+                    .bold()
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
+
+                Spacer()
+           }
+        }
+        .frame(height: height)
+        .frame(maxWidth: .infinity)
+        .background(Color(.systemBackground))
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(.black, lineWidth: 1)
+        )
     }
 }
 
-@ViewBuilder
-func cardView(carSymbol: CarSymbol, height: CGFloat) -> some View {
-    ZStack(alignment: .center) {
-        HStack(spacing: 20) {
-            Image(carSymbol.imageName)
-                .resizable()
-                .renderingMode(.template)
-                .foregroundStyle(carSymbol.symbolType.color)
-                .scaledToFit()
-                .frame(width: height * 0.7)
-                .padding(.leading, 8)
 
-            Text(carSymbol.name)
-                .font(.title2) // More responsive font size
-                .foregroundColor(.primary)
-                .bold()
-                .lineLimit(2)
-                .minimumScaleFactor(0.8)
-
-            Spacer()
-        }
-    }
-    .frame(height: height)
-    .frame(maxWidth: .infinity)
-    .background(Color(.systemBackground))
-    .cornerRadius(10)
-    .shadow(color: Color.primary.opacity(0.1), radius: 4, x: 0, y: 2)
-}
 
 
 #Preview {
@@ -92,7 +119,7 @@ struct CustomButtonStyle: ButtonStyle {
         configuration.label
             .overlay {
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(.primary, lineWidth: 1)
+
             }
     }
 }

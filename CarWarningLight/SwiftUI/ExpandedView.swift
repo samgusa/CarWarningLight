@@ -14,6 +14,9 @@ struct ExpandedView: View {
 
     let carSymbol: CarSymbol
     var namespace: Namespace.ID
+    @Binding var isShowingLarge: Bool
+    let bigImageId: Int
+    @Binding var index: Int?
 
     @StateObject var viewModel = ExpandedViewModel()
     @State private var textOffset: CGFloat = -50
@@ -34,7 +37,11 @@ struct ExpandedView: View {
                         HStack {
                             Spacer()
                             Button {
-                                dismiss()
+                                withAnimation(.easeInOut) {
+                                    isShowingLarge = false
+                                } completion: {
+                                    index = nil
+                                }
                             } label: {
                                 Image(systemName: "x.circle.fill")
                                     .font(.largeTitle)
@@ -52,6 +59,10 @@ struct ExpandedView: View {
                                     Image(carSymbol.imageName)
                                         .resizable()
                                         .renderingMode(.template)
+                                        .matchedGeometryEffect(
+                                            id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
+                                            in: namespace,
+                                            isSource: false)
                                         .foregroundStyle(carSymbol.symbolType.color)
                                         .scaledToFit()
                                         .frame(width: geometry.size.width / 3, height: geometry.size.width / 3)
@@ -86,18 +97,23 @@ struct ExpandedView: View {
                                 }
                                 .frame(width: geometry.size.width / 1.7)
                             }
-                            .padding(.horizontal)
+                            .padding([.horizontal, .bottom])
                         } else {
                             // Portrait layout (original)
                             VStack(spacing: 10) {
                                 Image(carSymbol.imageName)
                                     .resizable()
                                     .renderingMode(.template)
+                                    .matchedGeometryEffect(
+                                        id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
+                                        in: namespace,
+                                        isSource: false)
                                     .foregroundStyle(carSymbol.symbolType.color)
                                     .scaledToFit()
                                     .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
 
                                 Text(carSymbol.name)
+                                    .padding(.horizontal)
                                     .font(.largeTitle)
                                     .foregroundColor(.primary)
                                     .bold()
@@ -124,14 +140,14 @@ struct ExpandedView: View {
                                     .offset(y: viewModel.drivableOpacity ? 0 : textOffset)
                                     .animation(.easeOut(duration: 0.4).delay(0.3), value: viewModel.drivableOpacity)
                             }
+                            .padding(.bottom)
                         }
                     }
                 }
             }
             .onAppear {
                 uiState.detailViewAppeared(id: carSymbol.imageName)
-
-                withAnimation(.easeOut(duration: 0.4)) {
+                withAnimation(.easeOut(duration: 0.4).delay(0.2)) {
                     viewModel.showText = true
                     viewModel.triggerAnimations()
                 }
@@ -248,7 +264,9 @@ func coloredText(_ text: String) -> Text {
                 symbolType: .warning,
                 fixDescription: "If this light is on, a professional mechanic should be contacted. If the air bags don't function as they should, they may not work in the case of an emergency.",
                 drivable: .no),
-        namespace: namespace
-    )
+        namespace: namespace,
+        isShowingLarge: .constant(false),
+        bigImageId: -1,
+        index: .constant(1))
     .environmentObject(UIStateManager())
 }
