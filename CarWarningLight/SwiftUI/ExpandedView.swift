@@ -59,13 +59,13 @@ struct ExpandedView: View {
                                     Image(carSymbol.imageName)
                                         .resizable()
                                         .renderingMode(.template)
+                                        .foregroundStyle(carSymbol.symbolType.color)
+                                        .scaledToFit()
+                                        .frame(width: geometry.size.width / 3, height: geometry.size.width / 3)
                                         .matchedGeometryEffect(
                                             id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
                                             in: namespace,
                                             isSource: false)
-                                        .foregroundStyle(carSymbol.symbolType.color)
-                                        .scaledToFit()
-                                        .frame(width: geometry.size.width / 3, height: geometry.size.width / 3)
 
                                     Text(carSymbol.name)
                                         .font(.title)
@@ -104,13 +104,13 @@ struct ExpandedView: View {
                                 Image(carSymbol.imageName)
                                     .resizable()
                                     .renderingMode(.template)
+                                    .foregroundStyle(carSymbol.symbolType.color)
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
                                     .matchedGeometryEffect(
                                         id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
                                         in: namespace,
                                         isSource: false)
-                                    .foregroundStyle(carSymbol.symbolType.color)
-                                    .scaledToFit()
-                                    .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
 
                                 Text(carSymbol.name)
                                     .padding(.horizontal)
@@ -157,9 +157,6 @@ struct ExpandedView: View {
             }
         }
         .ignoresSafeArea()
-        .navigationTransition(
-            .zoom(sourceID: carSymbol.id, in: namespace)
-        )
 
     }
 

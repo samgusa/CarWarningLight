@@ -45,7 +45,7 @@ struct ResultsView: View {
             }
 
             if let index = selectedIndex {
-                ExpandedView2(
+                ExpandedView(
                     carSymbol: bundleLight[index],
                     namespace: animation,
                     isShowingLarge: $isShowingLarge,
