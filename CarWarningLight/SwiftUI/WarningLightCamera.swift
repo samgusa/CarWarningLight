@@ -11,7 +11,7 @@ import SwiftUI
 
 struct WarningLightCamera: View {
     var body: some View {
-        Home()
+        ContentView()
     }
 }
 

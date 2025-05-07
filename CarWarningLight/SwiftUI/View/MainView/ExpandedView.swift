@@ -44,8 +44,11 @@ struct ExpandedView: View {
                                 }
                             } label: {
                                 Image(systemName: "x.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
                                     .font(.largeTitle)
                                     .foregroundStyle(.gray.opacity(0.7))
+                                    .frame(width: 30, height: 30)
                             }
                         }
                         .padding([.top, .trailing])
