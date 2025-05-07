@@ -22,7 +22,7 @@ struct WarningLightView: View {
     @State private var isShowingLarge = false
 
     var backgroundColor: Color {
-         Color(.systemGray4)
+        isShowingLarge ? Color(.systemBackground) : Color(.systemGray4)
     }
 
     var body: some View {
@@ -43,25 +43,26 @@ struct WarningLightView: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: spacing) {
                             ForEach(Array(viewModel.bundleLight.enumerated()), id: \.offset) { index, carLight in
-                                WarningLightCell(
-                                    carData: carLight,
-                                    index: index,
-                                    namespace: namespace)
-                                .matchedGeometryEffect(
-                                    id: index,
-                                    in: namespace,
-                                    isSource: true
-                                )
+                                Color.clear
+                                    .aspectRatio(0.7, contentMode: .fit)
+                                    .overlay {
+                                        WarningLightCell(
+                                            carData: carLight,
+                                            index: index,
+                                            namespace: namespace,
+                                            isShowingLarge: $isShowingLarge)
+                                    }
+                                    .clipped()
+                                    .contentShape(Rectangle())
                                 .onTapGesture {
                                     selectedIndex = index
-                                    withAnimation(.easeInOut) {
+                                    withAnimation(.easeInOut(duration: 0.5)) {
                                         isShowingLarge = true
                                     }
                                 }
                                 .frame(height: cellHeight)
                             }
                         }
-                        .padding(spacing)
                     }
                     .opacity(isShowingLarge ? 0 : 1)
                     .background(backgroundColor)
@@ -74,11 +75,6 @@ struct WarningLightView: View {
                         isShowingLarge: $isShowingLarge,
                         bigImageId: bigImageId,
                         index: $selectedIndex
-                    )
-                    .matchedGeometryEffect(
-                        id: isShowingLarge ? bigImageId : index,
-                        in: namespace,
-                        isSource: false
                     )
                     .opacity(isShowingLarge ? 1 : 0)
                 }

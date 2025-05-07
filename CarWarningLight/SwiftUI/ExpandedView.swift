@@ -37,7 +37,7 @@ struct ExpandedView: View {
                         HStack {
                             Spacer()
                             Button {
-                                withAnimation(.easeInOut) {
+                                withAnimation(.easeInOut(duration: 0.5)) {
                                     isShowingLarge = false
                                 } completion: {
                                     index = nil
@@ -104,13 +104,13 @@ struct ExpandedView: View {
                                 Image(carSymbol.imageName)
                                     .resizable()
                                     .renderingMode(.template)
-                                    .foregroundStyle(carSymbol.symbolType.color)
-                                    .scaledToFit()
-                                    .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
                                     .matchedGeometryEffect(
                                         id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
                                         in: namespace,
                                         isSource: false)
+                                    .foregroundStyle(carSymbol.symbolType.color)
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
 
                                 Text(carSymbol.name)
                                     .padding(.horizontal)
@@ -147,7 +147,10 @@ struct ExpandedView: View {
             }
             .onAppear {
                 uiState.detailViewAppeared(id: carSymbol.imageName)
-                withAnimation(.easeOut(duration: 0.4).delay(0.2)) {
+                withAnimation(.easeOut(duration: 0.4).delay(0.6)) {
+                    viewModel.showText = true
+                }
+                withAnimation(.easeOut(duration: 0.4).delay(0.7)) {
                     viewModel.showText = true
                     viewModel.triggerAnimations()
                 }

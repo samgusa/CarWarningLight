@@ -15,8 +15,8 @@ import UIKit
  */
 struct PhotoPreviewView: View {
     // MARK: - Properties
-    let photo: CapturedPhoto?
-    var dismissToHome: () -> Void
+    @StateObject private var viewModel = ImageDetectionViewModel()
+    let capturedPhoto: CapturedPhoto?
 
     @State private var showResults: Bool = false
 
@@ -25,19 +25,35 @@ struct PhotoPreviewView: View {
         ZStack {
             Color.black.ignoresSafeArea()
 
-            if let photo = photo {
+            if let photo = capturedPhoto {
                 VStack {
                     Image(uiImage: photo.image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .ignoresSafeArea()
 
-                    Button("Continue") {
-                        showResults = true
+                    CustomButton2 {
+                        Text("Submit")
+                    } action: {
+                        // Mark as submitting
+                        try? await Task.sleep(for: .seconds(5))
+                        if let ciImage = CIImage(image: photo.image) {
+                            await viewModel.detectAsync(image: ciImage)
+
+                            // check results
+                            if viewModel.imageRecogResults.isEmpty {
+                                return .failed("No Symbols detected in the image")
+                            } else {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    showResults = true
+                                }
+                                return .success
+                            }
+                        } else {
+                            return .failed("Could not process the image")
+                        }
                     }
-                    .padding()
-                    .background(Color.white)
-                    .foregroundStyle(.black)
+                    .padding(.bottom, 20)
                 }
             } else {
                 Text("No photo available")
@@ -46,13 +62,23 @@ struct PhotoPreviewView: View {
             }
         }
         .navigationDestination(isPresented: $showResults) {
-            //ResultsView(resultLights: [], dismissToHome: dismissToHome)
+            ResultsView(detectedLights: viewModel.imageRecogResults)
         }
     }
 }
 
 
 #Preview {
-    ContentView()
-        .environmentObject(UIStateManager())
+//    ContentView()
+        let dummyImage = UIImage(systemName: "photo.fill")!
+            let dummyPhoto = CapturedPhoto(image: dummyImage)
+
+            // Provide the dummy photo and a placeholder for the dismiss action
+            PhotoPreviewView(capturedPhoto: dummyPhoto)
+                //.previewDisplayName("With Photo")
+
+//    PhotoPreviewView(capturedPhoto: nil, dismissToHome: {})
+//                .previewDisplayName("No Photo")
+                .environmentObject(UIStateManager())
 }
+

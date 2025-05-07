@@ -59,7 +59,7 @@ struct CameraView: View {
             })
             .navigationDestination(isPresented: $showPhotoPreview, destination: {
                 if let image = cameraManager.lastCapturedPhoto {
-                    PhotoPreviewView(photo: image, dismissToHome: dismissToHome)
+                    PhotoPreviewView(capturedPhoto: image)
                 }
             })
             .onAppear {

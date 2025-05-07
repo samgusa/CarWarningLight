@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ResultsView: View {
     @StateObject var viewModel = ResultsViewModel()
-    let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
+    let detectedLights: [CarSymbol]
     @Namespace private var animation
     @State private var selectedIndex: Int? = nil
     @State private var isShowingLarge: Bool = false
@@ -22,13 +22,8 @@ struct ResultsView: View {
                 let cardHeight = min(geometry.size.height / 4, 150)
                 ScrollView {
                     LazyVStack(spacing: 20) {
-                        ForEach(Array(bundleLight.enumerated().prefix(10)), id: \.offset) { index, carLight in
+                        ForEach(Array(detectedLights.enumerated()), id: \.offset) { index, carLight in
                             cardView(carSymbol: carLight, height: cardHeight, index: index)
-                                .matchedGeometryEffect(
-                                    id: index,
-                                    in: animation,
-                                    isSource: true
-                                )
                                 .onTapGesture {
                                     selectedIndex = index
                                     withAnimation(.easeInOut) {
@@ -46,20 +41,15 @@ struct ResultsView: View {
 
             if let index = selectedIndex {
                 ExpandedView(
-                    carSymbol: bundleLight[index],
+                    carSymbol: detectedLights[index],
                     namespace: animation,
                     isShowingLarge: $isShowingLarge,
                     bigImageId: bigImageId,
                     index: $selectedIndex
                 )
-                .matchedGeometryEffect(
-                    id: isShowingLarge ? bigImageId : index,
-                    in: animation,
-                    isSource: false
-                )
+                .toolbar(.hidden)
                 .opacity(isShowingLarge ? 1 : 0)
             }
-
         }
     }
 
@@ -70,14 +60,14 @@ struct ResultsView: View {
                 Image(carSymbol.imageName)
                     .resizable()
                     .renderingMode(.template)
+                    .foregroundStyle(carSymbol.symbolType.color)
+                    .scaledToFit()
+                    .frame(width: height * 0.7)
                     .matchedGeometryEffect(
                         id: "\(index) logo",
                         in: animation,
                         isSource: true
                     )
-                    .foregroundStyle(carSymbol.symbolType.color)
-                    .scaledToFit()
-                    .frame(width: height * 0.7)
                     .padding(.leading, 8)
 
                 Text(carSymbol.name)
@@ -109,7 +99,7 @@ struct ResultsView: View {
     lazy var lights: [CarSymbol] = {
         Array(bundleLight.prefix(10))
     }()
-    ResultsView()
+    ResultsView(detectedLights: lights)
         .environmentObject(UIStateManager())//(resultLights: lights)
     //, dismissToHome: {})
 }

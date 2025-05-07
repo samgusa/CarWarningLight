@@ -16,6 +16,8 @@ struct CameraTestView: View {
     @State private var inputImage: UIImage?
     @State private var showResultsView: Bool = false
 
+    private let placeholderImage = UIImage(systemName: "photo.fill") ?? UIImage()
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -28,16 +30,18 @@ struct CameraTestView: View {
             .sheet(isPresented: $showImagePicker) {
                 ImagePicker(image: $inputImage)
                     .onDisappear {
-                        if let inputImage = inputImage, let ciImage = CIImage(image: inputImage) {
-                            viewModel.detect(image: ciImage)
-                            withAnimation(.easeOut.delay(0.3)) {
-                                showResultsView = true
-                            }
+                        withAnimation(.easeOut.delay(0.3)) {
+                            showResultsView = true
                         }
                     }
             }
             .navigationDestination(isPresented: $showResultsView) {
-                ResultsView() //(resultLights: viewModel.imageRecogResults, dismissToHome: { showResultsView = false })
+                if let selectedImage = inputImage {
+                    PhotoPreviewView(capturedPhoto: CapturedPhoto(image: selectedImage))
+                } else {
+                    PhotoPreviewView(capturedPhoto: CapturedPhoto(image: placeholderImage))
+                }
+
             }
         }
     }

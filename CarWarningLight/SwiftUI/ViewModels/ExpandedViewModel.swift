@@ -15,13 +15,13 @@ class ExpandedViewModel: ObservableObject {
     @Published var drivableOpacity: Bool = false
 
     func triggerAnimations() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.descriptionOpacity = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             self.fixDescriptionOpacity = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             self.drivableOpacity = true
         }
     }

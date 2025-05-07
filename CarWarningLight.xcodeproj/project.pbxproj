@@ -7,50 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FE014E73254B6CA3000D32F6 /* InfoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE014E72254B6CA3000D32F6 /* InfoData.swift */; };
-		FE014E76254B6D51000D32F6 /* SelfConfiguringCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE014E75254B6D51000D32F6 /* SelfConfiguringCell.swift */; };
 		FE15B2F8254E635F00531245 /* TestArr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE15B2F7254E635F00531245 /* TestArr.swift */; };
-		FE1DBD5025632E6A003B7684 /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1DBD4F25632E6A003B7684 /* ImageCollectionViewController.swift */; };
-		FE26F0D7253F80E600909DE4 /* LargeLbl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE26F0D6253F80E600909DE4 /* LargeLbl.swift */; };
-		FE29C489256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29C488256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift */; };
-		FE29C491256339B60047A0A3 /* ImageCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29C490256339B60047A0A3 /* ImageCollectionCell.swift */; };
-		FE29C4A0256375DC0047A0A3 /* ImgCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29C49F256375DC0047A0A3 /* ImgCollectionViewController.swift */; };
-		FE29C4A6256378340047A0A3 /* ImgCollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29C4A5256378340047A0A3 /* ImgCollectionExtension.swift */; };
-		FE330304253BD69600D14F27 /* InfoBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE330303253BD69600D14F27 /* InfoBtn.swift */; };
-		FE38214523A58EFE00F91DCE /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE38214423A58EFE00F91DCE /* FloatingButton.swift */; };
-		FE38214723A5904400F91DCE /* FloatingButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE38214623A5904400F91DCE /* FloatingButtonItem.swift */; };
-		FE38E44525422B01003730C5 /* CameraChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE38E44425422B01003730C5 /* CameraChildView.swift */; };
-		FE41126A2558AA47000E352E /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4112692558AA47000E352E /* DataViewController.swift */; };
-		FE41CBA625BA0E9000F7AB17 /* DataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE41CBA525BA0E9000F7AB17 /* DataDetailView.swift */; };
-		FE4659742534FA2500D1A795 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4659732534FA2500D1A795 /* Helper.swift */; };
-		FE514ACC26360A93006C331A /* RequestPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE514ACB26360A93006C331A /* RequestPermission.swift */; };
-		FE55F2DA25477622004330BD /* InfoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE55F2D925477622004330BD /* InfoDataView.swift */; };
-		FE55F2DD2547762F004330BD /* InfoDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE55F2DC2547762F004330BD /* InfoDataCell.swift */; };
 		FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */; };
 		FE60B73B2AAFB7FA006F86B4 /* carLights.json in Resources */ = {isa = PBXBuildFile; fileRef = FE60B73A2AAFB7FA006F86B4 /* carLights.json */; };
-		FE60B73D2AAFB912006F86B4 /* UIButton+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B73C2AAFB912006F86B4 /* UIButton+Combine.swift */; };
-		FE60B73F2AAFB940006F86B4 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B73E2AAFB940006F86B4 /* PaddingLabel.swift */; };
-		FE60B7442AAFB995006F86B4 /* BottomSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B7432AAFB995006F86B4 /* BottomSheetViewModel.swift */; };
-		FE60B7472AAFB9C8006F86B4 /* LowBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B7462AAFB9C8006F86B4 /* LowBottomView.swift */; };
-		FE60B7492AAFBD27006F86B4 /* HighBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE60B7482AAFBD27006F86B4 /* HighBottomView.swift */; };
-		FE65A01D254CB96700C4E691 /* car.json in Resources */ = {isa = PBXBuildFile; fileRef = FE65A01C254CB96700C4E691 /* car.json */; };
 		FE65A020254CBA0700C4E691 /* Bundle-Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */; };
 		FE68AEF62249B7E20055E8B1 /* CarImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68AEF52249B7E20055E8B1 /* CarImg.swift */; };
-		FE794530253E3C390000892E /* TestViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE79452F253E3C390000892E /* TestViewExtensions.swift */; };
-		FE794533253E783A0000892E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE794532253E783A0000892E /* Extensions.swift */; };
-		FE8EB2C125BA368600185826 /* MainDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8EB2C025BA368600185826 /* MainDataSource.swift */; };
-		FE8EB2D625BA835300185826 /* CollectionViewExtension+Animate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8EB2D525BA835300185826 /* CollectionViewExtension+Animate.swift */; };
-		FE95BF912AB77280004316AC /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95BF902AB77280004316AC /* BottomSheetViewController.swift */; };
-		FE95BF932AB8CD41004316AC /* NameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95BF922AB8CD41004316AC /* NameView.swift */; };
-		FE95BF952AB8D276004316AC /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95BF942AB8D276004316AC /* TextView.swift */; };
-		FE95BF982AB8F68B004316AC /* BottomMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95BF972AB8F68B004316AC /* BottomMainView.swift */; };
-		FE95BF9A2AB92814004316AC /* BottomSheetViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95BF992AB92814004316AC /* BottomSheetViewController+Extension.swift */; };
-		FE95BFA02ABA46FA004316AC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95BF9F2ABA46FA004316AC /* MainView.swift */; };
-		FE95BFA22ABA4B0A004316AC /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95BFA12ABA4B0A004316AC /* MainViewModel.swift */; };
-		FE95BFA42ABA4BE3004316AC /* MainViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95BFA32ABA4BE3004316AC /* MainViewController+Extension.swift */; };
-		FEA55CAD2545057600B58138 /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA55CAC2545057600B58138 /* CollectionViewExtension.swift */; };
-		FEA55CB02545064700B58138 /* MainCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA55CAF2545064700B58138 /* MainCollectionCell.swift */; };
-		FEB9CEBC23274541009A4A0B /* SwiftSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB9CEBB23274541009A4A0B /* SwiftSpinner.swift */; };
 		FEBD037F2DBE95D800B45AE6 /* ExpandedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBD037E2DBE95D800B45AE6 /* ExpandedView.swift */; };
 		FEBD03D72DBED0F500B45AE6 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBD03D62DBED0F500B45AE6 /* ResultsView.swift */; };
 		FEBD03E12DC0314100B45AE6 /* CameraTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBD03E02DC0314100B45AE6 /* CameraTestView.swift */; };
@@ -59,7 +20,6 @@
 		FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */; };
 		FEBDF547223F22E10056F464 /* CarArr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBDF546223F22E10056F464 /* CarArr.swift */; };
 		FEBDF549223F25290056F464 /* CarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBDF548223F25290056F464 /* CarData.swift */; };
-		FEBE8C2F2546521200C74D56 /* MainCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBE8C2E2546521200C74D56 /* MainCellView.swift */; };
 		FEC2CBB12DB998F300D16AA3 /* WarningLightCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB02DB998F300D16AA3 /* WarningLightCamera.swift */; };
 		FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB22DB9990100D16AA3 /* ContentView.swift */; };
 		FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */; };
@@ -67,10 +27,6 @@
 		FEC2CC0B2DBABABC00D16AA3 /* WarningLightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CC0A2DBABABC00D16AA3 /* WarningLightCell.swift */; };
 		FEC2CC9E2DBDA1BB00D16AA3 /* FloatingButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CC9D2DBDA1BB00D16AA3 /* FloatingButtonView.swift */; };
 		FEC2CCF12DBDA3D000D16AA3 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CCF02DBDA3D000D16AA3 /* Home.swift */; };
-		FECB3C8523D54C06005E935B /* UserDefaults+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECB3C8423D54C05005E935B /* UserDefaults+Key.swift */; };
-		FEF69EE923D5427300EE94C1 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF69EE823D5427300EE94C1 /* AppStoreReviewManager.swift */; };
-		FEF7960B253CC05D008A4FFB /* CollectionChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF7960A253CC05D008A4FFB /* CollectionChildView.swift */; };
-		FEF7960E253CC7DC008A4FFB /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */; };
 		FEFDF7732781114A00A2B543 /* CarWarningLightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,50 +41,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FE014E72254B6CA3000D32F6 /* InfoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoData.swift; sourceTree = "<group>"; };
-		FE014E75254B6D51000D32F6 /* SelfConfiguringCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfConfiguringCell.swift; sourceTree = "<group>"; };
 		FE15B2F7254E635F00531245 /* TestArr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestArr.swift; sourceTree = "<group>"; };
-		FE1DBD4F25632E6A003B7684 /* ImageCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewController.swift; sourceTree = "<group>"; };
-		FE26F0D6253F80E600909DE4 /* LargeLbl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeLbl.swift; sourceTree = "<group>"; };
-		FE29C488256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageCollectionViewExtension+ImageRecog.swift"; sourceTree = "<group>"; };
-		FE29C490256339B60047A0A3 /* ImageCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionCell.swift; sourceTree = "<group>"; };
-		FE29C49F256375DC0047A0A3 /* ImgCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImgCollectionViewController.swift; sourceTree = "<group>"; };
-		FE29C4A5256378340047A0A3 /* ImgCollectionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImgCollectionExtension.swift; sourceTree = "<group>"; };
-		FE330303253BD69600D14F27 /* InfoBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBtn.swift; sourceTree = "<group>"; };
-		FE38214423A58EFE00F91DCE /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
-		FE38214623A5904400F91DCE /* FloatingButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonItem.swift; sourceTree = "<group>"; };
-		FE38E44425422B01003730C5 /* CameraChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraChildView.swift; sourceTree = "<group>"; };
-		FE4112692558AA47000E352E /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
-		FE41CBA525BA0E9000F7AB17 /* DataDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDetailView.swift; sourceTree = "<group>"; };
-		FE4659732534FA2500D1A795 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
-		FE514ACB26360A93006C331A /* RequestPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermission.swift; sourceTree = "<group>"; };
-		FE55F2D925477622004330BD /* InfoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDataView.swift; sourceTree = "<group>"; };
-		FE55F2DC2547762F004330BD /* InfoDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDataCell.swift; sourceTree = "<group>"; };
 		FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MainCarImg4.mlmodel; sourceTree = "<group>"; };
 		FE60B73A2AAFB7FA006F86B4 /* carLights.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = carLights.json; sourceTree = "<group>"; };
-		FE60B73C2AAFB912006F86B4 /* UIButton+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Combine.swift"; sourceTree = "<group>"; };
-		FE60B73E2AAFB940006F86B4 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
-		FE60B7432AAFB995006F86B4 /* BottomSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewModel.swift; sourceTree = "<group>"; };
-		FE60B7462AAFB9C8006F86B4 /* LowBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowBottomView.swift; sourceTree = "<group>"; };
-		FE60B7482AAFBD27006F86B4 /* HighBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighBottomView.swift; sourceTree = "<group>"; };
-		FE65A01C254CB96700C4E691 /* car.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car.json; sourceTree = "<group>"; };
 		FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle-Decodable.swift"; sourceTree = "<group>"; };
 		FE68AEF52249B7E20055E8B1 /* CarImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarImg.swift; sourceTree = "<group>"; };
-		FE79452F253E3C390000892E /* TestViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewExtensions.swift; sourceTree = "<group>"; };
-		FE794532253E783A0000892E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		FE8EB2C025BA368600185826 /* MainDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDataSource.swift; sourceTree = "<group>"; };
-		FE8EB2D525BA835300185826 /* CollectionViewExtension+Animate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionViewExtension+Animate.swift"; sourceTree = "<group>"; };
-		FE95BF902AB77280004316AC /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
-		FE95BF922AB8CD41004316AC /* NameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameView.swift; sourceTree = "<group>"; };
-		FE95BF942AB8D276004316AC /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
-		FE95BF972AB8F68B004316AC /* BottomMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMainView.swift; sourceTree = "<group>"; };
-		FE95BF992AB92814004316AC /* BottomSheetViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetViewController+Extension.swift"; sourceTree = "<group>"; };
-		FE95BF9F2ABA46FA004316AC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		FE95BFA12ABA4B0A004316AC /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
-		FE95BFA32ABA4BE3004316AC /* MainViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+Extension.swift"; sourceTree = "<group>"; };
-		FEA55CAC2545057600B58138 /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
-		FEA55CAF2545064700B58138 /* MainCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionCell.swift; sourceTree = "<group>"; };
-		FEB9CEBB23274541009A4A0B /* SwiftSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinner.swift; sourceTree = "<group>"; };
 		FEBD037E2DBE95D800B45AE6 /* ExpandedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedView.swift; sourceTree = "<group>"; };
 		FEBD03D62DBED0F500B45AE6 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		FEBD03E02DC0314100B45AE6 /* CameraTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTestView.swift; sourceTree = "<group>"; };
@@ -139,7 +56,6 @@
 		FEBDF53F223F22A10056F464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FEBDF546223F22E10056F464 /* CarArr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarArr.swift; sourceTree = "<group>"; };
 		FEBDF548223F25290056F464 /* CarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarData.swift; sourceTree = "<group>"; };
-		FEBE8C2E2546521200C74D56 /* MainCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellView.swift; sourceTree = "<group>"; };
 		FEC2CBB02DB998F300D16AA3 /* WarningLightCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCamera.swift; sourceTree = "<group>"; };
 		FEC2CBB22DB9990100D16AA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCameraApp.swift; sourceTree = "<group>"; };
@@ -147,10 +63,6 @@
 		FEC2CC0A2DBABABC00D16AA3 /* WarningLightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCell.swift; sourceTree = "<group>"; };
 		FEC2CC9D2DBDA1BB00D16AA3 /* FloatingButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonView.swift; sourceTree = "<group>"; };
 		FEC2CCF02DBDA3D000D16AA3 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
-		FECB3C8423D54C05005E935B /* UserDefaults+Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Key.swift"; sourceTree = "<group>"; };
-		FEF69EE823D5427300EE94C1 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
-		FEF7960A253CC05D008A4FFB /* CollectionChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionChildView.swift; sourceTree = "<group>"; };
-		FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
 		FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarWarningLightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarWarningLightTests.swift; sourceTree = "<group>"; };
 		FEFDF7742781114A00A2B543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -160,6 +72,8 @@
 		FEBD03802DBE975B00B45AE6 /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
 		FEBD047F2DC2D89F00B45AE6 /* Camera */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Camera; sourceTree = "<group>"; };
 		FEBD051F2DC6DA5B00B45AE6 /* Modifiers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Modifiers; sourceTree = "<group>"; };
+		FEBD063C2DCA76C300B45AE6 /* Other */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Other; sourceTree = "<group>"; };
+		FEBD064E2DCAAD0000B45AE6 /* Shapes */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shapes; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,73 +94,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FE311B5C254FA43800D20786 /* Camera */ = {
-			isa = PBXGroup;
-			children = (
-				FE38E44425422B01003730C5 /* CameraChildView.swift */,
-			);
-			path = Camera;
-			sourceTree = "<group>";
-		};
-		FE311B5D254FA44200D20786 /* CollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				FEF7960A253CC05D008A4FFB /* CollectionChildView.swift */,
-				FEA55CAC2545057600B58138 /* CollectionViewExtension.swift */,
-				FE8EB2D525BA835300185826 /* CollectionViewExtension+Animate.swift */,
-				FE29C49F256375DC0047A0A3 /* ImgCollectionViewController.swift */,
-				FE29C4A5256378340047A0A3 /* ImgCollectionExtension.swift */,
-			);
-			path = CollectionView;
-			sourceTree = "<group>";
-		};
-		FE311B5E254FA44E00D20786 /* Review */ = {
-			isa = PBXGroup;
-			children = (
-				FEF69EE823D5427300EE94C1 /* AppStoreReviewManager.swift */,
-				FECB3C8423D54C05005E935B /* UserDefaults+Key.swift */,
-			);
-			path = Review;
-			sourceTree = "<group>";
-		};
-		FE311B5F254FA46500D20786 /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				FE4659732534FA2500D1A795 /* Helper.swift */,
-				FE794532253E783A0000892E /* Extensions.swift */,
-			);
-			path = Helper;
-			sourceTree = "<group>";
-		};
-		FE311B60254FA51200D20786 /* CollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				FE1DBD4F25632E6A003B7684 /* ImageCollectionViewController.swift */,
-				FE29C488256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift */,
-			);
-			path = CollectionView;
-			sourceTree = "<group>";
-		};
-		FE311B63254FA57900D20786 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				FE55F2DC2547762F004330BD /* InfoDataCell.swift */,
-				FEA55CAF2545064700B58138 /* MainCollectionCell.swift */,
-				FE014E75254B6D51000D32F6 /* SelfConfiguringCell.swift */,
-				FE29C490256339B60047A0A3 /* ImageCollectionCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		FE311B64254FA59800D20786 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				FE55F2D925477622004330BD /* InfoDataView.swift */,
-				FEBE8C2E2546521200C74D56 /* MainCellView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		FE311B65254FA64900D20786 /* CarData */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,176 +102,9 @@
 				FEBDF548223F25290056F464 /* CarData.swift */,
 				FE68AEF52249B7E20055E8B1 /* CarImg.swift */,
 				FE60B73A2AAFB7FA006F86B4 /* carLights.json */,
+				FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */,
 			);
 			path = CarData;
-			sourceTree = "<group>";
-		};
-		FE311B66254FA65A00D20786 /* InfoData */ = {
-			isa = PBXGroup;
-			children = (
-				FE014E72254B6CA3000D32F6 /* InfoData.swift */,
-				FE65A01C254CB96700C4E691 /* car.json */,
-			);
-			path = InfoData;
-			sourceTree = "<group>";
-		};
-		FE41CBA225BA0DD200F7AB17 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				FE95BF9B2ABA465E004316AC /* MainView */,
-				FE60B7402AAFB96F006F86B4 /* BottomSheet */,
-				FE79452F253E3C390000892E /* TestViewExtensions.swift */,
-				FE4112692558AA47000E352E /* DataViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		FE41CBA425BA0E1100F7AB17 /* DetailViews */ = {
-			isa = PBXGroup;
-			children = (
-				FE41CBA525BA0E9000F7AB17 /* DataDetailView.swift */,
-			);
-			path = DetailViews;
-			sourceTree = "<group>";
-		};
-		FE496DB0225EC89D00FCD1B0 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				FEC05AAE23B30026005F3096 /* Child */,
-				FE41CBA225BA0DD200F7AB17 /* ViewController */,
-				FE311B60254FA51200D20786 /* CollectionView */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		FE514ACA26360A75006C331A /* Permission */ = {
-			isa = PBXGroup;
-			children = (
-				FE514ACB26360A93006C331A /* RequestPermission.swift */,
-			);
-			path = Permission;
-			sourceTree = "<group>";
-		};
-		FE60B7392AAFB423006F86B4 /* Remove */ = {
-			isa = PBXGroup;
-			children = (
-				FE8EB2BF25BA364F00185826 /* XXObjects */,
-				FE514ACA26360A75006C331A /* Permission */,
-			);
-			path = Remove;
-			sourceTree = "<group>";
-		};
-		FE60B7402AAFB96F006F86B4 /* BottomSheet */ = {
-			isa = PBXGroup;
-			children = (
-				FE60B7452AAFB9AA006F86B4 /* View */,
-				FE60B7422AAFB97E006F86B4 /* ViewModel */,
-				FE60B7412AAFB977006F86B4 /* ViewController */,
-				FE60B74E2AAFC3CF006F86B4 /* Extension */,
-			);
-			path = BottomSheet;
-			sourceTree = "<group>";
-		};
-		FE60B7412AAFB977006F86B4 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				FE95BF902AB77280004316AC /* BottomSheetViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		FE60B7422AAFB97E006F86B4 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				FE60B7432AAFB995006F86B4 /* BottomSheetViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		FE60B7452AAFB9AA006F86B4 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				FE60B7462AAFB9C8006F86B4 /* LowBottomView.swift */,
-				FE60B7482AAFBD27006F86B4 /* HighBottomView.swift */,
-				FE95BF972AB8F68B004316AC /* BottomMainView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		FE60B74E2AAFC3CF006F86B4 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				FE95BF992AB92814004316AC /* BottomSheetViewController+Extension.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		FE63C2AD23A9C2C3002810D1 /* Floating Action Button */ = {
-			isa = PBXGroup;
-			children = (
-				FE38214423A58EFE00F91DCE /* FloatingButton.swift */,
-				FE38214623A5904400F91DCE /* FloatingButtonItem.swift */,
-			);
-			path = "Floating Action Button";
-			sourceTree = "<group>";
-		};
-		FE7ABD04225D431D0061E30A /* View */ = {
-			isa = PBXGroup;
-			children = (
-				FE26F0D6253F80E600909DE4 /* LargeLbl.swift */,
-				FE60B73C2AAFB912006F86B4 /* UIButton+Combine.swift */,
-				FE60B73E2AAFB940006F86B4 /* PaddingLabel.swift */,
-				FE95BF922AB8CD41004316AC /* NameView.swift */,
-				FE95BF942AB8D276004316AC /* TextView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		FE8EB2BF25BA364F00185826 /* XXObjects */ = {
-			isa = PBXGroup;
-			children = (
-				FE41CBA425BA0E1100F7AB17 /* DetailViews */,
-				FE311B64254FA59800D20786 /* Views */,
-				FE311B63254FA57900D20786 /* Cells */,
-				FE330303253BD69600D14F27 /* InfoBtn.swift */,
-				FE8EB2C025BA368600185826 /* MainDataSource.swift */,
-			);
-			path = XXObjects;
-			sourceTree = "<group>";
-		};
-		FE95BF9B2ABA465E004316AC /* MainView */ = {
-			isa = PBXGroup;
-			children = (
-				FE95BF9E2ABA46E2004316AC /* ViewController */,
-				FE95BF9D2ABA46DE004316AC /* ViewModel */,
-				FE95BF9C2ABA46D6004316AC /* View */,
-				FE95BFA32ABA4BE3004316AC /* MainViewController+Extension.swift */,
-			);
-			path = MainView;
-			sourceTree = "<group>";
-		};
-		FE95BF9C2ABA46D6004316AC /* View */ = {
-			isa = PBXGroup;
-			children = (
-				FE95BF9F2ABA46FA004316AC /* MainView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		FE95BF9D2ABA46DE004316AC /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				FE95BFA12ABA4B0A004316AC /* MainViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		FE95BF9E2ABA46E2004316AC /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				FEF7960D253CC7DC008A4FFB /* TestingViewController.swift */,
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		FEBDF527223F229D0056F464 = {
@@ -450,10 +130,6 @@
 			children = (
 				FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */,
 				FEC2CBB42DB9993000D16AA3 /* SwiftUI */,
-				FE60B7392AAFB423006F86B4 /* Remove */,
-				FED06A3F23D7AEAA00BBB718 /* Model */,
-				FE7ABD04225D431D0061E30A /* View */,
-				FE496DB0225EC89D00FCD1B0 /* ViewControllers */,
 				FEBDF53A223F22A10056F464 /* Assets.xcassets */,
 				FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */,
 				FEBDF53F223F22A10056F464 /* Info.plist */,
@@ -462,27 +138,11 @@
 			path = CarWarningLight;
 			sourceTree = "<group>";
 		};
-		FEBDF545223F22B40056F464 /* Car Data */ = {
-			isa = PBXGroup;
-			children = (
-				FE311B66254FA65A00D20786 /* InfoData */,
-				FE311B65254FA64900D20786 /* CarData */,
-			);
-			path = "Car Data";
-			sourceTree = "<group>";
-		};
-		FEC05AAE23B30026005F3096 /* Child */ = {
-			isa = PBXGroup;
-			children = (
-				FE311B5D254FA44200D20786 /* CollectionView */,
-				FE311B5C254FA43800D20786 /* Camera */,
-			);
-			path = Child;
-			sourceTree = "<group>";
-		};
 		FEC2CBB42DB9993000D16AA3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				FEBD064E2DCAAD0000B45AE6 /* Shapes */,
+				FEBD063C2DCA76C300B45AE6 /* Other */,
 				FEBD051F2DC6DA5B00B45AE6 /* Modifiers */,
 				FEBD047F2DC2D89F00B45AE6 /* Camera */,
 				FEBD03802DBE975B00B45AE6 /* ViewModels */,
@@ -496,21 +156,9 @@
 				FEBD03D62DBED0F500B45AE6 /* ResultsView.swift */,
 				FEBD03E02DC0314100B45AE6 /* CameraTestView.swift */,
 				FEBD048D2DC3FF0E00B45AE6 /* TestView.swift */,
+				FE311B65254FA64900D20786 /* CarData */,
 			);
 			path = SwiftUI;
-			sourceTree = "<group>";
-		};
-		FED06A3F23D7AEAA00BBB718 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				FE63C2AD23A9C2C3002810D1 /* Floating Action Button */,
-				FEBDF545223F22B40056F464 /* Car Data */,
-				FE311B5F254FA46500D20786 /* Helper */,
-				FE311B5E254FA44E00D20786 /* Review */,
-				FEB9CEBB23274541009A4A0B /* SwiftSpinner.swift */,
-				FE65A01F254CBA0700C4E691 /* Bundle-Decodable.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		FEFDF7712781114A00A2B543 /* CarWarningLightTests */ = {
@@ -541,6 +189,8 @@
 				FEBD03802DBE975B00B45AE6 /* ViewModels */,
 				FEBD047F2DC2D89F00B45AE6 /* Camera */,
 				FEBD051F2DC6DA5B00B45AE6 /* Modifiers */,
+				FEBD063C2DCA76C300B45AE6 /* Other */,
+				FEBD064E2DCAAD0000B45AE6 /* Shapes */,
 			);
 			name = CarWarningLight;
 			packageProductDependencies = (
@@ -614,7 +264,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */,
-				FE65A01D254CB96700C4E691 /* car.json in Resources */,
 				FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */,
 				FE60B73B2AAFB7FA006F86B4 /* carLights.json in Resources */,
 			);
@@ -634,66 +283,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE1DBD5025632E6A003B7684 /* ImageCollectionViewController.swift in Sources */,
-				FE55F2DD2547762F004330BD /* InfoDataCell.swift in Sources */,
-				FE514ACC26360A93006C331A /* RequestPermission.swift in Sources */,
 				FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */,
 				FE15B2F8254E635F00531245 /* TestArr.swift in Sources */,
-				FE95BF912AB77280004316AC /* BottomSheetViewController.swift in Sources */,
-				FE95BFA22ABA4B0A004316AC /* MainViewModel.swift in Sources */,
-				FE95BF932AB8CD41004316AC /* NameView.swift in Sources */,
 				FEBDF549223F25290056F464 /* CarData.swift in Sources */,
-				FECB3C8523D54C06005E935B /* UserDefaults+Key.swift in Sources */,
-				FE95BF982AB8F68B004316AC /* BottomMainView.swift in Sources */,
-				FE60B7472AAFB9C8006F86B4 /* LowBottomView.swift in Sources */,
 				FE68AEF62249B7E20055E8B1 /* CarImg.swift in Sources */,
 				FEBD03D72DBED0F500B45AE6 /* ResultsView.swift in Sources */,
-				FE95BFA42ABA4BE3004316AC /* MainViewController+Extension.swift in Sources */,
-				FE8EB2C125BA368600185826 /* MainDataSource.swift in Sources */,
-				FE29C489256337670047A0A3 /* ImageCollectionViewExtension+ImageRecog.swift in Sources */,
-				FEA55CB02545064700B58138 /* MainCollectionCell.swift in Sources */,
 				FE65A020254CBA0700C4E691 /* Bundle-Decodable.swift in Sources */,
-				FEB9CEBC23274541009A4A0B /* SwiftSpinner.swift in Sources */,
-				FE29C4A6256378340047A0A3 /* ImgCollectionExtension.swift in Sources */,
-				FE26F0D7253F80E600909DE4 /* LargeLbl.swift in Sources */,
-				FEF7960E253CC7DC008A4FFB /* TestingViewController.swift in Sources */,
 				FEC2CC9E2DBDA1BB00D16AA3 /* FloatingButtonView.swift in Sources */,
-				FE38E44525422B01003730C5 /* CameraChildView.swift in Sources */,
 				FEC2CBB12DB998F300D16AA3 /* WarningLightCamera.swift in Sources */,
 				FEBDF547223F22E10056F464 /* CarArr.swift in Sources */,
-				FE29C491256339B60047A0A3 /* ImageCollectionCell.swift in Sources */,
 				FEC2CCF12DBDA3D000D16AA3 /* Home.swift in Sources */,
-				FEBE8C2F2546521200C74D56 /* MainCellView.swift in Sources */,
-				FE60B7442AAFB995006F86B4 /* BottomSheetViewModel.swift in Sources */,
-				FE41126A2558AA47000E352E /* DataViewController.swift in Sources */,
 				FEC2CC0B2DBABABC00D16AA3 /* WarningLightCell.swift in Sources */,
-				FE60B73D2AAFB912006F86B4 /* UIButton+Combine.swift in Sources */,
-				FEF7960B253CC05D008A4FFB /* CollectionChildView.swift in Sources */,
-				FE38214723A5904400F91DCE /* FloatingButtonItem.swift in Sources */,
-				FE8EB2D625BA835300185826 /* CollectionViewExtension+Animate.swift in Sources */,
-				FE60B7492AAFBD27006F86B4 /* HighBottomView.swift in Sources */,
 				FEBD048E2DC3FF0E00B45AE6 /* TestView.swift in Sources */,
-				FE4659742534FA2500D1A795 /* Helper.swift in Sources */,
-				FE794533253E783A0000892E /* Extensions.swift in Sources */,
-				FE014E73254B6CA3000D32F6 /* InfoData.swift in Sources */,
-				FE95BF9A2AB92814004316AC /* BottomSheetViewController+Extension.swift in Sources */,
 				FEC2CBB82DB99A9600D16AA3 /* WarningLightView.swift in Sources */,
-				FE95BFA02ABA46FA004316AC /* MainView.swift in Sources */,
-				FE41CBA625BA0E9000F7AB17 /* DataDetailView.swift in Sources */,
 				FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */,
 				FEBD03E12DC0314100B45AE6 /* CameraTestView.swift in Sources */,
-				FE330304253BD69600D14F27 /* InfoBtn.swift in Sources */,
-				FEF69EE923D5427300EE94C1 /* AppStoreReviewManager.swift in Sources */,
-				FE014E76254B6D51000D32F6 /* SelfConfiguringCell.swift in Sources */,
 				FEBD037F2DBE95D800B45AE6 /* ExpandedView.swift in Sources */,
-				FE38214523A58EFE00F91DCE /* FloatingButton.swift in Sources */,
-				FEA55CAD2545057600B58138 /* CollectionViewExtension.swift in Sources */,
 				FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */,
-				FE60B73F2AAFB940006F86B4 /* PaddingLabel.swift in Sources */,
-				FE95BF952AB8D276004316AC /* TextView.swift in Sources */,
-				FE55F2DA25477622004330BD /* InfoDataView.swift in Sources */,
-				FE29C4A0256375DC0047A0A3 /* ImgCollectionViewController.swift in Sources */,
-				FE794530253E3C390000892E /* TestViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
