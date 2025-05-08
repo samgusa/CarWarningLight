@@ -11,7 +11,6 @@ import UIKit
 import SwiftUI
 
 //The class that has all the images in it
-
 enum CarWarning: String, CaseIterable {
     case adaptiveOne = "Adaptive Front Lighting System"
     case adaptiveTwo = "Adaptive Light System"

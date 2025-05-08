@@ -37,7 +37,6 @@ struct CameraView: View {
     @StateObject private var cameraManager = CameraManager()
     @State private var showPermissionAlert = false
     @State private var navigateToPreview = false
-    var dismissToHome: () -> Void
     @State private var showPhotoPreview: Bool = false
 
     let focusSquareSize: CGFloat = 150
@@ -46,7 +45,6 @@ struct CameraView: View {
         NavigationStack {
             ZStack {
                 backgroundView
-                orientationLockView
                 cameraPreview
                 if !cameraManager.isSessionRunning { loadingOverlay }
                 CameraFocusShape(size: focusSquareSize, lineWidth: 4, color: .white, gapSize: 100)
@@ -62,12 +60,6 @@ struct CameraView: View {
                     PhotoPreviewView(capturedPhoto: image)
                 }
             })
-            .onAppear {
-                // Forcing the rotation to portrait
-                DispatchQueue.main.async {
-                    AppDelegate.orientationLock = UIInterfaceOrientationMask.portrait
-                }
-            }
             .onAppear {
                 checkPermissionAndStart()
             }
@@ -93,28 +85,11 @@ struct CameraView: View {
             Color.black.ignoresSafeArea()
         }
 
-    private var orientationLockView: some View {
-        OrientationLocker(orientation: .portrait)
-            .onDisappear { unLockOrientation() }
-    }
-
     private var cameraPreview: some View {
         CameraPreview(cameraManager: cameraManager) { layer in
             cameraManager.setPreviewLayer(layer)
         }
         .opacity(cameraManager.isSessionRunning ? 1 : 0)
-    }
-
-    private func unLockOrientation() {
-        // Unlock orientation when CameraView disappears (allow all)
-        AppDelegate.orientationLock = .allButUpsideDown
-        if #available(iOS 16.0, *) {
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .allButUpsideDown))
-            }
-        } else {
-            UIViewController.attemptRotationToDeviceOrientation()
-        }
     }
 
     private var controls: some View {
@@ -135,7 +110,6 @@ struct CameraView: View {
                 }
             }
         }
-
 
     private func checkPermissionAndStart() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -164,6 +138,6 @@ struct CameraView: View {
 }
 
 #Preview {
-    CameraView(dismissToHome: {})
+    CameraView()
         .environmentObject(UIStateManager())
 }

@@ -9,12 +9,10 @@
 import SwiftUI
 
 struct ResultsView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel = ResultsViewModel()
     let detectedLights: [CarSymbol]
     @Namespace private var animation
-    @State private var selectedIndex: Int? = nil
-    @State private var isShowingLarge: Bool = false
-    let bigImageId: Int = -1
 
     var body: some View {
         ZStack {
@@ -25,9 +23,9 @@ struct ResultsView: View {
                         ForEach(Array(detectedLights.enumerated()), id: \.offset) { index, carLight in
                             cardView(carSymbol: carLight, height: cardHeight, index: index)
                                 .onTapGesture {
-                                    selectedIndex = index
+                                    viewModel.selectedIndex = index
                                     withAnimation(.easeInOut) {
-                                        isShowingLarge = true
+                                        viewModel.isShowingLarge = true
                                     }
                                 }
                         }
@@ -36,19 +34,26 @@ struct ResultsView: View {
                     .padding(.horizontal)
                     .padding(.bottom, 80)
                 }
-                .opacity(isShowingLarge ? 0 : 1)
+                .opacity(viewModel.isShowingLarge ? 0 : 1)
+            }
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
             }
 
-            if let index = selectedIndex {
+            if let index = viewModel.selectedIndex {
                 ExpandedView(
                     carSymbol: detectedLights[index],
                     namespace: animation,
-                    isShowingLarge: $isShowingLarge,
-                    bigImageId: bigImageId,
-                    index: $selectedIndex
+                    isShowingLarge: $viewModel.isShowingLarge,
+                    bigImageId: viewModel.bigImageId,
+                    index: $viewModel.selectedIndex
                 )
                 .toolbar(.hidden)
-                .opacity(isShowingLarge ? 1 : 0)
+                .opacity(viewModel.isShowingLarge ? 1 : 0)
             }
         }
     }

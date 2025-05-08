@@ -10,23 +10,9 @@ import Foundation
 
 class ResultsViewModel: ObservableObject {
 
-    @Published var isPressed: Bool = false
-    @Published var symbolPressed: CarSymbol? = nil
-    @Published var showCameraOptions: Bool = false
+    @Published var selectedIndex: Int? = nil
+    @Published var isShowingLarge: Bool = false
+    let bigImageId: Int = -1
 
-    func selectSymbol(_ carSymbol: CarSymbol) {
-        isPressed = true
-        symbolPressed = carSymbol
-    }
-
-    func onRetakePhoto() {
-        print("Photo")
-    }
-    func onChooseFromLibrary() {
-        print("Library")
-    }
-    func onDone() {
-        print("Done")
-    }
 
 }

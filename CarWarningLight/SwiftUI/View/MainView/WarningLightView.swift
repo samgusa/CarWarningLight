@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct WarningLightView: View {
-    @StateObject var viewModel = MainViewModel2()
+    @StateObject var viewModel = MainViewModel()
 
     let desiredCellAspectRatio: CGFloat = 1.5
     let spacing: CGFloat = 16
@@ -17,12 +17,8 @@ struct WarningLightView: View {
 
     @Namespace var namespace
 
-    let bigImageId: Int = -1
-    @State private var selectedIndex: Int? = nil
-    @State private var isShowingLarge = false
-
     var backgroundColor: Color {
-        isShowingLarge ? Color(.systemBackground) : Color(.systemGray4)
+        viewModel.isShowingLarge ? Color(.systemBackground) : Color(.systemGray4)
     }
 
     var body: some View {
@@ -50,33 +46,33 @@ struct WarningLightView: View {
                                             carData: carLight,
                                             index: index,
                                             namespace: namespace,
-                                            isShowingLarge: $isShowingLarge)
+                                            isShowingLarge: $viewModel.isShowingLarge)
                                     }
                                     .clipped()
                                     .contentShape(Rectangle())
                                 .onTapGesture {
-                                    selectedIndex = index
+                                    viewModel.selectedIndex = index
                                     withAnimation(.easeInOut(duration: 0.5)) {
-                                        isShowingLarge = true
+                                        viewModel.isShowingLarge = true
                                     }
                                 }
                                 .frame(height: cellHeight)
                             }
                         }
                     }
-                    .opacity(isShowingLarge ? 0 : 1)
+                    .opacity(viewModel.isShowingLarge ? 0 : 1)
                     .background(backgroundColor)
                 }
 
-                if let index = selectedIndex {
+                if let index = viewModel.selectedIndex {
                     ExpandedView(
                         carSymbol: viewModel.bundleLight[index],
                         namespace: namespace,
-                        isShowingLarge: $isShowingLarge,
-                        bigImageId: bigImageId,
-                        index: $selectedIndex
+                        isShowingLarge: $viewModel.isShowingLarge,
+                        bigImageId: viewModel.bigImageId,
+                        index: $viewModel.selectedIndex
                     )
-                    .opacity(isShowingLarge ? 1 : 0)
+                    .opacity(viewModel.isShowingLarge ? 1 : 0)
                 }
             }
         }

@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ExpandedView: View {
-    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var uiState: UIStateManager
 
     let carSymbol: CarSymbol
@@ -19,13 +18,9 @@ struct ExpandedView: View {
     @Binding var index: Int?
 
     @StateObject var viewModel = ExpandedViewModel()
-    @State private var textOffset: CGFloat = -50
 
     var body: some View {
         GeometryReader { geometry in
-            // Determine if we're in landscape mode (width > height)
-            let isLandscape = geometry.size.width > geometry.size.height
-
             ScrollView {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
@@ -52,110 +47,68 @@ struct ExpandedView: View {
                             }
                         }
                         .padding([.top, .trailing])
-                        .padding(.top, isLandscape ? 10 : 50)
+                        .padding(.top, 50)
 
-                        if isLandscape {
-                            // Landscape layout
-                            HStack(alignment: .top, spacing: 20) {
-                                // Left side: Image and title
-                                VStack {
-                                    Image(carSymbol.imageName)
-                                        .resizable()
-                                        .renderingMode(.template)
-                                        .foregroundStyle(carSymbol.symbolType.color)
-                                        .scaledToFit()
-                                        .frame(width: geometry.size.width / 3, height: geometry.size.width / 3)
-                                        .matchedGeometryEffect(
-                                            id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
-                                            in: namespace,
-                                            isSource: false)
+                        VStack(spacing: 10) {
+                            Image(carSymbol.imageName)
+                                .resizable()
+                                .renderingMode(.template)
+                                .matchedGeometryEffect(
+                                    id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
+                                    in: namespace,
+                                    isSource: false)
+                                .foregroundStyle(carSymbol.symbolType.color)
+                                .scaledToFit()
+                                .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
 
-                                    Text(carSymbol.name)
-                                        .font(.title)
-                                        .foregroundColor(.primary)
-                                        .bold()
-                                        .opacity(viewModel.showText ? 1 : 0)
-                                        .offset(y: viewModel.showText ? 0 : textOffset)
-                                        .animation(.easeOut(duration: 0.4), value: viewModel.showText)
-                                        .multilineTextAlignment(.center)
-                                }
-                                .frame(width: geometry.size.width / 3)
+                            Text(carSymbol.name)
+                                .padding(.horizontal)
+                                .font(.largeTitle)
+                                .foregroundColor(.primary)
+                                .bold()
+                                .opacity(viewModel.showText ? 1 : 0)
+                                .offset(y: viewModel.showText ? 0 : viewModel.textOffset)
+                                .animation(.easeOut(duration: 0.4), value: viewModel.showText)
+                                .multilineTextAlignment(.center)
+                                .id("titleAnchor")
 
-                                // Right side: Information cards
-                                VStack(spacing: 10) {
-                                    cardView(title: "Description", description: carSymbol.description)
-                                        .opacity(viewModel.descriptionOpacity ? 1 : 0)
-                                        .offset(y: viewModel.descriptionOpacity ? 0 : textOffset)
-                                        .animation(.easeOut(duration: 0.4).delay(0.1), value: viewModel.descriptionOpacity)
-
-                                    cardView(title: "How to Fix", description: carSymbol.fixDescription)
-                                        .opacity(viewModel.fixDescriptionOpacity ? 1 : 0)
-                                        .offset(y: viewModel.fixDescriptionOpacity ? 0 : textOffset)
-                                        .animation(.easeOut(duration: 0.4).delay(0.2), value: viewModel.fixDescriptionOpacity)
-
-                                    cardView(title: "Safe to drive?", description: "\(carSymbol.drivable.title)! \(carSymbol.drivable.message)")
-                                        .opacity(viewModel.drivableOpacity ? 1 : 0)
-                                        .offset(y: viewModel.drivableOpacity ? 0 : textOffset)
-                                        .animation(.easeOut(duration: 0.4).delay(0.3), value: viewModel.drivableOpacity)
-                                }
-                                .frame(width: geometry.size.width / 1.7)
-                            }
-                            .padding([.horizontal, .bottom])
-                        } else {
-                            // Portrait layout (original)
-                            VStack(spacing: 10) {
-                                Image(carSymbol.imageName)
-                                    .resizable()
-                                    .renderingMode(.template)
-                                    .matchedGeometryEffect(
-                                        id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
-                                        in: namespace,
-                                        isSource: false)
-                                    .foregroundStyle(carSymbol.symbolType.color)
-                                    .scaledToFit()
-                                    .frame(width: geometry.size.width / 1.5, height: geometry.size.width / 1.5)
-
-                                Text(carSymbol.name)
-                                    .padding(.horizontal)
-                                    .font(.largeTitle)
-                                    .foregroundColor(.primary)
-                                    .bold()
-                                    .opacity(viewModel.showText ? 1 : 0)
-                                    .offset(y: viewModel.showText ? 0 : textOffset)
-                                    .animation(.easeOut(duration: 0.4), value: viewModel.showText)
-                                    .multilineTextAlignment(.center)
-
+                            // First card
+                            if viewModel.showContent {
                                 cardView(title: "Description", description: carSymbol.description)
-                                    .padding()
-                                    .opacity(viewModel.descriptionOpacity ? 1 : 0)
-                                    .offset(y: viewModel.descriptionOpacity ? 0 : textOffset)
-                                    .animation(.easeOut(duration: 0.4).delay(0.1), value: viewModel.descriptionOpacity)
+                                    .padding(.horizontal)
+                                    .offset(y: viewModel.descriptionOffset)
+                                    .opacity(viewModel.descriptionOpacity)
+                                    .id("card1")
 
+                                // Second card
                                 cardView(title: "How to Fix", description: carSymbol.fixDescription)
-                                    .padding()
-                                    .opacity(viewModel.fixDescriptionOpacity ? 1 : 0)
-                                    .offset(y: viewModel.fixDescriptionOpacity ? 0 : textOffset)
-                                    .animation(.easeOut(duration: 0.4).delay(0.2), value: viewModel.fixDescriptionOpacity)
+                                    .padding(.horizontal)
+                                    .offset(y: viewModel.fixOffset)
+                                    .opacity(viewModel.fixOpacity)
+                                    .id("card2")
 
+                                // Third card
                                 cardView(title: "Safe to drive?", description: "\(carSymbol.drivable.title)! \(carSymbol.drivable.message)")
-                                    .padding()
-                                    .opacity(viewModel.drivableOpacity ? 1 : 0)
-                                    .offset(y: viewModel.drivableOpacity ? 0 : textOffset)
-                                    .animation(.easeOut(duration: 0.4).delay(0.3), value: viewModel.drivableOpacity)
+                                    .padding(.horizontal)
+                                    .offset(y: viewModel.driveOffset)
+                                    .opacity(viewModel.driveOpacity)
+                                    .id("card3")
                             }
-                            .padding(.bottom)
                         }
+                        .padding(.bottom)
                     }
                 }
             }
             .onAppear {
                 uiState.detailViewAppeared(id: carSymbol.imageName)
-                withAnimation(.easeOut(duration: 0.4).delay(0.6)) {
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     viewModel.showText = true
-                }
-                withAnimation(.easeOut(duration: 0.4).delay(0.7)) {
-                    viewModel.showText = true
-                    viewModel.triggerAnimations()
+
+                    // Start the cascade animation sequence
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        viewModel.startCardAnimations()
+                    }
                 }
             }
             .onDisappear {
@@ -163,7 +116,6 @@ struct ExpandedView: View {
             }
         }
         .ignoresSafeArea()
-
     }
 
     @ViewBuilder

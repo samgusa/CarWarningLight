@@ -18,8 +18,6 @@ struct PhotoPreviewView: View {
     @StateObject private var viewModel = ImageDetectionViewModel()
     let capturedPhoto: CapturedPhoto?
 
-    @State private var showResults: Bool = false
-
     // MARK: - Body
     var body: some View {
         ZStack {
@@ -45,7 +43,7 @@ struct PhotoPreviewView: View {
                                 return .failed("No Symbols detected in the image")
                             } else {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                    showResults = true
+                                    viewModel.showResults = true
                                 }
                                 return .success
                             }
@@ -61,7 +59,7 @@ struct PhotoPreviewView: View {
                     .font(.headline)
             }
         }
-        .navigationDestination(isPresented: $showResults) {
+        .navigationDestination(isPresented: $viewModel.showResults) {
             ResultsView(detectedLights: viewModel.imageRecogResults)
         }
     }

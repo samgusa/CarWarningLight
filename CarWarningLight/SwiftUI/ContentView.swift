@@ -50,9 +50,7 @@ struct ContentView: View {
                 }
                 .animation(.spring(response: 0.1, dampingFraction: 0.7), value: uiState.shouldShowFAB)
                 .fullScreenCover(isPresented: $showCamera) {
-                    CameraView {
-                        showCamera = false
-                    }
+                    CameraView()
                 }
                 .sheet(isPresented: $showImagePicker) {
                     ImagePicker(image: $inputImage)

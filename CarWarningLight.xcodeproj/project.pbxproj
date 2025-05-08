@@ -10,7 +10,6 @@
 		FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */; };
 		FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53A223F22A10056F464 /* Assets.xcassets */; };
 		FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */; };
-		FEC2CBB12DB998F300D16AA3 /* WarningLightCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB02DB998F300D16AA3 /* WarningLightCamera.swift */; };
 		FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB22DB9990100D16AA3 /* ContentView.swift */; };
 		FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */; };
 		FEFDF7732781114A00A2B543 /* CarWarningLightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */; };
@@ -32,7 +31,6 @@
 		FEBDF53A223F22A10056F464 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEBDF53D223F22A10056F464 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FEBDF53F223F22A10056F464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FEC2CBB02DB998F300D16AA3 /* WarningLightCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCamera.swift; sourceTree = "<group>"; };
 		FEC2CBB22DB9990100D16AA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCameraApp.swift; sourceTree = "<group>"; };
 		FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarWarningLightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,7 +103,6 @@
 				FEBD064E2DCAAD0000B45AE6 /* Shapes */,
 				FEBD051F2DC6DA5B00B45AE6 /* Helper */,
 				FEBD03802DBE975B00B45AE6 /* ViewModels */,
-				FEC2CBB02DB998F300D16AA3 /* WarningLightCamera.swift */,
 				FEC2CBB22DB9990100D16AA3 /* ContentView.swift */,
 			);
 			path = SwiftUI;
@@ -234,7 +231,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */,
-				FEC2CBB12DB998F300D16AA3 /* WarningLightCamera.swift in Sources */,
 				FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */,
 				FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */,
 			);

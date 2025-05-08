@@ -10,35 +10,6 @@ import Foundation
 import UIKit
 import SwiftUI
 
-//Class for the collectionview information
-
-struct CarArr {
-    //name, image, description, symbol type, openBool, fix description, drivable
-    
-    var name: String
-    var image: UIImage
-    var description: String
-    var symbolType: String
-    var openBool: Bool
-    var fixDescr: String
-    var drivable: String
-
-}
-
-struct CarDatum: Codable {
-    let id: Int
-    let name, image, carDatumDescription: String
-    let symbolType: SymbolType
-    let fixDescr: String
-    let drivable: Drivable
-
-    enum CodingKeys: String, CodingKey {
-        case id, name, image
-        case carDatumDescription = "description"
-        case symbolType, fixDescr, drivable
-    }
-}
-
 enum Drivable: String, Codable {
     case yes, no, uncertain
 
@@ -69,8 +40,6 @@ enum Drivable: String, Codable {
     }
 }
 
-
-
 enum SymbolType: String, Codable {
     case advisory, info, warning
 
@@ -82,10 +51,6 @@ enum SymbolType: String, Codable {
         }
     }
 }
-
-
-
-typealias CarData = [CarDatum]
 
 struct CarSymbol: Identifiable, Codable, Hashable {
     let id: Int

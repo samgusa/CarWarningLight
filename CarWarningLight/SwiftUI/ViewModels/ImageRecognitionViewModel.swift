@@ -16,6 +16,8 @@ class ImageDetectionViewModel: ObservableObject {
 
     private let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
 
+    @Published var showResults: Bool = false
+
     func detect(image: CIImage) {
         let url = MainCarImg4.urlOfModelInThisBundle
 
