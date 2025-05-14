@@ -14,28 +14,50 @@ struct CameraFocusShape: View {
     let lineWidth: CGFloat
     let color: Color
     let gapSize: CGFloat
+    let cornerRadius: CGFloat
 
     // MARK: - Initialization
     init(
         size: CGFloat = 100,
         lineWidth: CGFloat = 4,
         color: Color = .white,
-        gapSize: CGFloat = 20
+        gapSize: CGFloat = 20,
+        cornerRadius: CGFloat = 0
     ) {
         self.size = size
         self.lineWidth = lineWidth
         self.color = color
         self.gapSize = gapSize
+        self.cornerRadius = cornerRadius
     }
 
     // MARK: - Body
     var body: some View {
         ZStack {
-            // Each edge component (top, right, bottom, left)
-            createEdge(isHorizontal: true, position: .top)
-            createEdge(isHorizontal: false, position: .right)
-            createEdge(isHorizontal: true, position: .bottom)
-            createEdge(isHorizontal: false, position: .left)
+            // Top Left
+            EdgeCorner(cornerRadius: cornerRadius, lineWidth: lineWidth)
+                .frame(width: cornerLength, height: cornerLength)
+                .position(x: cornerRadius, y: cornerRadius)
+
+            // Top Right
+            EdgeCorner(cornerRadius: cornerRadius, lineWidth: lineWidth)
+                .rotationEffect(Angle(degrees: 90))
+                .frame(width: cornerLength, height: cornerLength)
+                .position(x: size - cornerRadius, y: cornerRadius)
+
+
+            // Bottom Right
+            EdgeCorner(cornerRadius: cornerRadius, lineWidth: lineWidth)
+                .rotationEffect(Angle(degrees: 180))
+                .frame(width: cornerLength, height: cornerLength)
+                .position(x: size - cornerRadius, y: size - cornerRadius)
+
+
+            // Bottom Left
+            EdgeCorner(cornerRadius: cornerRadius, lineWidth: lineWidth)
+                .rotationEffect(Angle(degrees: 270))
+                .frame(width: cornerLength, height: cornerLength)
+                .position(x: cornerRadius, y: size - cornerRadius)
         }
         .frame(width: size, height: size)
         .foregroundColor(color)
@@ -43,56 +65,32 @@ struct CameraFocusShape: View {
 
     // MARK: - Helper Methods
 
-    /// Edge positions enum for semantic positioning
-    private enum EdgePosition {
-        case top, right, bottom, left
+    private var cornerLength: CGFloat {
+        return min((size - gapSize) / 2, size / 3)
     }
+}
 
-    /**
-     * Creates an edge of the focus shape with a gap in the middle
-     * @param isHorizontal - Whether the edge is horizontal (top/bottom) or vertical (left/right)
-     * @param position - The position of the edge
-     */
-    private func createEdge(isHorizontal: Bool, position: EdgePosition) -> some View {
-        Group {
-            if isHorizontal {
-                HStack(spacing: 0) {
-                    Rectangle()
-                        .frame(width: (size - gapSize) / 2, height: lineWidth)
+struct EdgeCorner: View {
+    let cornerRadius: CGFloat
+    let lineWidth: CGFloat
 
-                    Spacer()
-                        .frame(width: gapSize)
+    var body: some View {
+        Path { path in
+            path.move(to: CGPoint(x: 2, y: lineWidth / 2))
 
-                    Rectangle()
-                        .frame(width: (size - gapSize) / 2, height: lineWidth)
-                }
-                .frame(width: size)
-                .position(
-                    x: size/2,
-                    y: position == .top ? lineWidth/2 : size - lineWidth/2
-                )
-            } else {
-                VStack(spacing: 0) {
-                    Rectangle()
-                        .frame(width: lineWidth, height: (size - gapSize) / 2)
+            path.addLine(to: CGPoint(x: cornerRadius + lineWidth, y: lineWidth / 2))
 
-                    Spacer()
-                        .frame(height: gapSize)
-
-                    Rectangle()
-                        .frame(width: lineWidth, height: (size - gapSize) / 2)
-                }
-                .frame(height: size)
-                .position(
-                    x: position == .left ? lineWidth/2 : size - lineWidth/2,
-                    y: size/2
-                )
-            }
+            path.move(to: CGPoint(x: lineWidth / 2, y: 2))
+            path.addLine(to: CGPoint(x: lineWidth / 2, y: cornerRadius + lineWidth))
         }
+        .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
     }
 }
 
 #Preview {
-    ContentView()
-        .environmentObject(UIStateManager())
+    ZStack {
+        Color.black.ignoresSafeArea()
+        CameraFocusShape(size: 150, cornerRadius: 10)
+            .environmentObject(UIStateManager())
+    }
 }

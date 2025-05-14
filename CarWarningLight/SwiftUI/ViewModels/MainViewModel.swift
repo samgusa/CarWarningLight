@@ -10,10 +10,32 @@ import Foundation
 import SwiftUI
 
 class MainViewModel: ObservableObject {
-    let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
+    // All car warning lights loaded from json
+    let allLights: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
+
     @Published  var isShowingLarge: Bool = false
-    @Published  var symbolPressed: CarSymbol = .empty
-    @Published var selectedIndex: Int? = nil
+
+    @Published  var symbolPressed: CarSymbol?
+
+    @Published var selectedSymbol: CarSymbol?
+
+    @Published var selectedIndex: Int? = nil {
+        didSet {
+            if let index = selectedIndex, index >= 0 && index < allLights.count {
+                selectedSymbol = allLights[index]
+            } else {
+                selectedSymbol = nil
+            }
+        }
+    }
+
     let bigImageId: Int = -1
-    
+
+    func clearSelection() {
+        withAnimation {
+            selectedIndex = nil
+            selectedSymbol = nil
+            isShowingLarge = false
+        }
+    }
 }

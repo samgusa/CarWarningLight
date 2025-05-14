@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ContentView: View {
     @EnvironmentObject private var uiState: UIStateManager
@@ -15,9 +16,8 @@ struct ContentView: View {
     @State private var isShowingDetail: Bool = false
     @State private var inputImage: UIImage?
     @State private var showResultsView: Bool = false
+    @State private var pickerItem: PhotosPickerItem?
 
-    @State private var fabOffset: CGFloat = 0
-    @State private var fabOpacity: Double = 1
 
     private let placeholderImage = UIImage(systemName: "photo.fill") ?? UIImage()
 
@@ -31,7 +31,9 @@ struct ContentView: View {
                                 showImagePicker.toggle()
                             }
                             FloatingAction(symbol: "camera.fill") {
-                                showCamera.toggle()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    showCamera.toggle()
+                                }
                             }
                         } label: { isExpanded in
                             Image(systemName: "plus")
@@ -52,14 +54,6 @@ struct ContentView: View {
                 .fullScreenCover(isPresented: $showCamera) {
                     CameraView()
                 }
-                .sheet(isPresented: $showImagePicker) {
-                    ImagePicker(image: $inputImage)
-                        .onDisappear {
-                            withAnimation(.easeOut.delay(0.3)) {
-                                showResultsView = true
-                            }
-                        }
-                }
                 .navigationDestination(isPresented: $showResultsView) {
                     if let selectedImage = inputImage {
                         PhotoPreviewView(capturedPhoto: CapturedPhoto(image: selectedImage))
@@ -67,6 +61,17 @@ struct ContentView: View {
                         PhotoPreviewView(capturedPhoto: CapturedPhoto(image: placeholderImage))
                     }
 
+                }
+                .photosPicker(isPresented: $showImagePicker, selection: $pickerItem, matching: .images)
+                .onChange(of: pickerItem) { oldValue, newValue in
+                    Task {
+                        if let data = try? await pickerItem?.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
+                            inputImage = uiImage
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                showResultsView = true
+                            }
+                        }
+                    }
                 }
         }
 

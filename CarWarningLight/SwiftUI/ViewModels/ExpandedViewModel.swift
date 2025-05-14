@@ -9,45 +9,88 @@
 import Foundation
 import SwiftUI
 
-// Extend the ViewModel to support our cascading animation
-class ExpandedViewModel: ObservableObject {
-    @Published var showText = false
-    @Published var showContent = false
-    @Published var textOffset: CGFloat = -50
+ class ExpandedViewModel: ObservableObject {
+     // Title animation properties
+     @Published var showText = false
+     @Published var titleOpacity: Double = 0
+     @Published var titleOffset: CGFloat = 30
 
-    // Animation properties for each card
-    @Published var descriptionOffset: CGFloat = -60
-    @Published var descriptionOpacity: Double = 0
+     // Card animation properties
+     @Published var card1Opacity: Double = 0
+     @Published var card1Offset: CGFloat = 30
 
-    @Published var fixOffset: CGFloat = -60
-    @Published var fixOpacity: Double = 0
+     @Published var card2Opacity: Double = 0
+     @Published var card2Offset: CGFloat = 30
 
-    @Published var driveOffset: CGFloat = -60
-    @Published var driveOpacity: Double = 0
+     @Published var card3Opacity: Double = 0
+     @Published var card3Offset: CGFloat = 30
 
-    func startCardAnimations() {
-        showContent = true
+     // Animation timers
+     private var animationTimers: [Timer] = []
 
-        // First card animation
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-            descriptionOpacity = 1
-            descriptionOffset = 0
-        }
+     func startAnimations() {
+         // Reset all animation states first
+         resetAnimations()
 
-        // Second card animation with delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-                self.fixOpacity = 1
-                self.fixOffset = 0
-            }
+         // Show title with animation
+         withAnimation(.easeOut(duration: 0.4)) {
+             showText = true
+             titleOpacity = 1
+             titleOffset = 0
+         }
 
-            // Third card animation with delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-                    self.driveOpacity = 1
-                    self.driveOffset = 0
-                }
-            }
-        }
-    }
-}
+         // Stagger card animations with timers
+         let card1Timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] _ in
+             withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
+                 self?.card1Opacity = 1
+                 self?.card1Offset = 0
+             }
+         }
+         animationTimers.append(card1Timer)
+
+         let card2Timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+             withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
+                 self?.card2Opacity = 1
+                 self?.card2Offset = 0
+             }
+         }
+         animationTimers.append(card2Timer)
+
+         let card3Timer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: false) { [weak self] _ in
+             withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
+                 self?.card3Opacity = 1
+                 self?.card3Offset = 0
+             }
+         }
+         animationTimers.append(card3Timer)
+     }
+
+     func resetAnimations() {
+         // Cancel any running animations
+         cancelAnimations()
+
+         // Reset all states to initial values
+         showText = false
+         titleOpacity = 0
+         titleOffset = 30
+
+         card1Opacity = 0
+         card1Offset = 30
+
+         card2Opacity = 0
+         card2Offset = 30
+
+         card3Opacity = 0
+         card3Offset = 30
+     }
+
+     func cancelAnimations() {
+         // Invalidate all timers
+         animationTimers.forEach { $0.invalidate() }
+         animationTimers.removeAll()
+     }
+
+     deinit {
+         cancelAnimations()
+     }
+ }

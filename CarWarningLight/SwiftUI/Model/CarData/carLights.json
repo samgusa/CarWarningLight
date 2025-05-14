@@ -69,7 +69,7 @@
         "description": "This is the Catalytic Converter Overheat sensor warning light. The catalytic converter is an important part of any vehicles engine, so if it is failing, it can lead to reduced engine power and performance. The light could also mean that the component and the engine could be experiencing higher than normal temperatures.",
         "symbolType": "warning", 
         "fixDescr": "Visit a professional mechanic as soon as possible. You can drive if the light just came on, but the faster you get to a mechanic, the better the odds.",
-        "drivable": "yes"
+        "drivable": "uncertain"
     },
     { 
         "id": 9,

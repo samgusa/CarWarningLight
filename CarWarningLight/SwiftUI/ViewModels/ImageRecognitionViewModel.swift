@@ -9,59 +9,15 @@
 import SwiftUI
 import Vision
 import CoreML
+import OSLog
 
 class ImageDetectionViewModel: ObservableObject {
 
     @Published var imageRecogResults: CarSymbols = []
-
-    private let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
-
     @Published var showResults: Bool = false
 
-    func detect(image: CIImage) {
-        let url = MainCarImg4.urlOfModelInThisBundle
-
-        guard let model1 = try? MainCarImg4(contentsOf: url, configuration: MLModelConfiguration()),
-              let model2 = try? VNCoreMLModel(for: model1.model) else {
-            print("Failed to load model")
-            return
-        }
-
-        let request = VNCoreMLRequest(model: model2) { request, error in
-            if let error = error {
-                print("Request error: \(error.localizedDescription)")
-                return
-            }
-
-            guard let results = request.results as? [VNClassificationObservation], !results.isEmpty else {
-                print("No results")
-                return
-            }
-
-            let topResults = results.prefix(10)
-            let detectedNames = topResults.map { $0.identifier }
-
-            for i in detectedNames {
-                for car in self.bundleLight {
-                    if i == car.name {
-                        DispatchQueue.main.async {
-                            self.imageRecogResults.append(car)
-                        }
-                    }
-                }
-            }
-        }
-
-        let handler = VNImageRequestHandler(ciImage: image)
-
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                try handler.perform([request])
-            } catch {
-                print("Failed to perform request: \(error)")
-            }
-        }
-    }
+    private let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
+    private let logger = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "ImageDetection")
 
     func detectAsync(image: CIImage) async {
         // clear previous results
@@ -72,66 +28,56 @@ class ImageDetectionViewModel: ObservableObject {
         return await withCheckedContinuation { continuation in
             let url = MainCarImg4.urlOfModelInThisBundle
 
-            guard let model1 = try? MainCarImg4(contentsOf: url, configuration: MLModelConfiguration()),
-                  let model2 = try? VNCoreMLModel(for: model1.model) else {
-                print("Failed to load model")
-                continuation.resume()
-                return
-            }
+            Task.detached(priority: .userInitiated) {
+                do {
+                    let model1 = try MainCarImg4(contentsOf: url, configuration: MLModelConfiguration())
+                    let model2 = try VNCoreMLModel(for: model1.model)
 
-            let request = VNCoreMLRequest(model: model2) { request, error in
-                if let error = error {
-                    print("Request Error: \(error.localizedDescription)")
-                    continuation.resume()
-                    return
-                }
+                    let request = VNCoreMLRequest(model: model2) { [weak self] request, error in
+                        guard let self = self else {
+                            continuation.resume()
+                            return
+                        }
 
-                guard let results = request.results as? [VNClassificationObservation], !results.isEmpty else {
-                    print("No results")
-                    continuation.resume()
-                    return
-                }
+                        if let error = error {
+                            self.logger.error("Request error: \(error.localizedDescription)")
+                            continuation.resume()
+                            return
+                        }
 
-                let topResults = results.prefix(10)
-                let detectedNames = topResults.map { $0.identifier }
-                var detectedCars: CarSymbols = []
+                        // process results
+                        guard let results = request.results as? [VNClassificationObservation], !results.isEmpty else {
+                            continuation.resume()
+                            return
+                        }
 
-                for i in detectedNames {
-                    for car in self.bundleLight {
-                        if i == car.name {
-                            detectedCars.append(car)
+                        // Filter top results with confidence > 0.2
+                        let topResults = results.prefix(10)
+
+                        var foundSymbols: CarSymbols = []
+
+                        for result in topResults {
+                            if let match = self.bundleLight.first(where: { $0.name == result.identifier }) {
+                                foundSymbols.append(match)
+                            }
+                        }
+
+                        Task { @MainActor in
+                            self.imageRecogResults = foundSymbols
+                            continuation.resume()
                         }
                     }
-                }
 
-                Task { @MainActor in
-                    self.imageRecogResults = detectedCars
-                    continuation.resume()
-                }
-            }
+                    request.imageCropAndScaleOption = .centerCrop
+                    let handler = VNImageRequestHandler(ciImage: image)
 
-            let handler = VNImageRequestHandler(ciImage: image)
-
-            DispatchQueue.global(qos: .userInitiated).async {
-                do {
                     try handler.perform([request])
                 } catch {
-                    print("Failed to perform request: \(error)")
-                    Task { @MainActor in
-                        continuation.resume()
-                    }
+                    self.logger.error("Model loading error: \(error.localizedDescription)")
+                    continuation.resume()
                 }
             }
         }
     }
 
 }
-
-
-
-/*
- set this up to work with the new classification style,
- Try and make it look nice,
- set up errors so that can be put in the message.
-
-*/

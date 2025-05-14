@@ -12,10 +12,12 @@ import UIKit
 struct ImagePicker: UIViewControllerRepresentable {
     @Environment(\.dismiss) var dismiss
     @Binding var image: UIImage?
+    var onDismiss: (() -> Void)?
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
+        
         return picker
     }
 
