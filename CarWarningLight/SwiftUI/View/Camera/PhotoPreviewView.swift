@@ -126,16 +126,10 @@ struct PhotoPreviewView: View {
 
 
 #Preview {
-//    ContentView()
         let dummyImage = UIImage(systemName: "photo.fill")!
             let dummyPhoto = CapturedPhoto(image: dummyImage)
 
-            // Provide the dummy photo and a placeholder for the dismiss action
             PhotoPreviewView(capturedPhoto: dummyPhoto)
-                //.previewDisplayName("With Photo")
-
-//    PhotoPreviewView(capturedPhoto: nil, dismissToHome: {})
-//                .previewDisplayName("No Photo")
                 .environmentObject(UIStateManager())
 }
 

@@ -16,6 +16,7 @@ struct CameraFocusShape: View {
     let gapSize: CGFloat
     let cornerRadius: CGFloat
 
+
     // MARK: - Initialization
     init(
         size: CGFloat = 100,
@@ -58,6 +59,8 @@ struct CameraFocusShape: View {
                 .rotationEffect(Angle(degrees: 270))
                 .frame(width: cornerLength, height: cornerLength)
                 .position(x: cornerRadius, y: size - cornerRadius)
+
+            
         }
         .frame(width: size, height: size)
         .foregroundColor(color)

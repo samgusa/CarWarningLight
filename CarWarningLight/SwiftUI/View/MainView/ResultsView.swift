@@ -58,7 +58,7 @@ struct ResultsView: View {
                     cardView(carSymbol: carLight, index: index)
                         .onTapGesture {
                             viewModel.selectedIndex = index
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                                 viewModel.isShowingLarge = true
                             }
                         }

@@ -37,16 +37,14 @@ struct CameraView: View {
     @StateObject private var cameraManager = CameraManager()
     @State private var showPermissionAlert: Bool = false
     @State private var showPhotoPreview: Bool = false
-    @State private var isLoading: Bool = true
 
-    @State private var showLoadingOverlay: Bool = true
+    @State private var isAnimating: Bool = false
 
     private let focusSquareSize: CGFloat = 150
 
     var body: some View {
         NavigationStack {
             ZStack {
-
                 Color.black.ignoresSafeArea()
 
                 cameraPreview
@@ -56,13 +54,26 @@ struct CameraView: View {
                     headerToolBar
                     Spacer()
 
-                    CameraFocusShape(
-                        size: focusSquareSize,
-                        lineWidth: 3,
-                        color: .white,
-                        gapSize: focusSquareSize / 3,
-                        cornerRadius: 10
-                    )
+                    ZStack {
+                        CameraFocusShape(
+                            size: focusSquareSize,
+                            lineWidth: 3,
+                            color: .white,
+                            gapSize: focusSquareSize / 3,
+                            cornerRadius: 10
+                        )
+
+                        RoundedRectangle(cornerRadius: 10)
+                            .strokeBorder(.white.opacity(0.5), lineWidth: 3 / 2)
+                            .frame(width: focusSquareSize - 3, height: focusSquareSize - 3)
+                            .scaleEffect(isAnimating ? 1.1 : 1.0)
+                            .opacity(isAnimating ? 0.0 : 0.3)
+                            .animation(
+                                Animation.easeInOut(duration: 1.5)
+                                    .repeatForever(autoreverses: false),
+                                value: isAnimating
+                            )
+                    }
 
                     Spacer()
                     controlsBar
@@ -84,8 +95,10 @@ struct CameraView: View {
             })
             .onAppear {
                 checkPermissionAndStart()
+                self.isAnimating = true
             }
             .onDisappear {
+                self.isAnimating = false
                 cameraManager.stopSession()
             }
             .alert(isPresented: $showPermissionAlert) {
