@@ -28,7 +28,7 @@
     },
     { 
         "id": 4,
-        "name": "Battery: Charging Light",
+        "name": "Battery Charging Light",
         "image": "BatteryCharging Light",
         "description": "Anything to do with this light has something to do with the battery. Normally this light indicates that the voltage level of the battery is below the normal level. When the battery is not working fully, it can lead to the headlights failing and even shutting down the engine. The problem could be with the battery itself, the wiring, or more seriously, the alternator or drive belt.",
         "symbolType": "warning", 
@@ -262,7 +262,7 @@
     },
     { 
         "id": 30,
-        "name": "All Wheel:4 Wheel Drive",
+        "name": "All Wheel/ 4 Wheel Drive",
         "image": "All Wheel4 Wheel Drive",
         "description": "This light indicates that the car is in 4 wheel drive, or all wheel drive mode. 4 wheel drive is mostly used for difficult terrains, such as snow, sand and gravel.",
         "symbolType": "advisory", 

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */; };
+		FEBD06A22DD7E81E00B45AE6 /* CarLightMLModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FEBD06A12DD7E81E00B45AE6 /* CarLightMLModel.mlmodel */; };
 		FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53A223F22A10056F464 /* Assets.xcassets */; };
 		FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */; };
 		FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB22DB9990100D16AA3 /* ContentView.swift */; };
@@ -26,7 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MainCarImg4.mlmodel; sourceTree = "<group>"; };
+		FEBD06A12DD7E81E00B45AE6 /* CarLightMLModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CarLightMLModel.mlmodel; sourceTree = "<group>"; };
 		FEBDF530223F229D0056F464 /* CarWarningLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarWarningLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEBDF53A223F22A10056F464 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEBDF53D223F22A10056F464 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -90,7 +90,7 @@
 				FEBDF53A223F22A10056F464 /* Assets.xcassets */,
 				FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */,
 				FEBDF53F223F22A10056F464 /* Info.plist */,
-				FE5EE2FF25AD3D53004BBAD3 /* MainCarImg4.mlmodel */,
+				FEBD06A12DD7E81E00B45AE6 /* CarLightMLModel.mlmodel */,
 			);
 			path = CarWarningLight;
 			sourceTree = "<group>";
@@ -230,8 +230,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEBD06A22DD7E81E00B45AE6 /* CarLightMLModel.mlmodel in Sources */,
 				FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */,
-				FE5EE30025AD3D53004BBAD3 /* MainCarImg4.mlmodel in Sources */,
 				FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

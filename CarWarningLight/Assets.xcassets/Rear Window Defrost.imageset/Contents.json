@@ -1,23 +1,23 @@
 {
   "images" : [
     {
+      "filename" : "ChatGPT Image May 10, 2025 at 10_50_50 PM.png",
       "idiom" : "universal",
-      "filename" : "Rear Window Defrost.png",
       "scale" : "1x"
     },
     {
+      "filename" : "ChatGPT Image May 10, 2025 at 10_50_50 PM 1.png",
       "idiom" : "universal",
-      "filename" : "Rear Window Defrost@2x.png",
       "scale" : "2x"
     },
     {
+      "filename" : "ChatGPT Image May 10, 2025 at 10_50_50 PM 2.png",
       "idiom" : "universal",
-      "filename" : "Rear Window Defrost@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

@@ -26,11 +26,11 @@ class ImageDetectionViewModel: ObservableObject {
         }
 
         return await withCheckedContinuation { continuation in
-            let url = MainCarImg4.urlOfModelInThisBundle
+            let url = CarLightMLModel.urlOfModelInThisBundle
 
             Task.detached(priority: .userInitiated) {
                 do {
-                    let model1 = try MainCarImg4(contentsOf: url, configuration: MLModelConfiguration())
+                    let model1 = try CarLightMLModel(contentsOf: url, configuration: MLModelConfiguration())
                     let model2 = try VNCoreMLModel(for: model1.model)
 
                     let request = VNCoreMLRequest(model: model2) { [weak self] request, error in
