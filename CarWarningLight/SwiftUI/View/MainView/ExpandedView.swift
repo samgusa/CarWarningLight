@@ -10,18 +10,13 @@ import SwiftUI
 
 struct ExpandedView: View {
     @EnvironmentObject private var uiState: UIStateManager
+    @StateObject var viewModel = ExpandedViewModel()
 
     let carSymbol: CarSymbol
     var namespace: Namespace.ID
     @Binding var isShowingLarge: Bool
     let bigImageId: Int
     @Binding var index: Int?
-
-    @StateObject var viewModel = ExpandedViewModel()
-
-    // Track when the view is being dismissed to prevent animation conflicts
-    @State private var isDismissing: Bool = false
-    @State private var hasAppeared: Bool = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -42,15 +37,15 @@ struct ExpandedView: View {
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         viewModel.startAnimations()
-                        hasAppeared = true
+                        viewModel.hasAppeared = true
                     }
                 }
                 .onDisappear {
                     viewModel.cancelAnimations()
                     uiState.detailViewDisappeared(id: carSymbol.imageName)
 
-                    if !isDismissing {
-                        hasAppeared = false
+                    if !viewModel.isDismissing {
+                        viewModel.hasAppeared = false
                     }
                 }
             }
@@ -62,30 +57,32 @@ struct ExpandedView: View {
     private func headerView() -> some View {
         HStack {
             Spacer()
-            Button {
-                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                    if !isDismissing {
-                        isDismissing = true
+                Button {
+                    if viewModel.showDismissButton {
+                        viewModel.dismissView()
+
+
                         withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                             isShowingLarge = false
-                        } completion: {
+                        }
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                             index = nil
-                            isDismissing = false
-                            hasAppeared = false
                         }
                     }
 
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundStyle(.gray.opacity(0.7))
+                        .frame(width: 30, height: 30)
+                        .contentShape(Circle())
+                        .accessibilityLabel("Close")
                 }
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundStyle(.gray.opacity(0.7))
-                    .frame(width: 30, height: 30)
-                    .contentShape(Circle())
-                    .accessibilityLabel("Close")
-            }
-            .buttonStyle(ScaleButtonStyle())
+                .buttonStyle(ScaleButtonStyle())
+                .opacity(viewModel.showDismissButton ? 1 : 0.5)
+                .transition(.opacity.animation(.easeInOut(duration: 0.3)))
         }
         .padding([.top, .trailing])
         .padding(.top, 50)
@@ -202,7 +199,6 @@ func coloredText(_ text: String) -> Text {
     return Text(attributedString)
 }
 
-
 struct InfoCard: View {
     let title: String
     let description: String
@@ -245,24 +241,3 @@ struct ScaleButtonStyle: ButtonStyle {
     ContentView()
         .environmentObject(UIStateManager())
 }
-
-//#Preview {
-//    @Previewable @Namespace var namespace
-//    @Previewable @State var toggled = false
-//    ExpandedView(
-//        carSymbol: CarSymbol
-//            .init(
-//                id: 0,
-//                name: "Adaptive Front Lighting System Warning",
-//                imageName: CarWarning.adaptiveOne.rawValue,
-//                description: "Depending on the make of the vehicle and the color of the light, this could mean a couple things. Green: Directional Headlights. Indicates that the vehicles automatic directional headlights are operational. Yellow: Adaptive Warning Light: Some Vehicles have lights that turn on automatically and adjust brightness depending on how dark and light it is. If the light is Yellow, that means that there is a malfunction with the sensor for that light.",
-//                symbolType: .warning,
-//                fixDescription: "If this light is on, a professional mechanic should be contacted. If the air bags don't function as they should, they may not work in the case of an emergency.",
-//                drivable: .no,
-//                categories: []),
-//        namespace: namespace,
-//        isShowingLarge: .constant(false),
-//        bigImageId: -1,
-//        index: .constant(1))
-//    .environmentObject(UIStateManager())
-//}

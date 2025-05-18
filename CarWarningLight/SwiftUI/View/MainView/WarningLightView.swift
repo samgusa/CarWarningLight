@@ -35,9 +35,9 @@ struct WarningLightView: View {
 
     private var contentView: some View {
         GeometryReader { geometry in
-            let columns = viewModel.calculateColumns(for: geometry.size.width)
+            let columns = calculateColumns(for: geometry.size.width)
             let columnCount = columns.count
-            let cellHeight = viewModel.calculateCellHeight(
+            let cellHeight = calculateCellHeight(
                 width: geometry.size.width,
                 columns: columnCount
             )
@@ -66,11 +66,40 @@ struct WarningLightView: View {
         .frame(height: height)
         .contentShape(Rectangle())
         .onTapGesture {
+
+            guard viewModel.shouldAllowTransition() else { return }
+
+            guard viewModel.selectedIndex == nil && !viewModel.isShowingLarge else { return }
+
             viewModel.selectedIndex = index
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 viewModel.isShowingLarge = true
             }
+
+            // Reset the flag after transition completes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                viewModel.isTransitioning = false
+            }
         }
+    }
+
+    // Grid calculation methods
+    func calculateColumns(for width: CGFloat) -> [GridItem] {
+        let availableWidth = width - (viewModel.horizontalPadding * 2)
+        let possibleColumns = Int((availableWidth + viewModel.gridSpacing) / (viewModel.minimumCellWidth + viewModel.gridSpacing))
+        let actualColumns = max(2, possibleColumns)
+
+        return Array(repeating: GridItem(.flexible(), spacing: viewModel.gridSpacing), count: actualColumns)
+    }
+
+    func calculateCellWidth(for width: CGFloat, columns: Int) -> CGFloat {
+        let availableWidth = width - (viewModel.horizontalPadding * 2)
+        return (availableWidth - (viewModel.gridSpacing * CGFloat(columns - 1))) / CGFloat(columns)
+    }
+    
+    func calculateCellHeight(width: CGFloat, columns: Int) -> CGFloat {
+        let cellWidth = calculateCellWidth(for: width, columns: columns)
+        return cellWidth * viewModel.desiredCellAspectRatio
     }
 }
 

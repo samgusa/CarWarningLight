@@ -46,8 +46,8 @@ struct CustomButtonLabel<LabelContent: View>: View {
     }
 }
 
-// 2. Keep the original CustomButton2 but refactor to use CustomButtonLabel
-struct CustomButton2<ButtonContent: View>: View {
+// 2. Keep the original CustomButton but refactor to use CustomButtonLabel
+struct CustomButton<ButtonContent: View>: View {
     var content: () -> ButtonContent
     var action: () async -> TaskStatus
 
@@ -105,11 +105,11 @@ struct CustomButton2<ButtonContent: View>: View {
     }
 }
 
-// 4. Usage example with CustomButton2
+// 4. Usage example with CustomButton
 struct CompleteExample: View {
     var testSuccess: Bool
     var body: some View {
-        CustomButton2 {
+        CustomButton {
             Text("Submit")
         } action: {
             // Simulate an async operation

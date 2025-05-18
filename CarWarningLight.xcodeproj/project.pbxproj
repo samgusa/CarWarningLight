@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FEBD06A22DD7E81E00B45AE6 /* CarLightMLModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FEBD06A12DD7E81E00B45AE6 /* CarLightMLModel.mlmodel */; };
 		FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53A223F22A10056F464 /* Assets.xcassets */; };
 		FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */; };
+		FEBFEB3B2DD9197600057ED4 /* MainCarLightMLModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FEBFEB3A2DD9197600057ED4 /* MainCarLightMLModel.mlmodel */; };
 		FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB22DB9990100D16AA3 /* ContentView.swift */; };
 		FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */; };
 		FEFDF7732781114A00A2B543 /* CarWarningLightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */; };
@@ -26,11 +26,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FEBD06A12DD7E81E00B45AE6 /* CarLightMLModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CarLightMLModel.mlmodel; sourceTree = "<group>"; };
 		FEBDF530223F229D0056F464 /* CarWarningLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarWarningLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEBDF53A223F22A10056F464 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEBDF53D223F22A10056F464 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FEBDF53F223F22A10056F464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEBFEB3A2DD9197600057ED4 /* MainCarLightMLModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MainCarLightMLModel.mlmodel; sourceTree = "<group>"; };
 		FEC2CBB22DB9990100D16AA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCameraApp.swift; sourceTree = "<group>"; };
 		FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarWarningLightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,7 +90,7 @@
 				FEBDF53A223F22A10056F464 /* Assets.xcassets */,
 				FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */,
 				FEBDF53F223F22A10056F464 /* Info.plist */,
-				FEBD06A12DD7E81E00B45AE6 /* CarLightMLModel.mlmodel */,
+				FEBFEB3A2DD9197600057ED4 /* MainCarLightMLModel.mlmodel */,
 			);
 			path = CarWarningLight;
 			sourceTree = "<group>";
@@ -230,7 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEBD06A22DD7E81E00B45AE6 /* CarLightMLModel.mlmodel in Sources */,
+				FEBFEB3B2DD9197600057ED4 /* MainCarLightMLModel.mlmodel in Sources */,
 				FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */,
 				FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */,
 			);
