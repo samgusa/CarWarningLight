@@ -47,6 +47,17 @@
                ReferencedContainer = "container:CarWarningLight.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FEBFEB442DDBC9E000057ED4"
+               BuildableName = "MainCarWarningLightTests.xctest"
+               BlueprintName = "MainCarWarningLightTests"
+               ReferencedContainer = "container:CarWarningLight.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

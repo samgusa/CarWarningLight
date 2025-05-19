@@ -14,16 +14,6 @@
 		FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		FEFDF7752781114A00A2B543 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FEBDF528223F229D0056F464 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FEBDF52F223F229D0056F464;
-			remoteInfo = CarWarningLight;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		FEBDF530223F229D0056F464 /* CarWarningLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarWarningLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEBDF53A223F22A10056F464 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -32,7 +22,6 @@
 		FEBFEB3A2DD9197600057ED4 /* MainCarLightMLModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MainCarLightMLModel.mlmodel; sourceTree = "<group>"; };
 		FEC2CBB22DB9990100D16AA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCameraApp.swift; sourceTree = "<group>"; };
-		FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarWarningLightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,13 +34,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		FEBDF52D223F229D0056F464 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FEFDF76D2781114A00A2B543 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -73,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				FEBDF530223F229D0056F464 /* CarWarningLight.app */,
-				FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,24 +114,6 @@
 			productReference = FEBDF530223F229D0056F464 /* CarWarningLight.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FEFDF76F2781114A00A2B543 /* CarWarningLightTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FEFDF7792781114A00A2B543 /* Build configuration list for PBXNativeTarget "CarWarningLightTests" */;
-			buildPhases = (
-				FEFDF76C2781114A00A2B543 /* Sources */,
-				FEFDF76D2781114A00A2B543 /* Frameworks */,
-				FEFDF76E2781114A00A2B543 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FEFDF7762781114A00A2B543 /* PBXTargetDependency */,
-			);
-			name = CarWarningLightTests;
-			productName = CarWarningLightTests;
-			productReference = FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -158,18 +121,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				ORGANIZATIONNAME = simplyAmazingMachines;
 				TargetAttributes = {
 					FEBDF52F223F229D0056F464 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1030;
-					};
-					FEFDF76F2781114A00A2B543 = {
-						CreatedOnToolsVersion = 12.4;
-						LastSwiftMigration = 1610;
-						TestTargetID = FEBDF52F223F229D0056F464;
 					};
 				};
 			};
@@ -189,7 +147,6 @@
 			projectRoot = "";
 			targets = (
 				FEBDF52F223F229D0056F464 /* CarWarningLight */,
-				FEFDF76F2781114A00A2B543 /* CarWarningLightTests */,
 			);
 		};
 /* End PBXProject section */
@@ -201,13 +158,6 @@
 			files = (
 				FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */,
 				FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FEFDF76E2781114A00A2B543 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,22 +174,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FEFDF76C2781114A00A2B543 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		FEFDF7762781114A00A2B543 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FEBDF52F223F229D0056F464 /* CarWarningLight */;
-			targetProxy = FEFDF7752781114A00A2B543 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */ = {
@@ -438,51 +373,6 @@
 			};
 			name = Release;
 		};
-		FEFDF7772781114A00A2B543 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4LBT7283WA;
-				INFOPLIST_FILE = CarWarningLightTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.simple-amazing-machines.CarWarningLightTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarWarningLight.app/CarWarningLight";
-			};
-			name = Debug;
-		};
-		FEFDF7782781114A00A2B543 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4LBT7283WA;
-				INFOPLIST_FILE = CarWarningLightTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.simple-amazing-machines.CarWarningLightTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarWarningLight.app/CarWarningLight";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -500,15 +390,6 @@
 			buildConfigurations = (
 				FEBDF543223F22A10056F464 /* Debug */,
 				FEBDF544223F22A10056F464 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FEFDF7792781114A00A2B543 /* Build configuration list for PBXNativeTarget "CarWarningLightTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FEFDF7772781114A00A2B543 /* Debug */,
-				FEFDF7782781114A00A2B543 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

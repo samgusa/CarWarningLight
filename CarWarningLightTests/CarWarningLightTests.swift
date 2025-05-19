@@ -2,35 +2,78 @@
 //  CarWarningLightTests.swift
 //  CarWarningLightTests
 //
-//  Created by Sam Greenhill on 1/1/22.
-//  Copyright © 2022 simplyAmazingMachines. All rights reserved.
+//  Created by Sam Greenhill on 5/19/25.
+//  Copyright © 2025 simplyAmazingMachines. All rights reserved.
 //
 
-import XCTest
+import Testing
 @testable import CarWarningLight
+import SwiftUI
+import XCTest
 
-class CarWarningLightTests: XCTestCase {
-    
-    
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+@Suite("ImageDetectionViewModel Tests")
+struct ImageDetectionViewModelTests {
+
+    @Test("Initial state should be correct")
+    func testInitialState() {
+        // Arrange
+        let viewModel = ImageDetectionViewModel()
+
+        // Assert
+        XCTAssertTrue(viewModel.imageRecogResults.isEmpty)
+        XCTAssertFalse(viewModel.showResults)
+        XCTAssertNil(viewModel.errorMessage)
+        XCTAssertFalse(viewModel.showError)
+        XCTAssertFalse(viewModel.isProcessing)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    @Test("Processing invalid image should return failure")
+    async func testProcessInvalidImage() async throws {
+        // Arrange
+        let viewModel = ImageDetectionViewModel()
+        let invalidImage = UIImage()
+
+        // Act
+        let result = await viewModel.processImage(photo: invalidImage)
+
+        // Assert
+        XCTAssertEqual(result, .failed("Could not process the image"))
+        XCTAssertEqual(viewModel.errorMessage, "Could not process the image")
+        XCTAssertTrue(viewModel.showError)
+        XCTAssertFalse(viewModel.isProcessing)
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    @Test("Empty detection results should return failure")
+    async func testEmptyDetectionResults() async throws {
+        // Arrange
+        let viewModel = ImageDetectionViewModel()
+
+        // Create a test image that should yield no results
+        let size = CGSize(width: 100, height: 100)
+        UIGraphicsBeginImageContext(size)
+        UIColor.white.setFill()
+        UIRectFill(CGRect(origin: .zero, size: size))
+        let testImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        // Mock the detectAsync method to return empty results
+        // In real tests, you might use dependency injection or a test-specific subclass
+        let expectation = XCTestExpectation(description: "Detection completed")
+
+        // Act
+        let result = await viewModel.processImage(photo: testImage)
+
+        // Assert
+        XCTAssertEqual(result, .failed("No Symbols detected in the image"))
+        XCTAssertEqual(viewModel.errorMessage, "No Symbols detected in the image")
+        XCTAssertTrue(viewModel.showError)
+        XCTAssertFalse(viewModel.isProcessing)
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+    // Note: Testing successful image recognition would typically require:
+    // 1. Mock ML model
+    // 2. Test-specific image with known outputs
+    // 3. Dependency injection to avoid actual ML processing
+    // This would be a more complex test implementation
 }
