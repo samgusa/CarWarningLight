@@ -160,30 +160,5 @@ struct AppIconButtonStyle: ButtonStyle {
         Array(bundleLight.prefix(10))
     }()
     ResultsView(detectedLights: lights)
-        .environmentObject(UIStateManager())//(resultLights: lights)
-    //, dismissToHome: {})
+        .environmentObject(UIStateManager())
 }
-
-/*
-
- GeometryReader { geometry in
-     let cardHeight = min(geometry.size.height / 4, 150)
-     ScrollView {
-         LazyVStack(spacing: 20) {
-             ForEach(Array(detectedLights.enumerated()), id: \.offset) { index, carLight in
-                 cardView(carSymbol: carLight, index: index)
-                     .onTapGesture {
-                         viewModel.selectedIndex = index
-                         withAnimation(.easeInOut) {
-                             viewModel.isShowingLarge = true
-                         }
-                     }
-             }
-         }
-         .padding(.vertical)
-         .padding(.horizontal)
-         .padding(.bottom, 80)
-     }
-     .opacity(viewModel.isShowingLarge ? 0 : 1)
- }
- */

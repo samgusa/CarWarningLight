@@ -9,117 +9,198 @@
 import Foundation
 import SwiftUI
 
-// 1. Create a separate view for the label appearance
 struct CustomButtonLabel<LabelContent: View>: View {
     var content: () -> LabelContent
-    var isLoading: Bool
-    var taskStatus: TaskStatus
+    var state: ButtonState
     var wiggle: Bool
 
+    private var isCircular: Bool {
+        if case .idle = state { return false }
+        return true
+    }
+
+    private var showProgressView: Bool {
+        if case .loading = state { return true }
+        return false
+    }
+
+    private var showCheckmark: Bool {
+        if case .success = state { return true }
+        return false
+    }
+
+    private var showXmark: Bool {
+        if case .failed = state { return true }
+        return false
+    }
+
     var body: some View {
-        content()
-            .padding(.horizontal, 30)
-            .padding(.vertical, 12)
-            .opacity(isLoading ? 0 : 1)
-            .lineLimit(1)
-            .frame(width: isLoading ? 50 : nil, height: isLoading ? 50 : nil)
-            .background(Color.white.shadow(.drop(color: Color.primary.opacity(0.1), radius: 6)), in: .capsule)
-            .overlay {
-                if isLoading && taskStatus == .idle {
-                    ProgressView()
-                }
+        ZStack {
+            // Button background
+            Capsule()
+                .fill(Color.white)
+                .shadow(color: Color.primary.opacity(0.1), radius: 6)
+                .frame(width: isCircular ? 50 : 250, height: 50)
+                .animation(.spring(duration: 0.4, bounce: 0.2), value: isCircular)
+
+
+            // Label content (text)
+            content()
+                .padding(.horizontal, 30)
+                .padding(.vertical, 12)
+                .lineLimit(1)
+                .opacity(isCircular ? 0 : 1)
+                .transition(.opacity.combined(with: .scale))
+
+            // Progress view
+            if showProgressView {
+                ProgressView()
+                    .transition(.opacity)
             }
-            .overlay {
-                if taskStatus != .idle {
-                    if case .failed = taskStatus {
-                        AnimatedXMark(frameSize: 50)
-                            .font(.title2.bold())
-                            .foregroundStyle(.white)
-                    } else {
-                        AnimatedCheckmarkView(frameSize: 50)
-                            .font(.title2.bold())
-                            .foregroundStyle(.white)
-                    }
-                }
+
+            // Success checkmark
+            if showCheckmark {
+                AnimatedCheckmarkView(frameSize: 50)
+                    .transition(.opacity)
             }
-            .wiggle(wiggle)
+
+            // Failure X mark
+            if showXmark {
+                AnimatedXMark(frameSize: 50)
+                    .transition(.opacity)
+            }
+        }
+        .wiggle(wiggle)
     }
 }
 
-// 2. Keep the original CustomButton but refactor to use CustomButtonLabel
+// Button states to better manage transitions
+enum ButtonState: Equatable {
+    case idle
+    case loading
+    case success
+    case failed(String)
+}
+
+// Improved CustomButton with optimized state management
 struct CustomButton<ButtonContent: View>: View {
     var content: () -> ButtonContent
     var action: () async -> TaskStatus
+    var onSuccessComplete: (() -> Void)? = nil
 
-    @State private var isLoading: Bool = false
-    @State private var taskStatus: TaskStatus = .idle
-    @State private var isFailed: Bool = false
+    @State private var buttonState: ButtonState = .idle
     @State private var wiggle: Bool = false
-    @State private var showPopup: Bool = false
-    @State private var popupMessage: String = ""
+    @State private var showAlert: Bool = false
+    @State private var errorMessage: String = ""
 
     var body: some View {
         Button {
             Task {
-                isLoading = true
-                let status = await action()
+                // Don't re-trigger if already in progress
+                guard case .idle = buttonState else { return }
+
+                // Update to loading state
+                withAnimation(.spring(duration: 0.4, bounce: 0.2)) {
+                    buttonState = .loading
+                }
+
+                // Add a minimum duration for the loading state (2 seconds)
+                let operationTask = Task { await action() }
+                let delayTask = Task {
+                    try? await Task.sleep(for: .seconds(2))
+                }
+
+                // Wait for both the operation and minimum delay
+                let status = await operationTask.value
+                await delayTask.value
+
+                // Update state based on result
                 switch status {
                 case .idle:
-                    isFailed = false
-                case .failed(let string):
-                    isFailed = true
-                    popupMessage = string
+                    // Should rarely happen, but handle it
+                    withAnimation(.spring(duration: 0.4, bounce: 0.2)) {
+                        buttonState = .idle
+                    }
+
                 case .success:
-                    isFailed = false
-                }
-                self.taskStatus = status
-                if isFailed {
-                    try? await Task.sleep(for: .seconds(0.8))
+                    withAnimation(.snappy) {
+                        buttonState = .success
+                    }
+
+                    // Return to idle after showing success
+                    try? await Task.sleep(for: .seconds(2.0))
+
+                    // call Completion handler if provided
+                    if let onSuccessComplete = onSuccessComplete {
+                        onSuccessComplete()
+                    }
+
+                    // Reset button state
+                    withAnimation(.spring(duration: 0.4, bounce: 0.2)) {
+                        buttonState = .idle
+                    }
+
+                case .failed(let message):
+                    errorMessage = message
+
+                    withAnimation(.spring(duration: 0.4, bounce: 0.2)) {
+                        buttonState = .failed(message)
+                    }
+
+                    // Wiggle animation for failure
                     wiggle.toggle()
-                }
-                try? await Task.sleep(for: .seconds(0.8))
-                if isFailed {
-                    showPopup = true
-                }
-                try? await Task.sleep(for: .seconds(1.2))
-                self.taskStatus = .idle
-                isLoading = false
-                if showPopup {
-                    showPopup = false
+
+                    // Show alert after a short delay
+                    try? await Task.sleep(for: .seconds(0.8))
+                    showAlert = true
+
+                    // Return to idle after showing failure
+                    try? await Task.sleep(for: .seconds(1.2))
+                    withAnimation(.spring(duration: 0.4, bounce: 0.2)) {
+                        buttonState = .idle
+                    }
                 }
             }
         } label: {
             CustomButtonLabel(
                 content: content,
-                isLoading: isLoading,
-                taskStatus: taskStatus,
+                state: buttonState,
                 wiggle: wiggle
             )
         }
-        .disabled(isLoading)
-        .animation(.snappy, value: isLoading)
-        .animation(.snappy, value: taskStatus)
-        .alert(popupMessage, isPresented: $showPopup) {
-            Button("OK", role: .cancel) {}
+        .disabled(buttonState != .idle)
+        .alert(errorMessage, isPresented: $showAlert) {
+            Button("OK", role: .cancel) { }
         }
     }
 }
 
-// 4. Usage example with CustomButton
-struct CompleteExample: View {
-    var testSuccess: Bool
+// Preview for testing the improved button
+struct ImprovedButtonPreview: View {
+    var succeed: Bool = true
+
     var body: some View {
-        CustomButton {
-            Text("Submit")
-        } action: {
-            // Simulate an async operation
-            try? await Task.sleep(for: .seconds(1))
-            if testSuccess {
-                return .success
-            } else {
-                return .failed("Error message")
+        VStack(spacing: 20) {
+            CustomButton {
+                Text("Identify Light")
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.black)
+            } action: {
+                // Simulate network delay
+                try? await Task.sleep(for: .seconds(1))
+
+                if succeed {
+                    return .success
+                } else {
+                    return .failed("Failed to identify the warning light")
+                }
             }
+
+            Text("Button will always show progress for at least 2 seconds")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
+        .padding()
     }
 }
 
@@ -153,6 +234,8 @@ extension View {
     }
 }
 #Preview(body: {
-    CompleteExample(testSuccess: false)
+    VStack(spacing: 30) {
+            ImprovedButtonPreview(succeed: true)
+            ImprovedButtonPreview(succeed: false)
+        }
 })
-

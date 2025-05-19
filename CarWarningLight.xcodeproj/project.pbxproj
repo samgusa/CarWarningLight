@@ -12,7 +12,6 @@
 		FEBFEB3B2DD9197600057ED4 /* MainCarLightMLModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FEBFEB3A2DD9197600057ED4 /* MainCarLightMLModel.mlmodel */; };
 		FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB22DB9990100D16AA3 /* ContentView.swift */; };
 		FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */; };
-		FEFDF7732781114A00A2B543 /* CarWarningLightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,8 +33,6 @@
 		FEC2CBB22DB9990100D16AA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCameraApp.swift; sourceTree = "<group>"; };
 		FEFDF7702781114A00A2B543 /* CarWarningLightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarWarningLightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarWarningLightTests.swift; sourceTree = "<group>"; };
-		FEFDF7742781114A00A2B543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -68,7 +65,6 @@
 			isa = PBXGroup;
 			children = (
 				FEBDF532223F229D0056F464 /* CarWarningLight */,
-				FEFDF7712781114A00A2B543 /* CarWarningLightTests */,
 				FEBDF531223F229D0056F464 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -106,15 +102,6 @@
 				FEC2CBB22DB9990100D16AA3 /* ContentView.swift */,
 			);
 			path = SwiftUI;
-			sourceTree = "<group>";
-		};
-		FEFDF7712781114A00A2B543 /* CarWarningLightTests */ = {
-			isa = PBXGroup;
-			children = (
-				FEFDF7722781114A00A2B543 /* CarWarningLightTests.swift */,
-				FEFDF7742781114A00A2B543 /* Info.plist */,
-			);
-			path = CarWarningLightTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +168,7 @@
 					};
 					FEFDF76F2781114A00A2B543 = {
 						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1610;
 						TestTargetID = FEBDF52F223F229D0056F464;
 					};
 				};
@@ -240,7 +228,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEFDF7732781114A00A2B543 /* CarWarningLightTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +442,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4LBT7283WA;
 				INFOPLIST_FILE = CarWarningLightTests/Info.plist;
@@ -466,6 +454,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.simple-amazing-machines.CarWarningLightTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarWarningLight.app/CarWarningLight";
@@ -476,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4LBT7283WA;
 				INFOPLIST_FILE = CarWarningLightTests/Info.plist;

@@ -18,23 +18,26 @@ class ImageDetectionViewModel: ObservableObject {
     @Published var showResults: Bool = false
     @Published var errorMessage: String?
     @Published var showError: Bool = false
+    @Published var isProcessing: Bool = false
 
     private let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
     private let logger = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "ImageDetection")
-    private var cancellables = Set<AnyCancellable>()
 
     func processImage(photo: UIImage) async -> TaskStatus {
 
         await MainActor.run {
+            self.isProcessing = true
             self.imageRecogResults = []
             self.errorMessage = nil
+            self.showError = false
         }
-
 
         guard let ciImage = CIImage(image: photo) else {
             let message = "Could not process the image"
-            errorMessage = message
-            await MainActor.run { self.errorMessage = message }
+            await MainActor.run {
+                self.errorMessage = message
+                self.showError = true
+            }
             return .failed(message)
         }
 
@@ -42,29 +45,20 @@ class ImageDetectionViewModel: ObservableObject {
 
         if imageRecogResults.isEmpty {
             let message = "No Symbols detected in the image"
-            errorMessage = message
-            showError = true
+            await MainActor.run {
+                self.errorMessage = message
+                self.showError = true
+                self.isProcessing = false
+            }
             logger.warning("\(message)")
-            await MainActor.run { self.errorMessage = message }
             return .failed(message)
         }
 
-        return await withCheckedContinuation { continuation in
-            Just(())
-                .delay(for: .seconds(1), scheduler: DispatchQueue.main)
-                .sink { [weak self] _ in
-                    guard let self = self else {
-                        continuation.resume(returning: .failed("View model was deallocated"))
-                        return
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        self.showResults = true
-                        continuation.resume(returning: .success)
-                    }
-
-                }
-                .store(in: &cancellables)
+        await MainActor.run {
+            self.isProcessing = false
         }
+
+        return .success
     }
 
     func detectAsync(image: CIImage) async {

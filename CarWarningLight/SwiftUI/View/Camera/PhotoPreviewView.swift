@@ -17,8 +17,6 @@ struct PhotoPreviewView: View {
     @Environment(\.dismiss) private var dismiss
 
     let capturedPhoto: CapturedPhoto?
-    private let logger = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "PhotoPreview")
-
 
     // MARK: - Body
     var body: some View {
@@ -65,27 +63,10 @@ struct PhotoPreviewView: View {
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.black)
                         } action: {
-
+                            try? await Task.sleep(for: .seconds(1))
                             return await viewModel.processImage(photo: photo.image)
-
-//                            guard let ciImage = CIImage(image: photo.image) else {
-//                                logger.error("Could not process the image")
-//                                return .failed("Could not process the image")
-//                            }
-//
-//                            await viewModel.detectAsync(image: ciImage)
-//
-//                            if viewModel.imageRecogResults.isEmpty {
-//                                logger.warning("No Symbols detected in the image")
-//                                return .failed("No Symbols detected in the image")
-//                            } else {
-//                                try? await Task.sleep(for: .seconds(3))
-//
-//                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                    viewModel.showResults = true
-//                                }
-//                                return .success
-//                            }
+                        } onSuccessComplete: {
+                            viewModel.showResults = true
                         }
                     }
                     .padding(.bottom, 24)
@@ -125,4 +106,3 @@ struct PhotoPreviewView: View {
             PhotoPreviewView(capturedPhoto: dummyPhoto)
                 .environmentObject(UIStateManager())
 }
-
