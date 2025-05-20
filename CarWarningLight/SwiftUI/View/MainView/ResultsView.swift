@@ -83,24 +83,26 @@ struct ResultsView: View {
                 )
                 .foregroundStyle(carSymbol.symbolType.color)
                 .scaledToFit()
-                .frame(width: 44, height: 44)
-                .padding(8)
+                .frame(
+                    width: DesignSystem.Dimensions.iconSize,
+                    height: DesignSystem.Dimensions.iconSize
+                )
+                .padding(DesignSystem.Dimensions.smallPadding)
                 .background(
                     Circle()
-                        .fill(Color(.systemBackground))
-                        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                        .fill(Color(.tertiarySystemBackground))
+                        .modifier(DesignSystem.Shadows.elevationEffect(radius: 4))
                 )
 
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(carSymbol.name)
-                    .font(.headline)
+                    .font(DesignSystem.Typography.headline)
                     .foregroundColor(.primary)
                     .lineLimit(1)
-                    //.minimumScaleFactor(0.9)
 
                 Text(carSymbol.symbolType.title)
-                    .font(.subheadline)
+                    .font(DesignSystem.Typography.caption)
                     .foregroundStyle(.secondary)
             }
             Spacer()
@@ -111,43 +113,7 @@ struct ResultsView: View {
         .padding(.vertical, 12)
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: cardCornerRadius)
-                .fill(Color(.systemBackground))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: cardCornerRadius)
-                .stroke(Color(.systemGray5), lineWidth: 1)
-        )
-        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-    }
-}
-
-struct AppButtonStyle: ButtonStyle {
-    var backgroundColor: Color = .blue
-    var foregroundColor: Color = .white
-    var isProminent: Bool = true
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .frame(maxWidth: isProminent ? .infinity : nil)
-            .background(backgroundColor)
-            .font(.headline)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
-            .opacity(configuration.isPressed ? 0.9 : 1.0)
-            .animation(.easeOut(duration: 0.1), value: configuration.isPressed)
-    }
-}
-
-struct AppIconButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 0.92 : 1.0)
-            .opacity(configuration.isPressed ? 0.7 : 1.0)
-            .animation(.easeOut(duration: 0.1), value: configuration.isPressed)
+        .modifier(CardStyle())
     }
 }
 

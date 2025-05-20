@@ -17,16 +17,7 @@ struct WarningLightCell: View {
     var body: some View {
         cellContent
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.systemBackground))
-                    .shadow(
-                        color: Color.black.opacity(0.1),
-                        radius: 4,
-                        x: 0,
-                        y: 2
-                    )
-            )
+            .modifier(CardStyle())
     }
 
     private var cellContent: some View {
@@ -70,40 +61,3 @@ struct WarningLightCell: View {
     ContentView()
         .environmentObject(UIStateManager())
 }
-
-/*
-
- var body: some View {
-     RoundedRectangle(cornerRadius: 25)
-         .foregroundStyle(Color.clear)
-         .overlay {
-             VStack(spacing: 12) {
-                 Image(carData.imageName)
-                     .resizable()
-                     .renderingMode(.template)
-                     .matchedGeometryEffect(
-                         id: "\(index) logo",
-                         in: namespace,
-                         isSource: true
-                     )
-                     .foregroundStyle(carData.symbolType.color)
-                     .scaledToFit()
-                     .padding(10)
-
-                 Text(carData.name)
-                     .font(.system(size: 12, weight: .semibold))
-                     .multilineTextAlignment(.center)
-                     .lineLimit(2)
-                     .truncationMode(.tail)
-                     .frame(height: 32)
-                     .padding(.horizontal, 5)
-                     .padding(.bottom, 8)
-             }
-         }
-         .frame(maxWidth: .infinity, maxHeight: .infinity)
-         .background(Color(.systemBackground))
-         .cornerRadius(12)
-         .shadow(color: Color.black.opacity(0.1), radius: 3)
-         .opacity(isShowingLarge ? 0 : 1)
- }
- */

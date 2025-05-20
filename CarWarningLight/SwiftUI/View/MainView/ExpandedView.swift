@@ -206,24 +206,31 @@ struct InfoCard: View {
     let offset: CGFloat
     var accentColor: Color? = nil
 
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(title)
-                .font(.system(.title2, design: .rounded).weight(.bold))
+                .font(DesignSystem.Typography.title2)
                 .foregroundColor(accentColor ?? .primary)
 
             coloredText(description)
-                .font(.body)
+                .font(DesignSystem.Typography.body)
                 .foregroundColor(.primary)
                 .lineSpacing(5)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
-        .background {
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(accentColor ?? Color.primary.opacity(0.1), lineWidth: accentColor != nil ? 2 : 1)
-        }
+        .padding(DesignSystem.Dimensions.standardPadding)
+        .background(DesignSystem.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.Dimensions.cardCornerRadius))
+        .overlay(
+            RoundedRectangle(cornerRadius: DesignSystem.Dimensions.cardCornerRadius)
+                .stroke(
+                    accentColor ?? (colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.5)),
+                    lineWidth: accentColor != nil ? 2 : 1
+                )
+        )
         .opacity(opacity)
         .offset(y: offset)
     }
