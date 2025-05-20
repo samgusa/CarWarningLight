@@ -11,13 +11,13 @@ import PhotosUI
 
 struct ContentView: View {
     @EnvironmentObject private var uiState: UIStateManager
+    @Environment(\.colorScheme) private var colorScheme
     @State private var showCamera: Bool = false
     @State private var showImagePicker = false
     @State private var isShowingDetail: Bool = false
     @State private var inputImage: UIImage?
     @State private var showResultsView: Bool = false
     @State private var pickerItem: PhotosPickerItem?
-
 
     private let placeholderImage = UIImage(systemName: "photo.fill") ?? UIImage()
 
@@ -43,7 +43,11 @@ struct ContentView: View {
                                 .rotationEffect(.init(degrees: isExpanded ? 45 : 0))
                                 .scaleEffect(1.02)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(.black, in: .circle)
+                                .background(
+                                    Circle()
+                                        .fill(.black)
+                                        .strokeBorder(colorScheme == .dark ? .white : .clear, lineWidth: 2)
+                                    )
                                 .scaleEffect(isExpanded ? 0.9 : 1)
                         }
                         .padding(.horizontal)

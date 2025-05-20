@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct FloatingButtonView<Label: View>: View {
-
+    
+    @Environment(\.colorScheme) private var colorScheme
     var buttonSize: CGFloat
     var actions: [FloatingAction]
     var label: (Bool) -> Label
@@ -80,7 +81,11 @@ struct FloatingButtonView<Label: View>: View {
                 .font(action.font)
                 .foregroundStyle(action.tint)
                 .frame(width: buttonSize, height: buttonSize)
-                .background(action.background, in: .circle)
+                .background(
+                    Circle()
+                        .fill(.black)
+                        .strokeBorder(colorScheme == .dark ? .white : .clear, lineWidth: 2)
+                    )
                 .contentShape(.circle)
         }
         .buttonStyle(PressedButtonStyle())

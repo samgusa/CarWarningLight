@@ -62,64 +62,57 @@ class ImageDetectionViewModel: ObservableObject {
     }
 
     func detectAsync(image: CIImage) async {
-        // clear previous results
+        // Clear previous results
         await MainActor.run {
             self.imageRecogResults = []
         }
 
-        return await withCheckedContinuation { continuation in
+        // Let's avoid continuations completely and use atomic operations
+        do {
+            // Load the model
             let url = MainCarLightMLModel.urlOfModelInThisBundle
+            let model1 = try MainCarLightMLModel(contentsOf: url, configuration: MLModelConfiguration())
+            let model2 = try VNCoreMLModel(for: model1.model)
 
-            Task.detached(priority: .userInitiated) {
-                do {
-                    let model1 = try MainCarLightMLModel(contentsOf: url, configuration: MLModelConfiguration())
-                    let model2 = try VNCoreMLModel(for: model1.model)
+            // Create and configure request
+            let request = VNCoreMLRequest(model: model2)
+            request.imageCropAndScaleOption = .centerCrop
 
-                    let request = VNCoreMLRequest(model: model2) { [weak self] request, error in
-                        guard let self = self else {
-                            continuation.resume()
-                            return
-                        }
+            // Create a handler and perform the request
+            let handler = VNImageRequestHandler(ciImage: image)
+            try handler.perform([request])
 
-                        if let error = error {
-                            self.logger.error("Request error: \(error.localizedDescription)")
-                            continuation.resume()
-                            return
-                        }
+            // Process results - now we're in synchronous code after the request has completed
+            let foundSymbols: CarSymbols = await processVisionResults(request)
 
-                        // process results
-                        guard let results = request.results as? [VNClassificationObservation], !results.isEmpty else {
-                            continuation.resume()
-                            return
-                        }
+            // Update UI on the main thread with the isolated results
+            await MainActor.run {
+                self.imageRecogResults = foundSymbols
+            }
+        } catch {
+            logger.error("Error in vision processing: \(error.localizedDescription)")
+            // Don't update results if there's an error
+        }
+    }
 
-                        // Filter top results with confidence > 0.2
-                        let topResults = results.prefix(10)
+    // Helper method to process Vision results in a concurrency-safe way
+    private func processVisionResults(_ request: VNCoreMLRequest) async -> CarSymbols {
+        var foundSymbols: CarSymbols = []
 
-                        var foundSymbols: CarSymbols = []
+        // Safely process the results
+        if let results = request.results as? [VNClassificationObservation], !results.isEmpty {
+            let topResults = results.prefix(10)
 
-                        for result in topResults {
-                            if let match = self.bundleLight.first(where: { $0.name == result.identifier }) {
-                                foundSymbols.append(match)
-                            }
-                        }
-
-                        Task { @MainActor in
-                            self.imageRecogResults = foundSymbols
-                            continuation.resume()
-                        }
-                    }
-
-                    request.imageCropAndScaleOption = .centerCrop
-                    let handler = VNImageRequestHandler(ciImage: image)
-
-                    try handler.perform([request])
-                } catch {
-                    self.logger.error("Model loading error: \(error.localizedDescription)")
-                    continuation.resume()
+            for result in topResults {
+                if let match = self.bundleLight.first(where: { $0.name == result.identifier }) {
+                    foundSymbols.append(match)
                 }
             }
+        } else {
+            logger.warning("No results found or empty results")
         }
+
+        return foundSymbols
     }
 
 }

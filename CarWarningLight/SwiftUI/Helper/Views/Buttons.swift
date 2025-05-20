@@ -55,6 +55,7 @@ struct CustomButtonLabel<LabelContent: View>: View {
             // Progress view
             if showProgressView {
                 ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
                     .transition(.opacity)
             }
 
