@@ -10,11 +10,31 @@ Warning Light Camera is an innovative information and camera-based app that tran
 identify and understand dashboard warning lights. With data on over 90 different dashboard warning lights, 
 this app puts comprehensive automotive knowledge at your fingertips.
 
+
+What makes this app unique:
+
+* AI-Powered Image Recognition: Simply take a picture of any dashboard warning light and get instant identification with detailed explanations
+* Comprehensive Database: Access an extensive encyclopedia of warning lights with detailed descriptions, solutions, and safety recommendations
+* Safety-First Approach: Each warning light includes critical information about whether it's safe to continue driving
+* Smart Predictions: Advanced image recognition provides multiple possible matches to ensure accurate identification
+
+No more guessing games or frantically searching through manuals. Whether you're dealing with an unfamiliar warning light or need quick guidance on vehicle safety, Warning Light Camera delivers the answers you need in seconds.
+
+
+⚠️ **Important Safety Notice:**
+
+Never use this app while driving
+This app does not replace professional mechanic consultation
+
 ## Features
-- [Key Feature 1]
-- [Key Feature 2]
-- [Key Feature 3]
-- [Add more features as needed]
+* 📸 **Camera-Based Recognition:** Take a picture of any dashboard warning light for instant identification
+* 🔍 **Smart Predictions:** AI-powered image recognition provides multiple possible matches with confidence ratings
+* 📚 **Comprehensive Database:** Access to over 90 different dashboard warning lights with detailed information
+* 📖 **Warning Light Encyclopedia:** Browse and search through an extensive library of warning lights
+* 🛡️ **Safety Guidance:** Clear recommendations on whether it's safe to drive with each warning light
+* 🔧 **Repair Information:** Detailed descriptions on what each light means and how to resolve the issue
+* 🌙 **Dark Mode Support:** Enjoy a stunning interface in both light and dark modes
+* ⚡ **Instant Results:** Get answers in seconds without lengthy searches
 
 ## Screenshots
 <table>
@@ -31,39 +51,24 @@ this app puts comprehensive automotive knowledge at your fingertips.
 </table>
 
 ## Requirements
-- iOS [minimum version]
-- [Device requirements, if any]
-- [Any other technical requirements]
-
-## Installation
-1. Clone this repository
-   ```
-   git clone https://github.com/[your-username]/[repo-name].git
-   ```
-2. Open the project in Xcode
-   ```
-   cd [repo-name]
-   open [ProjectName].xcodeproj
-   ```
-3. [Any additional setup steps]
-4. Build and run the application
+- iOS 18
 
 ## Technologies Used
-- [Technology/Framework 1]
-- [Technology/Framework 2]
-- [Libraries or dependencies]
-
-## Configuration
-[Include any configuration instructions, API keys needed, etc.]
+- Swift
+- CoreML
+- Vision Framework
+- JSON
+- MVVM
+- AVFoundation
+- Combine
 
 ## Usage
-[Provide basic instructions on how to use the app, or link to more detailed documentation]
+Select any of the lights. 
+
+When using the camera feature point at a light and see what it is.
 
 ## Architecture
-[Brief description of your code architecture, design patterns, etc.]
-
-## Testing
-[Information about tests included and how to run them]
+MVVM
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -74,27 +79,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Roadmap
-- [Future feature 1]
-- [Future feature 2]
-- [Future enhancement]
-
-## Known Issues
-- [List any known issues or limitations]
-
-## License
-This project is licensed under the [License Name] - see the LICENSE file for details.
-
-## Contact
-[Your Name] - [@your_twitter](https://twitter.com/your_twitter) - email@example.com
-
-Project Link: [https://github.com/your-username/repo-name](https://github.com/your-username/repo-name)
-
-## Acknowledgments
-- [Credit any resources, tutorials, or tools that helped you build this app]
-- [Any individuals who provided assistance]
-- [Inspiration for the project]
-
 ---
 
-*Last updated: [Date]*
+*Last updated: [5/21/25]*
