@@ -39,14 +39,14 @@ This app does not replace professional mechanic consultation
 ## Screenshots
 <table>
   <tr>
-    <td><img src="link-to-screenshot-1.png" width="200"></td>
-    <td><img src="link-to-screenshot-2.png" width="200"></td>
-    <td><img src="link-to-screenshot-3.png" width="200"></td>
+    <td><img src="https://github.com/user-attachments/assets/fdbc7574-2697-4e77-843c-c3aa68253b6b" width="200"></td>
+    <td><img src="https://github.com/user-attachments/assets/73c575e9-2cf3-49f1-8c2d-7a781b15dace" width="200"></td>
+    <td><img src="https://github.com/user-attachments/assets/54e91c41-bedc-49f6-b36b-f6b7fbf18aa7" width="200"></td>
   </tr>
   <tr>
-    <td>[Caption 1]</td>
-    <td>[Caption 2]</td>
-    <td>[Caption 3]</td>
+    <td>Press a light</td>
+    <td>Detect image recognition</td>
+    <td>See the results in lightning time</td>
   </tr>
 </table>
 
@@ -78,6 +78,11 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## Image
+
+<img src="https://github.com/user-attachments/assets/342cdd4b-0d8b-47e4-8fcc-7428f2f52a31" width="200">
+
 
 ---
 
