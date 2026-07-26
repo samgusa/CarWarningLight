@@ -234,6 +234,7 @@ extension View {
             }
     }
 }
+
 #Preview(body: {
     VStack(spacing: 30) {
             ImprovedButtonPreview(succeed: true)
