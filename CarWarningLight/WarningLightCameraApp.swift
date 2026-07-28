@@ -11,10 +11,11 @@ import SwiftUI
 @main
 struct WarningLightCameraApp: App {
     @StateObject private var uiState = UIStateManager()
+    private let allLights: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ClusterRootView(allLights: allLights)
                 .environmentObject(uiState)
         }
     }

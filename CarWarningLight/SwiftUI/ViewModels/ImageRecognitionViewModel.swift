@@ -14,22 +14,24 @@ import Combine
 
 class ImageDetectionViewModel: ObservableObject {
 
-    @Published var imageRecogResults: CarSymbols = []
-    @Published var showResults: Bool = false
+    @Published var scanMatches: [ScanMatch]         = []
+    @Published var imageRecogResults: CarSymbols    = []
+    @Published var showResults: Bool                = false
     @Published var errorMessage: String?
-    @Published var showError: Bool = false
-    @Published var isProcessing: Bool = false
+    @Published var showError: Bool                  = false
+    @Published var isProcessing: Bool               = false
 
-    private let bundleLight: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
+    private let bundleLight: [CarSymbol]            = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
     private let logger = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "ImageDetection")
 
     func processImage(photo: UIImage) async -> TaskStatus {
 
         await MainActor.run {
-            self.isProcessing = true
-            self.imageRecogResults = []
-            self.errorMessage = nil
-            self.showError = false
+            self.isProcessing       = true
+            self.scanMatches        = []
+            self.imageRecogResults  = []
+            self.errorMessage       = nil
+            self.showError          = false
         }
 
         guard let ciImage = CIImage(image: photo) else {
@@ -43,7 +45,7 @@ class ImageDetectionViewModel: ObservableObject {
 
         await detectAsync(image: ciImage)
 
-        if imageRecogResults.isEmpty {
+        if scanMatches.isEmpty {
             let message = "No Symbols detected in the image"
             await MainActor.run {
                 self.errorMessage = message
@@ -64,7 +66,8 @@ class ImageDetectionViewModel: ObservableObject {
     func detectAsync(image: CIImage) async {
         // Clear previous results
         await MainActor.run {
-            self.imageRecogResults = []
+            self.scanMatches        = []
+            self.imageRecogResults  = []
         }
 
         // Let's avoid continuations completely and use atomic operations
@@ -82,12 +85,12 @@ class ImageDetectionViewModel: ObservableObject {
             let handler = VNImageRequestHandler(ciImage: image)
             try handler.perform([request])
 
-            // Process results - now we're in synchronous code after the request has completed
-            let foundSymbols: CarSymbols = await processVisionResults(request)
+            let matches = await processVisionResults(request)
 
             // Update UI on the main thread with the isolated results
             await MainActor.run {
-                self.imageRecogResults = foundSymbols
+                self.scanMatches        = matches
+                self.imageRecogResults  = matches.map(\.carSymbol)
             }
         } catch {
             logger.error("Error in vision processing: \(error.localizedDescription)")
@@ -96,23 +99,20 @@ class ImageDetectionViewModel: ObservableObject {
     }
 
     // Helper method to process Vision results in a concurrency-safe way
-    private func processVisionResults(_ request: VNCoreMLRequest) async -> CarSymbols {
-        var foundSymbols: CarSymbols = []
+    private func processVisionResults(_ request: VNCoreMLRequest) async -> [ScanMatch] {
+        var matches: [ScanMatch]        = []
 
         // Safely process the results
         if let results = request.results as? [VNClassificationObservation], !results.isEmpty {
-            let topResults = results.prefix(10)
-
-            for result in topResults {
-                if let match = self.bundleLight.first(where: { $0.name == result.identifier }) {
-                    foundSymbols.append(match)
+            for result in results.prefix(10) {
+                if let symbol = self.bundleLight.first(where: { $0.name == result.identifier }) {
+                    matches.append(ScanMatch(carSymbol: symbol, confidence: Double(result.confidence)))
                 }
             }
         } else {
             logger.warning("No results found or empty results")
         }
 
-        return foundSymbols
+        return matches
     }
-
 }

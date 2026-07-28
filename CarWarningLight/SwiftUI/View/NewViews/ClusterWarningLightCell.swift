@@ -1,10 +1,10 @@
 //
 //  ClusterWarningLightCell.swift
-//  CarWarningLight
-//
-//  Created by Sam Greenhill on 7/25/26.
-//  Copyright © 2026 simplyAmazingMachines. All rights reserved.
-//
+//  Changes from your version: icon enlarged from 22x22 to 38x38 (matches the
+//  detail screen's hero icon size exactly — this also smooths out the
+//  matchedGeometryEffect transition, since it no longer has to scale the
+//  icon up mid-flight) and title lineLimit raised from 1 to 3 so the
+//  card's empty space gets used for the full name instead of sitting blank.
 
 import SwiftUI
 
@@ -23,6 +23,7 @@ struct ClusterWarningLightCell: View {
         case .warning: return "WARNING"
         }
     }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -35,12 +36,12 @@ struct ClusterWarningLightCell: View {
                     .lineLimit(1)
                     .fixedSize()
             }
+
             Text(carData.name)
                 .font(ClusterTheme.Types.body(13, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
-                .lineLimit(1)
-                .truncationMode(.tail)
-                .minimumScaleFactor(0.85)
+                .lineLimit(3)
+                .minimumScaleFactor(0.9)
 
             Spacer(minLength: 0)
         }
@@ -53,8 +54,8 @@ struct ClusterWarningLightCell: View {
         ZStack {
             Circle()
                 .fill(telltale)
-                .frame(width: 30, height: 30)
-                .blur(radius: 10)
+                .frame(width: 46, height: 46)
+                .blur(radius: 14)
                 .opacity(0.55)
 
             Image(carData.imageName)
@@ -63,7 +64,7 @@ struct ClusterWarningLightCell: View {
                 .matchedGeometryEffect(id: "\(index) logo", in: namespace, isSource: true)
                 .foregroundStyle(telltale)
                 .scaledToFit()
-                .frame(width: 22, height: 22)
+                .frame(width: 38, height: 38)
         }
         .accessibilityHidden(true)
     }
@@ -102,7 +103,7 @@ struct ClusterWarningLightCell: View {
                         namespace: ns,
                         isShowingLarger: $isShowingLarger
                     )
-                    .frame(height: 92)
+                    .frame(height: 130)
                 }
             }
             .padding()
