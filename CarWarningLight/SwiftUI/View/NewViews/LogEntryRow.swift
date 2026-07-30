@@ -70,7 +70,9 @@ struct LogEntryRow: View {
         id: 3, name: "Tire Pressure Warning Light", imageName: "Tire Pressure Warning Light",
         description: "", symbolType: .advisory, fixDescription: "", drivable: .yes, categories: nil
     )
-    return ClusterTripLogView(entries: [
+    return ClusterTripLogView(
+        isScrolledDown: .constant(false),
+        entries: [
         LightLogEntry(
             carSymbol: sampleEngine,
             dateLogged: Date().addingTimeInterval(-3600)),

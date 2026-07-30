@@ -94,7 +94,7 @@ struct VehicleRow: View {
         }
 
         var body: some View {
-            ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID)
+            ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, isScrolledDown: .constant(false))
         }
     }
     return PreviewHost()

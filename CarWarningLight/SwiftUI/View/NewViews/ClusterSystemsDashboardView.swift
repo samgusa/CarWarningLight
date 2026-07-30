@@ -11,6 +11,7 @@ import SwiftUI
 struct ClusterSystemsDashboardView: View {
     let statuses: [SystemStatus]
     var onSelect: (VehicleSystem) -> Void = { _ in }
+    @Binding var isScrolledDown: Bool
 
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
@@ -46,6 +47,7 @@ struct ClusterSystemsDashboardView: View {
             }
             .padding(.vertical, 12)
         }
+        .trackScrollOffset(isScrolledDown: $isScrolledDown)
         .background(ClusterTheme.Colors.background)
     }
 
@@ -86,13 +88,13 @@ struct ClusterSystemsDashboardView: View {
         SystemStatus(system: .driverAssist, activeCount: 1, worstSeverity: .info),
         SystemStatus(system: .tiresSuspension, activeCount: 0, worstSeverity: nil),
         SystemStatus(system: .comfort, activeCount: 0, worstSeverity: nil),
-    ])
+    ], isScrolledDown: .constant(false))
     .preferredColorScheme(.dark)
 }
 
 #Preview("All clear") {
     ClusterSystemsDashboardView(
-        statuses: VehicleSystem.allCases.map { SystemStatus(system: $0) }
+        statuses: VehicleSystem.allCases.map { SystemStatus(system: $0) }, isScrolledDown: .constant(false)
     )
     .preferredColorScheme(.dark)
 }

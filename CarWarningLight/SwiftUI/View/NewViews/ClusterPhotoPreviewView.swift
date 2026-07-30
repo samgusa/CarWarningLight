@@ -49,10 +49,7 @@ struct ClusterPhotoPreviewView: View {
         }
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $showResults) {
-            let matches = viewModel.imageRecogResults.enumerated().map { i, symbol in
-                ScanMatch(carSymbol: symbol, confidence: max(0.3, 0.95 - Double(i) * 0.18))
-            }
-            ClusterScanResultsView(matches: matches) { selected in
+            ClusterScanResultsView(matches: viewModel.scanMatches) { selected in
                 onScanLogged(selected)
             }
         }

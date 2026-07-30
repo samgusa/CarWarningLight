@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ClusterEncyclopediaView: View {
     let allLights: [CarSymbol]
+    @Binding var isScrolledDown: Bool
 
     @Namespace private var namespace
     @State private var selectedIndex: Int?
@@ -17,9 +18,9 @@ struct ClusterEncyclopediaView: View {
     @State private var isTransitioning: Bool        = false
 
     private let horizontalPadding: CGFloat          = 16
-    private let gridSpacing: CGFloat                = 12
+    private let gridSpacing: CGFloat                = 15
     private let minimumCellWidth: CGFloat           = 100
-    private let desiredCellAspectRatio: CGFloat     = 1.0
+    private let desiredCellAspectRatio: CGFloat     = 1.35
 
     var body: some View {
         ZStack {
@@ -49,13 +50,14 @@ struct ClusterEncyclopediaView: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: gridSpacing) {
                     ForEach(Array(allLights.enumerated()), id: \.element.id) { index, light in
-                        cellView(for: light, at: index, height: max(90, cellHeight))
+                        cellView(for: light, at: index, height: max(130, cellHeight))
                     }
                 }
                 .padding(.horizontal, horizontalPadding)
                 .padding(.vertical, gridSpacing)
             }
             .scrollIndicators(.hidden)
+            .trackScrollOffset(isScrolledDown: $isScrolledDown)
         }
     }
 
@@ -66,6 +68,7 @@ struct ClusterEncyclopediaView: View {
             namespace: namespace,
             isShowingLarger: $isShowingLarge
         )
+        .frame(maxWidth: .infinity)
         .frame(height: height)
         .contentShape(Rectangle())
         .onTapGesture {
@@ -104,6 +107,6 @@ struct ClusterEncyclopediaView: View {
             CarSymbol(id: 4, name: "Child Safety Lock", imageName: "Child Safety Lock", description: "Sample description.", symbolType: .info, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
             CarSymbol(id: 5, name: "Adaptive Front Lighting System", imageName: "Adaptive Front Lighting System", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
             CarSymbol(id: 6, name: "Traction Control Light", imageName: "Traction Control Light", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
-        ])
+    ], isScrolledDown: .constant(false))
     .preferredColorScheme(.dark)
 }

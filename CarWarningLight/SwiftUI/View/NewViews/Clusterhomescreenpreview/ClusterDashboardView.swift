@@ -11,6 +11,7 @@ import SwiftUI
 struct ClusterDashboardView: View {
     @Binding var vehicles: [Vehicle]
     @Binding var selectedVehicleID: UUID
+    @Binding var isScrolledDown: Bool
     @State private var showGarage: Bool = false
 
     private var selectedVehicle: Vehicle {
@@ -20,7 +21,7 @@ struct ClusterDashboardView: View {
     var body: some View {
         VStack(spacing: 0) {
             header
-            ClusterSystemsDashboardView(statuses: selectedVehicle.systemStatuses)
+            ClusterSystemsDashboardView(statuses: selectedVehicle.systemStatuses, isScrolledDown: $isScrolledDown)
         }
         .background(ClusterTheme.Colors.background)
         .sheet(isPresented: $showGarage) {
@@ -91,7 +92,7 @@ struct ClusterDashboardView: View {
         }
 
         var body: some View {
-            ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID)
+            ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, isScrolledDown: .constant(false))
         }
     }
     return PreviewHost()

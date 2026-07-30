@@ -9,19 +9,23 @@
 import SwiftUI
 
 struct ClusterFloatingButtonView<Label: View>: View {
-    var buttonSize: CGFloat
-    var actions: [FloatingAction]
-    var label: (Bool) -> Label
+    var buttonSize:         CGFloat
+    var actions:            [FloatingAction]
+    var label:              (Bool) -> Label
 
-    init(buttonSize: CGFloat = 54, @FloatingActionBuilder actions: @escaping () -> [FloatingAction], label: @escaping (Bool) -> Label) {
-        self.buttonSize = buttonSize
-        self.actions = actions()
-        self.label = label
+    init(
+        buttonSize: CGFloat = 54,
+        @FloatingActionBuilder actions: @escaping () -> [FloatingAction],
+        label: @escaping (Bool) -> Label
+    ) {
+        self.buttonSize     = buttonSize
+        self.actions        = actions()
+        self.label          = label
     }
 
-    @State private var isExpanded: Bool = false
-    @State private var dragLocation: CGPoint = .zero
-    @GestureState private var isDragging: Bool = false
+    @State private var isExpanded: Bool         = false
+    @State private var dragLocation: CGPoint    = .zero
+    @GestureState private var isDragging: Bool  = false
     @State private var selectedAction: FloatingAction?
 
 
@@ -111,19 +115,12 @@ struct ClusterFloatingButtonView<Label: View>: View {
                     }
             }
         }
-        .rotationEffect(.init(degrees: progress(action) * -90))
-        .offset(x: isExpanded ? -offset / 2 : 0)
-        .rotationEffect(.init(degrees: progress(action) * 90))
+        .offset(y: isExpanded ? -verticalOffset(for: action) : 0)
     }
 
-    private var offset: CGFloat {
-        let buttonSize = buttonSize + 10
-        return Double(actions.count) * (actions.count == 1 ? buttonSize * 2 : (actions.count == 2 ? buttonSize * 1.25 : buttonSize))
-    }
-
-    private func progress(_ action: FloatingAction) -> CGFloat {
+    private func verticalOffset(for action: FloatingAction) -> CGFloat {
         let index = CGFloat(actions.firstIndex(where: { $0.id == action.id }) ?? 0)
-        return actions.count == 1 ? 1 : (index / CGFloat(actions.count - 1))
+        return (index + 1) * (buttonSize + 12)
     }
 }
 

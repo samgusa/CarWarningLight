@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct TabOverlayModifier<ViewContent: View>: ViewModifier {
-
     var isPresented: Bool
     @ViewBuilder var viewContent: ViewContent
     var onDismiss: () -> Void
@@ -19,30 +18,6 @@ struct TabOverlayModifier<ViewContent: View>: ViewModifier {
     func body(content: Content) -> some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .overlay {
-                if isViewAppearing {
-                    GlassEffectContainer {
-                        if isPresented {
-                            Rectangle()
-                                .fill(.black.opacity(0.25))
-                                .contentShape(.rect)
-                                .onTapGesture { onDismiss() }
-                                .ignoresSafeArea()
-                                .transition(.opacity)
-                        }
-                        if isPresented {
-                            viewContent
-                                .clipShape(.rect(cornerRadius: 30))
-                                .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 30))
-                                .frame(maxHeight: .infinity, alignment: .bottom)
-                                .padding(.horizontal, 15)
-                                .padding(.bottom, 10)
-                        }
-                    }
-                    .allowsHitTesting(isPresented)
-                    .animation(.interpolatingSpring(duration: 0.3, bounce: 0, initialVelocity: 0), value: isPresented)
-                }
-            }
             .onAppear { isViewAppearing = true }
             .onDisappear { isViewAppearing = false }
     }
@@ -50,7 +25,6 @@ struct TabOverlayModifier<ViewContent: View>: ViewModifier {
 
 struct TabBarExtractor: UIViewRepresentable {
     var result: (UITabBar) -> Void
-
     func makeUIView(context: Context) -> UIView {
         let view = UIView()
         view.backgroundColor = .clear
@@ -61,8 +35,7 @@ struct TabBarExtractor: UIViewRepresentable {
         }
         return view
     }
-
-    func updateUIView(_ uiView: UIView, context: Context) { }
+    func updateUIView(_ uiView: UIViewType, context: Context) { }
 }
 
 extension UIView {

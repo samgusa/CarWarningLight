@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ClusterTripLogView: View {
+    @Binding var isScrolledDown: Bool
     let entries: [LightLogEntry]
     var onSelect: (LightLogEntry) -> Void = { _ in }
 
@@ -34,6 +35,7 @@ struct ClusterTripLogView: View {
             }
             .padding(.bottom, 24)
         }
+        .trackScrollOffset(isScrolledDown: $isScrolledDown)
         .background(ClusterTheme.Colors.background)
     }
 
@@ -96,7 +98,9 @@ struct ClusterTripLogView: View {
         id: 3, name: "Tire Pressure Warning Light", imageName: "Tire Pressure Warning Light",
         description: "", symbolType: .advisory, fixDescription: "", drivable: .yes, categories: nil
     )
-    return ClusterTripLogView(entries: [
+    return ClusterTripLogView(
+        isScrolledDown: .constant(false),
+        entries: [
         LightLogEntry(
             carSymbol: sampleEngine,
             dateLogged: Date().addingTimeInterval(-3600)),

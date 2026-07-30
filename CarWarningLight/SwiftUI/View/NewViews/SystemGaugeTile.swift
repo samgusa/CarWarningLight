@@ -75,13 +75,15 @@ struct SystemGaugeTile: View {
         SystemStatus(system: .driverAssist, activeCount: 1, worstSeverity: .info),
         SystemStatus(system: .tiresSuspension, activeCount: 0, worstSeverity: nil),
         SystemStatus(system: .comfort, activeCount: 0, worstSeverity: nil),
-    ])
+    ], isScrolledDown: .constant(false)
+    )
     .preferredColorScheme(.dark)
 }
 
 #Preview("All clear") {
     ClusterSystemsDashboardView(
-        statuses: VehicleSystem.allCases.map { SystemStatus(system: $0) }
+        statuses: VehicleSystem.allCases.map { SystemStatus(system: $0) },
+        isScrolledDown: .constant(false)
     )
     .preferredColorScheme(.dark)
 }

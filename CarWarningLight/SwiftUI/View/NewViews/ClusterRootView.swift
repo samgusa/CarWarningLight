@@ -1,148 +1,210 @@
 //
 //  ClusterRootView.swift
-//  CarWarningLight
-//
-//  Created by Sam Greenhill on 7/27/26.
-//  Copyright © 2026 simplyAmazingMachines. All rights reserved.
-//
 
 import SwiftUI
 import PhotosUI
 
+
+enum AppTab: String, CaseIterable {
+    case encyclopedia           = "ENCYCLOPEDIA"
+    case dashboard              = "DASHBOARD"
+    case tripLog                = "TRIP LOG"
+
+    var icon: String {
+        switch self {
+        case .encyclopedia:      return "book.closed.fill"
+        case .dashboard:         return "gauge.with.dots.needle.67percent"
+        case .tripLog:           return "clock.arrow.circlepath"
+        }
+    }
+}
+
 struct ClusterRootView: View {
-    enum AppTab { case encyclopedia, dashboard, tripLog }
 
     let allLights: [CarSymbol]
     @EnvironmentObject private var uiState: UIStateManager
 
-    @State private var activeTab: AppTab?           = .encyclopedia
-    @State private var isFABExpanded: Bool          = false
-    @State private var tabBar: UITabBar?
+    @State private var activeTab: AppTab = .encyclopedia
 
-    @State private var vehicles: [Vehicle]          = [Vehicle(name: "My Vehicle", systemStatuses: VehicleSystem.allCases.map { SystemStatus(system: $0) })]
-    @State private var selectedVehicleID: UUID      = UUID()
-    @State private var logEntries: [LightLogEntry]  = []
+    @State private var isScrolledDown: Bool = false
 
-    @State private var showCamera: Bool             = false
-    @State private var showImagePicker: Bool        = false
+    @State private var vehicles: [Vehicle] = [Vehicle(name: "My Vehicle", systemStatuses: VehicleSystem.allCases.map { SystemStatus(system: $0) })]
+    @State private var selectedVehicleID: UUID = UUID()
+    @State private var logEntries: [LightLogEntry] = []
+
+    @State private var showCamera = false
+    @State private var showImagePicker = false
     @State private var pickerItem: PhotosPickerItem?
-    @State private var inputImage: UIImage?
-    @State private var showPhotoPreview: Bool       = false
 
-    private let placeholderImage                    = UIImage(systemName: "photo.fill") ?? UIImage()
+    @State private var photoForPreview: CapturedPhoto?
+    @State private var selectedDetailSymbol: CarSymbol?
+    @Namespace private var standaloneNamespace
+    @Namespace private var tabAnimation
 
     var body: some View {
-        TabView(selection: $activeTab) {
-            Tab("Encyclopedia", systemImage: "book.closed.fill", value: AppTab.encyclopedia) {
-                NavigationStack {
-                    ClusterEncyclopediaView(allLights: allLights)
+        ZStack(alignment: .bottom) {
+            GeometryReader { geo in
+                let tabs = AppTab.allCases
+                let currentIndex = tabs.firstIndex(of: activeTab) ?? 0
+
+                HStack(spacing: 0) {
+                    ClusterEncyclopediaView(allLights: allLights, isScrolledDown: $isScrolledDown)
+                        .frame(width: geo.size.width)
+
+                    ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, isScrolledDown: $isScrolledDown)
+                        .frame(width: geo.size.width)
+
+                    ClusterTripLogView(isScrolledDown: $isScrolledDown, entries: logEntries) { entry in
+                        selectedDetailSymbol = entry.carSymbol
+                    }
+                    .frame(width: geo.size.width)
                 }
-                .tabOverlay(isPresented: isFABExpanded) { fabMenu } onDismiss: { isFABExpanded = false }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .offset(x: -CGFloat(currentIndex) * geo.size.width)
+                .animation(.spring(response: 0.42, dampingFraction: 0.88, blendDuration: 0), value: currentIndex)
             }
 
-            Tab("Dashboard", systemImage: "gauge.with.dots.needle.67percent", value: AppTab.dashboard) {
-                ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID)
-                    .tabOverlay(isPresented: isFABExpanded) { fabMenu } onDismiss: { isFABExpanded = false }
-            }
-
-            Tab("Trip Log", systemImage: "clock.arrow.circlepath", value: AppTab.tripLog) {
-                ClusterTripLogView(entries: logEntries)
-                    .tabOverlay(isPresented: isFABExpanded) { fabMenu } onDismiss: { isFABExpanded = false }
-            }
-
-            Tab(value: AppTab?.none, role: .search) {
-                Color.clear
-            } label: {
-                Image(systemName: "plus")
-            }
+            customTabBar
+                .padding(.horizontal, 20)
+                .padding(.bottom, 24)
         }
-        .tint(ClusterTheme.Colors.amber)
-        .tabBarMinimizeBehavior(.onScrollDown)
-        .toolbar(uiState.shouldShowFAB ? .visible : .hidden, for: .tabBar)
-        .tabViewBottomAccessory {
-            AccessoryView { _, _ in isFABExpanded = false }
-        }
-        .onChange(of: activeTab) { oldValue, newValue in
-            if newValue == nil {
-                UITabBar.setAnimationsEnabled(false)
-                activeTab = oldValue
-                DispatchQueue.main.async {
-                    UITabBar.setAnimationsEnabled(true)
-                    isFABExpanded.toggle()
-                }
-            }
-        }
-        .background(TabBarExtractor { tabBar = $0 })
-        .compositingGroup()
-        .onChange(of: isFABExpanded) { _, _ in animateFABIcon() }
+        .ignoresSafeArea(edges: .bottom)
         .onAppear {
             if let first = vehicles.first { selectedVehicleID = first.id }
         }
         .fullScreenCover(isPresented: $showCamera) {
             CameraView()
         }
-        .fullScreenCover(isPresented: $showPhotoPreview) {
+        .fullScreenCover(item: $photoForPreview) { photo in
             ClusterPhotoPreviewView(
-                capturedPhoto: CapturedPhoto(image: inputImage ?? placeholderImage),
+                capturedPhoto: photo,
                 onScanLogged: { symbol in
                     logEntries.append(LightLogEntry(carSymbol: symbol, dateLogged: Date()))
+                    photoForPreview = nil
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        selectedDetailSymbol = symbol
+                    }
                 }
             )
+        }
+        .fullScreenCover(item: $selectedDetailSymbol) { symbol in
+            ClusterExpandedView(
+                carSymbol: symbol,
+                namespace: standaloneNamespace,
+                isShowingLarge: .constant(true),
+                bigImageId: 0,
+                index: .constant(0)
+            )
+            .environmentObject(uiState)
         }
         .photosPicker(isPresented: $showImagePicker, selection: $pickerItem, matching: .images)
         .onChange(of: pickerItem) { _, _ in
             Task {
-                if let data = try? await pickerItem?.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
-                    inputImage = uiImage
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { showPhotoPreview = true }
+                guard let item = pickerItem else { return }
+                do {
+                    if let data = try await item.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
+                        photoForPreview = CapturedPhoto(image: uiImage)
+                    }
+                } catch {
+                    print("Photo load failed: \(error)")
+                }
+                pickerItem = nil
+            }
+        }
+    }
+
+    private var customTabBar: some View {
+        HStack(spacing: 10) {
+            HStack(spacing: 0) {
+                ForEach(AppTab.allCases, id: \.self) { tab in
+                    let isActive = activeTab == tab
+
+                    if !isScrolledDown || isActive {
+                        tabButton(tab)
+                    }
+
+                    if !isScrolledDown && tab != AppTab.allCases.last {
+                        Spacer(minLength: 0)
+                    }
                 }
             }
+            .padding(.horizontal, isScrolledDown ? 0 : 8)
+            .frame(width: isScrolledDown ? 75 : nil, height: 54)
+            .padding(.vertical, 8)
+            .background(
+                Capsule()
+                    .fill(.ultraThinMaterial)
+                    .overlay {
+                        Capsule()
+                            .stroke(Color.white.opacity(0.12), lineWidth: 0.5)
+                    }
+            )
+            .animation(.spring(response: 0.4, dampingFraction: 0.82), value: isScrolledDown)
+            .animation(.spring(response: 0.35, dampingFraction: 0.8), value: activeTab)
+
+            if isScrolledDown {
+                Spacer()
+            }
+
+            ClusterFloatingButtonView(buttonSize: 54) {
+                FloatingAction(symbol: "camera.fill", background: ClusterTheme.Colors.amber) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { showCamera = true }
+                }
+                FloatingAction(symbol: "photo.fill", background: ClusterTheme.Colors.green) {
+                    showImagePicker = true
+                }
+            } label: { isExpanded in
+                ClusterFABLabel(isExpanded: isExpanded)
+            }
         }
     }
 
-    var fabMenu: some View {
-        HStack(spacing: 24) {
-            fabAction(symbol: "camera.fill", label: "Camera", color: ClusterTheme.Colors.amber) {
-                isFABExpanded = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { showCamera = true }
-            }
-            fabAction(symbol: "photo.fill", label: "Library", color: ClusterTheme.Colors.green) {
-                isFABExpanded = false
-                showImagePicker = true
-            }
-        }
-        .padding(.vertical, 24)
-        .frame(maxWidth: .infinity)
-    }
+    @ViewBuilder
+    private func tabButton(_ tab: AppTab) -> some View {
+        let isActive = activeTab == tab
 
-    func fabAction(symbol: String, label: String, color: Color, action: @escaping() -> Void) -> some View {
-        Button(action: action) {
-            VStack(spacing: 8) {
-                Image(systemName: symbol)
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(color)
-                    .frame(width: 52, height: 52)
-                    .background(
-                        Circle()
-                            .fill(color.opacity(0.15))
-                    )
-                Text(label)
-                    .font(ClusterTheme.Types.mono(11, weight: .semibold))
-                    .foregroundStyle(ClusterTheme.Colors.textPrimary)
+        Button {
+            guard tab != activeTab else { return }
+            withAnimation(.spring(response: 0.38, dampingFraction: 0.8)) {
+                activeTab = tab
             }
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: tab.icon)
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(isActive ? (isScrolledDown ? ClusterTheme.Colors.amber : Color.white) : Color.secondary)
+                    .scaleEffect(isActive ? 1.05 : 0.8)
+                    .frame(width: isScrolledDown ? 54 : nil, height: isScrolledDown ? 54 : nil)
+//                    .padding(.horizontal, activeTab != tab ? 10 : 0)
+
+                if isActive && !isScrolledDown{
+                    Text(tab.rawValue)
+                        .font(.system(size: 11, weight: .bold))
+                        .minimumScaleFactor(0.8)
+                        .foregroundStyle(ClusterTheme.Colors.textPrimary)
+                        .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .leading)))
+                        .lineLimit(1)
+                }
+            }
+            .animation(.spring(response: 0.3, dampingFraction: 0.75), value: isActive)
+            .padding(.horizontal, isScrolledDown ? 0 : (isActive ? 16 : 12))
+            .padding(.vertical, isScrolledDown ? 0 : 15)
+            .background {
+                if isActive && !isScrolledDown {
+                    Capsule()
+                        .fill(ClusterTheme.Colors.amber)
+                        .matchedGeometryEffect(id: "activeTabIndicator", in: tabAnimation)
+                }
+            }
+            .animation(.spring(response: 0.3, dampingFraction: 0.75), value: isActive)
         }
         .buttonStyle(.plain)
-    }
-
-    func animateFABIcon() {
-        let fabImageViews = (tabBar?.subviews(type: UIImageView.self) ?? [])
-            .filter { $0.description.contains("plus") }
-        for imageView in fabImageViews {
-            let transform: CGAffineTransform = isFABExpanded ? .init(rotationAngle: 45 * .pi / 180) : .identity
-            UIView.animate(withDuration: 0.2) {
-                imageView.layer.setAffineTransform(transform)
-            }
-        }
+        .transition(.asymmetric(
+            insertion: .opacity.combined(with: .scale(scale: 0.7)),
+            removal: .opacity.combined(with: .scale(scale: 0.7))
+        ))
+        .accessibilityLabel(tab.rawValue)
+        .accessibilityAddTraits(isActive ? [.isSelected] : [])
     }
 }
 
@@ -154,4 +216,35 @@ struct ClusterRootView: View {
     ])
     .environmentObject(UIStateManager())
     .preferredColorScheme(.dark)
+}
+
+struct ScrollOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+extension View {
+    func trackScrollOffset(isScrolledDown: Binding<Bool>) -> some View {
+        self.modifier(ScrollTrackerModifier(isScrolledDown: isScrolledDown))
+    }
+}
+
+struct ScrollTrackerModifier: ViewModifier {
+    @Binding var isScrolledDown: Bool
+
+    func body(content: Content) -> some View {
+        content
+            .onScrollGeometryChange(for: CGFloat.self) { geometry in
+                geometry.contentOffset.y + geometry.contentInsets.top
+            } action: { _, newValue in
+                let shouldBeScrolled = newValue > 40
+                guard shouldBeScrolled != isScrolledDown else { return }
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.82)) {
+                    isScrolledDown = shouldBeScrolled
+                }
+            }
+
+    }
 }
