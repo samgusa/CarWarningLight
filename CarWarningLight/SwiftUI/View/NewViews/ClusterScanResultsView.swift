@@ -20,7 +20,7 @@ struct ClusterScanResultsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                header
+                ClusterHeaderBar(title: "Scan") { dismiss() }
                 if let top {
                     confidenceGauge(for: top)
                 } else {
@@ -61,6 +61,7 @@ struct ClusterScanResultsView: View {
         let telltale = ClusterTheme.Colors.forSymbolType(match.carSymbol.symbolType)
         return Button {
             onSelect(match.carSymbol)
+            dismiss()
         } label: {
             VStack(spacing: 16) {
                 ZStack {
@@ -132,6 +133,7 @@ struct ClusterScanResultsView: View {
             ForEach(Array(alternates.enumerated()), id: \.offset) { _, alt in
                 Button {
                     onSelect(alt.carSymbol)
+                    dismiss()
                 } label: {
                     HStack(spacing: 10) {
                         Image(alt.carSymbol.imageName)
@@ -178,8 +180,8 @@ struct ClusterScanResultsView: View {
 
 #Preview {
     ClusterScanResultsView(matches: [
-           ScanMatch(carSymbol: CarSymbol(id: 1, name: "Check Engine Light", imageName: "exclamationmark.engine.fill", description: "", symbolType: .warning, fixDescription: "", drivable: .no, categories: nil), confidence: 0.92),
-           ScanMatch(carSymbol: CarSymbol(id: 2, name: "Reduced Power Warning", imageName: "exclamationmark.triangle.fill", description: "", symbolType: .warning, fixDescription: "", drivable: .uncertain, categories: nil), confidence: 0.41),
-           ScanMatch(carSymbol: CarSymbol(id: 3, name: "Transmission Temperature", imageName: "exclamationmark.triangle.fill", description: "", symbolType: .advisory, fixDescription: "", drivable: .yes, categories: nil), confidence: 0.33),
+           ScanMatch(carSymbol: CarSymbol(id: 1, name: "Check Engine Light", imageName: "Check Engine Light", description: "", symbolType: .warning, fixDescription: "", drivable: .no, categories: nil), confidence: 0.92),
+           ScanMatch(carSymbol: CarSymbol(id: 2, name: "Reduced Power Warning", imageName: "Reduced Power Warning", description: "", symbolType: .warning, fixDescription: "", drivable: .uncertain, categories: nil), confidence: 0.41),
+           ScanMatch(carSymbol: CarSymbol(id: 3, name: "Transmission Temperature", imageName: "Transmission Temperature", description: "", symbolType: .advisory, fixDescription: "", drivable: .yes, categories: nil), confidence: 0.33),
        ])
 }

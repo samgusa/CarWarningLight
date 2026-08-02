@@ -36,9 +36,9 @@ struct CameraView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var cameraManager = CameraManager()
     @State private var showPermissionAlert: Bool = false
-    @State private var showPhotoPreview: Bool = false
 
     @State private var isAnimating: Bool = false
+    var onPhotoCaptured: (UIImage) -> Void = { _ in }
 
     private let focusSquareSize: CGFloat = 150
 
@@ -82,17 +82,11 @@ struct CameraView: View {
 
             }
             .onChange(of: cameraManager.lastCapturedPhoto) { _, newPhoto in
-                if newPhoto != nil {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        showPhotoPreview = true
-                    }
+                guard let photo = newPhoto else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    onPhotoCaptured(photo.image)
                 }
             }
-            .navigationDestination(isPresented: $showPhotoPreview, destination: {
-                if let image = cameraManager.lastCapturedPhoto {
-                    PhotoPreviewView(capturedPhoto: image)
-                }
-            })
             .onAppear {
                 checkPermissionAndStart()
                 self.isAnimating = true

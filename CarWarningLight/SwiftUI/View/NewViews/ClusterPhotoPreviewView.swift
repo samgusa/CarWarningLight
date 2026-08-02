@@ -29,7 +29,7 @@ struct ClusterPhotoPreviewView: View {
 
             if let photo = capturedPhoto {
                 VStack(spacing: 20) {
-                    headerBar
+                    ClusterHeaderBar(title: "Scan") { dismiss() }
                     Spacer()
                     Image(uiImage: photo.image)
                         .resizable()

@@ -16,27 +16,17 @@ struct ClusterWarningLightCell: View {
 
     private var telltale: Color { ClusterTheme.Colors.forSymbolType(carData.symbolType) }
 
-    private var shortTypeLabel: String {
+    private var typeLetter: String {
         switch carData.symbolType {
-        case .advisory: return "ADVISORY"
-        case .info: return "INFO"
-        case .warning: return "WARNING"
+        case .advisory: return "A"
+        case .info: return "I"
+        case .warning: return "W"
         }
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                glowingIcon
-                Spacer()
-                Text(shortTypeLabel)
-                    .font(ClusterTheme.Types.mono(9, weight: .bold))
-                    .tracking(1.0)
-                    .foregroundStyle(telltale)
-                    .lineLimit(1)
-                    .fixedSize()
-            }
-
+        VStack(alignment: .center, spacing: 10) {
+            glowingIcon
             Text(carData.name)
                 .font(ClusterTheme.Types.body(13, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
@@ -46,8 +36,22 @@ struct ClusterWarningLightCell: View {
             Spacer(minLength: 0)
         }
         .padding(12)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .clusterPanel()
+        .matchedGeometryEffect(id: "\(index) card", in: namespace, isSource: true)
+    }
+
+    private var typeBadge: some View {
+        Text(typeLetter)
+            .font(ClusterTheme.Types.mono(10, weight: .bold))
+            .foregroundStyle(telltale)
+            .frame(width: 20, height: 20)
+            .background(
+                Circle()
+                    .stroke(telltale, lineWidth: 1)
+            )
+            .opacity(0.5)
+            .accessibilityLabel(carData.symbolType.title)
     }
 
     private var glowingIcon: some View {
@@ -61,7 +65,6 @@ struct ClusterWarningLightCell: View {
             Image(carData.imageName)
                 .resizable()
                 .renderingMode(.template)
-                .matchedGeometryEffect(id: "\(index) logo", in: namespace, isSource: true)
                 .foregroundStyle(telltale)
                 .scaledToFit()
                 .frame(width: 38, height: 38)
@@ -92,7 +95,7 @@ struct ClusterWarningLightCell: View {
                         carData: CarSymbol(
                             id: i,
                             name: item.0,
-                            imageName: "exclamationmark.triangle.fill",
+                            imageName: item.0,
                             description: "",
                             symbolType: item.1,
                             fixDescription: "",

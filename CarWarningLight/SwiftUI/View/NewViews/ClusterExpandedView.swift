@@ -43,6 +43,12 @@ struct ClusterExpandedView: View {
             }
         }
         .background(ClusterTheme.Colors.background)
+        .clipShape(RoundedRectangle(cornerRadius: isShowingLarge ? 0 : 16, style: .continuous))
+        .matchedGeometryEffect(
+            id: isShowingLarge ? "\(bigImageId) card" : "\(index ?? 0) card",
+            in: namespace,
+            isSource: false
+        )
         .onAppear {
             uiState.detailViewAppeared(id: carSymbol.imageName)
             viewModel.resetAnimations()
@@ -105,11 +111,6 @@ struct ClusterExpandedView: View {
                 Image(carSymbol.imageName)
                     .resizable()
                     .renderingMode(.template)
-                    .matchedGeometryEffect(
-                        id: isShowingLarge ? "\(bigImageId)" : "\(index ?? 0) logo",
-                        in: namespace,
-                        isSource: false
-                    )
                     .foregroundStyle(telltale)
                     .scaledToFit()
                     .frame(width: 38, height: 38)
@@ -124,6 +125,9 @@ struct ClusterExpandedView: View {
                     .tracking(1.2)
                     .foregroundStyle(telltale)
             }
+            .opacity(viewModel.hasAppeared ? 1 : 0)
+            .offset(y: viewModel.hasAppeared ? 0 : 8)
+            .animation(.easeInOut(duration: 0.25), value: viewModel.hasAppeared)
             Spacer()
         }
         .padding(.horizontal)

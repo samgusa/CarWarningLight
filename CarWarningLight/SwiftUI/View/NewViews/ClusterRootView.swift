@@ -36,8 +36,10 @@ struct ClusterRootView: View {
     @State private var showImagePicker = false
     @State private var pickerItem: PhotosPickerItem?
 
+    @State private var isDetailActive: Bool = false
+
     @State private var photoForPreview: CapturedPhoto?
-    @State private var selectedDetailSymbol: CarSymbol?
+    @State private var selectedLogEntry: LightLogEntry?
     @Namespace private var standaloneNamespace
     @Namespace private var tabAnimation
 
@@ -48,14 +50,14 @@ struct ClusterRootView: View {
                 let currentIndex = tabs.firstIndex(of: activeTab) ?? 0
 
                 HStack(spacing: 0) {
-                    ClusterEncyclopediaView(allLights: allLights, isScrolledDown: $isScrolledDown)
+                    ClusterEncyclopediaView(allLights: allLights, isScrolledDown: $isScrolledDown, isDetailActive: $isDetailActive)
                         .frame(width: geo.size.width)
 
                     ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, isScrolledDown: $isScrolledDown)
                         .frame(width: geo.size.width)
 
                     ClusterTripLogView(isScrolledDown: $isScrolledDown, entries: logEntries) { entry in
-                        selectedDetailSymbol = entry.carSymbol
+                        selectedLogEntry = entry
                     }
                     .frame(width: geo.size.width)
                 }
@@ -67,40 +69,59 @@ struct ClusterRootView: View {
             customTabBar
                 .padding(.horizontal, 20)
                 .padding(.bottom, 24)
+                .opacity(isDetailActive ? 0 : 1)
+                .scaleEffect(isDetailActive ? 0.9 : 1, anchor: .bottom)
+                .allowsHitTesting(!isDetailActive)
+                .animation(.easeInOut(duration: 0.25), value: isDetailActive)
         }
         .ignoresSafeArea(edges: .bottom)
         .onAppear {
             if let first = vehicles.first { selectedVehicleID = first.id }
         }
         .fullScreenCover(isPresented: $showCamera) {
-            CameraView()
+            CameraView { image in
+                showCamera = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    photoForPreview = CapturedPhoto(image: image)
+                }
+            }
         }
         .fullScreenCover(item: $photoForPreview) { photo in
             ClusterPhotoPreviewView(
                 capturedPhoto: photo,
                 onScanLogged: { symbol in
-                    logEntries.append(LightLogEntry(carSymbol: symbol, dateLogged: Date()))
-                    photoForPreview = nil
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                        selectedDetailSymbol = symbol
+                    let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date())
+                    logEntries.append(entry)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        photoForPreview = nil
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                            selectedLogEntry = entry
+                        }
                     }
                 }
             )
         }
-        .fullScreenCover(item: $selectedDetailSymbol) { symbol in
+        .fullScreenCover(item: $selectedLogEntry) { entry in
             ClusterExpandedView(
-                carSymbol: symbol,
+                carSymbol: entry.carSymbol,
                 namespace: standaloneNamespace,
                 isShowingLarge: .constant(true),
                 bigImageId: 0,
-                index: .constant(0)
+                index: .constant(0),
+                logEntry: entry,
+                onToggleResolved: {
+                    if let idx = logEntries.firstIndex(where: { $0.id == entry.id }) {
+                        logEntries[idx].isActive.toggle()
+                        selectedLogEntry = logEntries[idx]
+                    }
+                }
             )
             .environmentObject(uiState)
         }
         .photosPicker(isPresented: $showImagePicker, selection: $pickerItem, matching: .images)
-        .onChange(of: pickerItem) { _, _ in
+        .onChange(of: pickerItem) { _, newItem in
+            guard let item = newItem else { return }
             Task {
-                guard let item = pickerItem else { return }
                 do {
                     if let data = try await item.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
                         photoForPreview = CapturedPhoto(image: uiImage)
@@ -129,8 +150,8 @@ struct ClusterRootView: View {
                 }
             }
             .padding(.horizontal, isScrolledDown ? 0 : 8)
-            .frame(width: isScrolledDown ? 75 : nil, height: 54)
-            .padding(.vertical, 8)
+            .frame(width: isScrolledDown ? 54 : nil, height: 54)
+            .padding(.vertical, isScrolledDown ? 0 : 8)
             .background(
                 Capsule()
                     .fill(.ultraThinMaterial)

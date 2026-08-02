@@ -16,11 +16,12 @@ struct ClusterEncyclopediaView: View {
     @State private var selectedIndex: Int?
     @State private var isShowingLarge: Bool         = false
     @State private var isTransitioning: Bool        = false
+    @Binding var isDetailActive: Bool
 
     private let horizontalPadding: CGFloat          = 16
     private let gridSpacing: CGFloat                = 15
     private let minimumCellWidth: CGFloat           = 100
-    private let desiredCellAspectRatio: CGFloat     = 1.35
+    private let desiredCellAspectRatio: CGFloat     = 1.0
 
     var body: some View {
         ZStack {
@@ -40,6 +41,9 @@ struct ClusterEncyclopediaView: View {
             }
         }
         .background(ClusterTheme.Colors.background)
+        .onChange(of: isShowingLarge) { _, newValue in
+            isDetailActive = newValue
+        }
     }
 
     private var contentView: some View {
@@ -77,6 +81,7 @@ struct ClusterEncyclopediaView: View {
             selectedIndex = index
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 isShowingLarge = true
+                isDetailActive = true
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { isTransitioning = false }
         }
@@ -107,6 +112,6 @@ struct ClusterEncyclopediaView: View {
             CarSymbol(id: 4, name: "Child Safety Lock", imageName: "Child Safety Lock", description: "Sample description.", symbolType: .info, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
             CarSymbol(id: 5, name: "Adaptive Front Lighting System", imageName: "Adaptive Front Lighting System", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
             CarSymbol(id: 6, name: "Traction Control Light", imageName: "Traction Control Light", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
-    ], isScrolledDown: .constant(false))
+    ], isScrolledDown: .constant(false), isDetailActive: .constant(false))
     .preferredColorScheme(.dark)
 }

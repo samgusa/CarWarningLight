@@ -17,13 +17,14 @@ struct ClusterFABLabel: View {
             .foregroundStyle(ClusterTheme.Colors.textPrimary)
             .rotationEffect(.degrees(isExpanded ? 45 : 0))
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(ClusterTheme.Colors.panel)
+            .background(.ultraThinMaterial)
+            .background(ClusterTheme.Colors.amber.opacity(isExpanded ? 0.25 : 0.15))
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(isExpanded ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel, lineWidth: 1.5)
+                    .stroke(isExpanded ? ClusterTheme.Colors.amber : ClusterTheme.Colors.amber.opacity(0.5), lineWidth: 1.5)
             )
             .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.4), radius: 10, y: 4)
+            .shadow(color: ClusterTheme.Colors.amber.opacity(0.35), radius: 12, y: 4)
     }
 }
 
