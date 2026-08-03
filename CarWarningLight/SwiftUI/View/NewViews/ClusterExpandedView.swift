@@ -30,23 +30,8 @@ struct ClusterExpandedView: View {
             ClusterTheme.Colors.background
                 .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                headerBar
-
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 14) {
-                        heroRow
-                        safetyPlaquard
-                        if let logEntry {
-                            resolvedControl(for: logEntry)
-                        }
-                        infoPanel(label: "DESCRIPTION", body: carSymbol.description)
-                        infoPanel(label: "HOW TO FIX", body: carSymbol.fixDescription)
-                    }
-                    .padding(.bottom, 24)
-                }
-            }
-            .clusterTopSafeArea(fill: ClusterTheme.Colors.panel)
+            mainContent
+                .clusterTopSafeArea(fill: ClusterTheme.Colors.panel)
         }
         .clipShape(RoundedRectangle(cornerRadius: isShowingLarge ? 0 : 16, style: .continuous))
         .matchedGeometryEffect(
@@ -66,6 +51,25 @@ struct ClusterExpandedView: View {
             viewModel.cancelAnimations()
             uiState.detailViewDisappeared(id: carSymbol.imageName)
             if !viewModel.isDismissing { viewModel.hasAppeared = false }
+        }
+    }
+
+    private var mainContent: some View {
+        VStack(spacing: 0) {
+            headerBar
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 14) {
+                    heroRow
+                    safetyPlaquard
+                    if let logEntry {
+                        resolvedControl(for: logEntry)
+                    }
+                    infoPanel(label: "DESCRIPTION", body: carSymbol.description)
+                    infoPanel(label: "HOW TO FIX", body: carSymbol.fixDescription)
+                }
+                .padding(.bottom, 24)
+            }
         }
     }
 

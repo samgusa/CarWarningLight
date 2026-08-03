@@ -41,6 +41,11 @@ struct ClusterEncyclopediaView: View {
             }
         }
         .background(ClusterTheme.Colors.background)
+        // Only give up the top safe area while the expanded view is showing.
+        // Normal grid browsing keeps respecting it (so cells stay clear of
+        // the notch); once expanded, this becomes ClusterExpandedView's own
+        // edge-to-edge surface, matching how it looks as a fullScreenCover.
+        .ignoresSafeArea(edges: isShowingLarge ? .top : [])
         .onChange(of: isShowingLarge) { _, newValue in
             isDetailActive = newValue
         }
