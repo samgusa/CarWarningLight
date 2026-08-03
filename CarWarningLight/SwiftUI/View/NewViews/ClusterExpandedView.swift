@@ -26,23 +26,28 @@ struct ClusterExpandedView: View {
 
 
     var body: some View {
-        VStack(spacing: 0) {
-            headerBar
+        ZStack {
+            ClusterTheme.Colors.background
+                .ignoresSafeArea()
 
-            ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
-                    heroRow
-                    safetyPlaquard
-                    if let logEntry {
-                        resolvedControl(for: logEntry)
+            VStack(spacing: 0) {
+                headerBar
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 14) {
+                        heroRow
+                        safetyPlaquard
+                        if let logEntry {
+                            resolvedControl(for: logEntry)
+                        }
+                        infoPanel(label: "DESCRIPTION", body: carSymbol.description)
+                        infoPanel(label: "HOW TO FIX", body: carSymbol.fixDescription)
                     }
-                    infoPanel(label: "DESCRIPTION", body: carSymbol.description)
-                    infoPanel(label: "HOW TO FIX", body: carSymbol.fixDescription)
+                    .padding(.bottom, 24)
                 }
-                .padding(.bottom, 24)
             }
+            .clusterTopSafeArea(fill: ClusterTheme.Colors.panel)
         }
-        .background(ClusterTheme.Colors.background)
         .clipShape(RoundedRectangle(cornerRadius: isShowingLarge ? 0 : 16, style: .continuous))
         .matchedGeometryEffect(
             id: isShowingLarge ? "\(bigImageId) card" : "\(index ?? 0) card",
@@ -206,66 +211,4 @@ struct ClusterExpandedView: View {
         .clusterPanel()
         .padding(.horizontal)
     }
-}
-
-#Preview("Browsing encyclopedia — no log context") {
-    struct PreviewHost: View {
-        @Namespace var ns
-        @State var isShowingLarge: Bool = true
-        @State var index: Int? = 0
-        let sample = CarSymbol(
-                    id: 1, name: "Check Engine Light",
-                    imageName: "Check Engine Light",
-                    description: "This light indicates there's an issue with the engine. It could mean something minor, like a loose gas cap, or a much larger problem.",
-                    symbolType: .warning,
-                    fixDescription: "Get a professional mechanic to check it out, especially if the light is blinking.",
-                    drivable: .no, categories: nil
-                )
-
-        var body: some View {
-            ClusterExpandedView(
-                carSymbol: sample, namespace: ns, isShowingLarge: $isShowingLarge, bigImageId: 1, index: $index
-            )
-            .environmentObject(UIStateManager())
-            .preferredColorScheme(.dark)
-        }
-    }
-    return PreviewHost()
-}
-
-
-#Preview("From Trip Log — active") {
-    struct PreviewHost: View {
-        @Namespace var ns
-        @State var isShowingLarge: Bool = true
-        @State var index: Int? = 0
-        @State var entry = LightLogEntry(
-            carSymbol: CarSymbol(
-                id: 1,
-                name: "Check Engine Light",
-                imageName: "Check Engine Light",
-                description: "This light indicates there's an issue with the engine. It could mean something minor, like a loose gas cap, or a much larger problem.",
-                symbolType: .warning,
-                fixDescription: "Get a professional mechanic to check it out, especially if the light is blinking.",
-                drivable: .no,
-                categories: nil
-            ),
-            dateLogged: Date()
-        )
-
-        var body: some View {
-            ClusterExpandedView(
-                carSymbol: entry.carSymbol,
-                namespace: ns,
-                isShowingLarge: $isShowingLarge,
-                bigImageId: 1,
-                index: $index,
-                logEntry: entry,
-                onToggleResolved: { entry.isActive.toggle() }
-            )
-            .environmentObject(UIStateManager())
-            .preferredColorScheme(.dark)
-        }
-    }
-    return PreviewHost()
 }

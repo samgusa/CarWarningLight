@@ -16,21 +16,25 @@ struct ClusterScanResultsView: View {
     private var top: ScanMatch? { matches.first }
     private var alternates: [ScanMatch] { Array(matches.dropFirst()) }
 
-
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                ClusterHeaderBar(title: "Scan") { dismiss() }
-                if let top {
-                    confidenceGauge(for: top)
-                } else {
-                    noMatchState
+        ZStack {
+            ClusterTheme.Colors.background
+                .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 20) {
+                    ClusterHeaderBar(title: "Scan") { dismiss() }
+                    if let top {
+                        confidenceGauge(for: top)
+                    } else {
+                        noMatchState
+                    }
+                    if !alternates.isEmpty { alternatesSection }
                 }
-                if !alternates.isEmpty { alternatesSection }
+                .padding(.bottom, 24)
             }
-            .padding(.bottom, 24)
+            .safeAreaPadding(.top)
         }
-        .background(ClusterTheme.Colors.background)
     }
 
     private var header: some View {
@@ -176,12 +180,4 @@ struct ClusterScanResultsView: View {
         .padding(.vertical, 60)
         .padding(.horizontal, 40)
     }
-}
-
-#Preview {
-    ClusterScanResultsView(matches: [
-           ScanMatch(carSymbol: CarSymbol(id: 1, name: "Check Engine Light", imageName: "Check Engine Light", description: "", symbolType: .warning, fixDescription: "", drivable: .no, categories: nil), confidence: 0.92),
-           ScanMatch(carSymbol: CarSymbol(id: 2, name: "Reduced Power Warning", imageName: "Reduced Power Warning", description: "", symbolType: .warning, fixDescription: "", drivable: .uncertain, categories: nil), confidence: 0.41),
-           ScanMatch(carSymbol: CarSymbol(id: 3, name: "Transmission Temperature", imageName: "Transmission Temperature", description: "", symbolType: .advisory, fixDescription: "", drivable: .yes, categories: nil), confidence: 0.33),
-       ])
 }

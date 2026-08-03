@@ -100,6 +100,7 @@ struct ClusterRootView: View {
                     }
                 }
             )
+            .ignoresSafeArea()
         }
         .fullScreenCover(item: $selectedLogEntry) { entry in
             ClusterExpandedView(
@@ -116,6 +117,7 @@ struct ClusterRootView: View {
                     }
                 }
             )
+            .ignoresSafeArea()
             .environmentObject(uiState)
         }
         .photosPicker(isPresented: $showImagePicker, selection: $pickerItem, matching: .images)
