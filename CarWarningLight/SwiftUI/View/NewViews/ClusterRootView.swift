@@ -24,22 +24,25 @@ struct ClusterRootView: View {
     let allLights: [CarSymbol]
     @EnvironmentObject private var uiState: UIStateManager
 
-    @State private var activeTab: AppTab = .encyclopedia
+    @State private var activeTab: AppTab            = .encyclopedia
 
-    @State private var isScrolledDown: Bool = false
+    @State private var isScrolledDown: Bool         = false
 
-    @State private var vehicles: [Vehicle] = [Vehicle(name: "My Vehicle", systemStatuses: VehicleSystem.allCases.map { SystemStatus(system: $0) })]
-    @State private var selectedVehicleID: UUID = UUID()
-    @State private var logEntries: [LightLogEntry] = []
+    @State private var vehicles: [Vehicle]          = [Vehicle(name: "My Vehicle", systemStatuses: VehicleSystem.allCases.map { SystemStatus(system: $0) })]
+    @State private var selectedVehicleID: UUID      = UUID()
+    @State private var logEntries: [LightLogEntry]  = []
 
-    @State private var showCamera = false
-    @State private var showImagePicker = false
+    @State private var showCamera                   = false
+    @State private var showImagePicker              = false
     @State private var pickerItem: PhotosPickerItem?
 
-    @State private var isDetailActive: Bool = false
+    @State private var isDetailActive: Bool         = false
 
     @State private var photoForPreview: CapturedPhoto?
-    @State private var selectedLogEntry: LightLogEntry?
+
+    @State private var detailSymbol: CarSymbol?
+    @State private var detailLogEntry: LightLogEntry?
+
     @Namespace private var standaloneNamespace
     @Namespace private var tabAnimation
 
@@ -53,11 +56,22 @@ struct ClusterRootView: View {
                     ClusterEncyclopediaView(allLights: allLights, isScrolledDown: $isScrolledDown, isDetailActive: $isDetailActive)
                         .frame(width: geo.size.width)
 
-                    ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, isScrolledDown: $isScrolledDown)
+                    ClusterDashboardView(
+                        vehicles: $vehicles,
+                        selectedVehicleID: $selectedVehicleID,
+                        isScrolledDown: $isScrolledDown,
+                        allLights: allLights,
+                        logEntries: $logEntries,
+                        onOpenLight: { light, entry in
+                            detailSymbol = light
+                            detailLogEntry = entry
+                        }
+                    )
                         .frame(width: geo.size.width)
 
                     ClusterTripLogView(isScrolledDown: $isScrolledDown, entries: logEntries) { entry in
-                        selectedLogEntry = entry
+                        detailSymbol = entry.carSymbol
+                        detailLogEntry = entry
                     }
                     .frame(width: geo.size.width)
                 }
@@ -90,34 +104,38 @@ struct ClusterRootView: View {
             ClusterPhotoPreviewView(
                 capturedPhoto: photo,
                 onScanLogged: { symbol in
-                    let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date())
+                    let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicleID: selectedVehicleID)
                     logEntries.append(entry)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         photoForPreview = nil
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                            selectedLogEntry = entry
+                            detailSymbol = symbol
+                            detailLogEntry = entry
                         }
                     }
                 }
             )
             .ignoresSafeArea()
         }
-        .fullScreenCover(item: $selectedLogEntry) { entry in
+        .fullScreenCover(item: $detailSymbol) { symbol in
             ClusterExpandedView(
-                carSymbol: entry.carSymbol,
+                carSymbol: symbol,
                 namespace: standaloneNamespace,
                 isShowingLarge: .constant(true),
                 bigImageId: 0,
                 index: .constant(0),
-                logEntry: entry,
+                logEntry: detailLogEntry,
                 onToggleResolved: {
-                    if let idx = logEntries.firstIndex(where: { $0.id == entry.id }) {
-                        logEntries[idx].isActive.toggle()
-                        selectedLogEntry = logEntries[idx]
-                    }
+                    guard let entry = detailLogEntry,
+                          let idx = logEntries.firstIndex(where: { $0.id == entry.id }) else { return }
+                    logEntries[idx].isActive.toggle()
+                    detailLogEntry = logEntries[idx]
+                },
+                onDismiss: {
+                    detailSymbol = nil
+                    detailLogEntry = nil
                 }
             )
-            .ignoresSafeArea()
             .environmentObject(uiState)
         }
         .photosPicker(isPresented: $showImagePicker, selection: $pickerItem, matching: .images)

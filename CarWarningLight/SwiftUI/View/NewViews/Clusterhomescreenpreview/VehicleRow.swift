@@ -11,10 +11,12 @@ import SwiftUI
 struct VehicleRow: View {
     let vehicle: Vehicle
     let isSelected: Bool
+    let totalActive: Int
+    let worstSeverity: SymbolType?
 
     private var statusColor: Color {
-        guard let severity = vehicle.worstSeverity else { return ClusterTheme.Colors.textSecondary }
-        return ClusterTheme.Colors.forSymbolType(severity)
+        guard let worstSeverity else { return ClusterTheme.Colors.textSecondary }
+        return ClusterTheme.Colors.forSymbolType(worstSeverity)
     }
 
 
@@ -72,29 +74,35 @@ struct VehicleRow: View {
     struct PreviewHost: View {
         @State var vehicles: [Vehicle]
         @State var selectedVehicleID: UUID
+        @State var logEntries: [LightLogEntry]
+        let sampleLights: [CarSymbol]
 
         init() {
-            // 1. Create the initial data array locally
             let initialVehicles = [
-                Vehicle(name: "My Civic", systemStatuses: [
-                    SystemStatus(system: .engine, activeCount: 1, worstSeverity: .warning),
-                    SystemStatus(system: .braking, activeCount: 0),
-                    SystemStatus(system: .electrical, activeCount: 0),
-                    SystemStatus(system: .lighting, activeCount: 1, worstSeverity: .advisory),
-                    SystemStatus(system: .driverAssist, activeCount: 0),
-                    SystemStatus(system: .tiresSuspension, activeCount: 0),
-                    SystemStatus(system: .comfort, activeCount: 0),
-                ], imageName: "vehicleSedan"),
-                Vehicle(name: "Wife's CR-V", systemStatuses: VehicleSystem.allCases.map { SystemStatus(system: $0) }, imageName: "vehicleSUV")
+                Vehicle(name: "My Civic", systemStatuses: [], imageName: "vehicleSedan"),
+                Vehicle(name: "Wife's CR-V", systemStatuses: [], imageName: "vehicleSUV")
             ]
-
-            // 2. Initialize both State wrappers safely
             _vehicles = State(initialValue: initialVehicles)
             _selectedVehicleID = State(initialValue: initialVehicles[0].id)
+
+            let checkEngine = CarSymbol(id: 23, name: "Check Engine Light", imageName: "Check Engine Light", description: "Sample.", symbolType: .warning, fixDescription: "Sample.", drivable: .no, categories: ["Engine & Powertrain"])
+            let fogLight = CarSymbol(id: 75, name: "Fog Lights On", imageName: "Fog Lights On", description: "Sample.", symbolType: .info, fixDescription: "Sample.", drivable: .yes, categories: ["Lighting"])
+            sampleLights = [checkEngine, fogLight]
+            _logEntries = State(initialValue: [
+                LightLogEntry(carSymbol: checkEngine, dateLogged: Date(), vehicleID: initialVehicles[0].id)
+            ])
         }
 
         var body: some View {
-            ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, isScrolledDown: .constant(false))
+            ClusterDashboardView(
+                vehicles: $vehicles,
+                selectedVehicleID: $selectedVehicleID,
+                isScrolledDown: .constant(false),
+                allLights: sampleLights,
+                logEntries: $logEntries
+            )
+            .environmentObject(UIStateManager())
+            .preferredColorScheme(.dark)
         }
     }
     return PreviewHost()

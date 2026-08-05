@@ -20,25 +20,29 @@ struct ClusterExpandedView: View {
 
     var logEntry: LightLogEntry?        = nil
     var onToggleResolved: (() -> Void)? = nil
+    var onDismiss: (() -> Void)?        = nil
 
     private var telltale: Color { ClusterTheme.Colors.forSymbolType(carSymbol.symbolType) }
     private var safetyColor: Color { ClusterTheme.Colors.forDrivable(carSymbol.drivable) }
 
+    private var isStandalonePresentation: Bool { onDismiss != nil}
+
 
     var body: some View {
-        ZStack {
-            ClusterTheme.Colors.background
-                .ignoresSafeArea()
-
-            mainContent
-                .clusterTopSafeArea(fill: ClusterTheme.Colors.panel)
+        Group {
+            if isStandalonePresentation {
+                contentStack
+                    .clipShape(RoundedRectangle(cornerRadius: 0, style: .continuous))
+            } else {
+                contentStack
+                    .clipShape(RoundedRectangle(cornerRadius: isShowingLarge ? 0 : 16, style: .continuous))
+                    .matchedGeometryEffect(
+                        id: isShowingLarge ? "\(bigImageId) card" : "\(index ?? 0) card",
+                        in: namespace,
+                        isSource: false
+                    )
+            }
         }
-        .clipShape(RoundedRectangle(cornerRadius: isShowingLarge ? 0 : 16, style: .continuous))
-        .matchedGeometryEffect(
-            id: isShowingLarge ? "\(bigImageId) card" : "\(index ?? 0) card",
-            in: namespace,
-            isSource: false
-        )
         .onAppear {
             uiState.detailViewAppeared(id: carSymbol.imageName)
             viewModel.resetAnimations()
@@ -51,6 +55,16 @@ struct ClusterExpandedView: View {
             viewModel.cancelAnimations()
             uiState.detailViewDisappeared(id: carSymbol.imageName)
             if !viewModel.isDismissing { viewModel.hasAppeared = false }
+        }
+    }
+
+    private var contentStack: some View {
+        ZStack {
+            ClusterTheme.Colors.background
+                .ignoresSafeArea()
+
+            mainContent
+                .clusterTopSafeArea(fill: ClusterTheme.Colors.panel)
         }
     }
 
@@ -83,11 +97,18 @@ struct ClusterExpandedView: View {
             Button {
                 guard viewModel.showDismissButton else { return }
                 viewModel.dismissView()
-                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                    isShowingLarge = false
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    index = nil
+
+                if let onDismiss {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        onDismiss()
+                    }
+                } else {
+                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                        isShowingLarge = false
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        index = nil
+                    }
                 }
             } label: {
                 Image(systemName: "xmark")

@@ -14,4 +14,5 @@ struct LightLogEntry: Identifiable {
     let dateLogged: Date
     var isActive: Bool = true
     var note: String = ""
+    var vehicleID: UUID = UUID()
 }

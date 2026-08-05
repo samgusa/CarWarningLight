@@ -90,6 +90,14 @@ enum SymbolType: String, Codable {
         case .info:     return "info.circle.fill"
         }
     }
+
+    var severityRank: Int {
+        switch self {
+        case .advisory:     return 1
+        case .info:         return 2
+        case .warning:      return 0
+        }
+    }
 }
 
 struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
@@ -151,3 +159,19 @@ struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
 }
 
 typealias CarSymbols = [CarSymbol]
+
+extension Array where Element == LightLogEntry {
+    func systemStatuses(for vehicleID: UUID) -> [SystemStatus] {
+        VehicleSystem.allCases.map { system in
+            let matching = self.filter {
+                $0.vehicleID == vehicleID &&
+                $0.isActive &&
+                ($0.carSymbol.categories?.contains(system.rawValue) ?? false)
+            }
+            let worst = matching
+                .map(\.carSymbol.symbolType)
+                .min { $0.severityRank < $1.severityRank }
+            return SystemStatus(system: system, activeCount: matching.count, worstSeverity: worst)
+        }
+    }
+}

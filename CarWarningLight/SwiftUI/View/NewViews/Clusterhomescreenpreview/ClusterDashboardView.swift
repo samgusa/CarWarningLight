@@ -12,20 +12,75 @@ struct ClusterDashboardView: View {
     @Binding var vehicles: [Vehicle]
     @Binding var selectedVehicleID: UUID
     @Binding var isScrolledDown: Bool
+    let allLights: [CarSymbol]
+    @Binding var logEntries: [LightLogEntry]
+
     @State private var showGarage: Bool = false
+    @State private var selectedSystem: VehicleSystem?
+    @State private var detailSymbol: CarSymbol?
+    @State private var detailLogEntry: LightLogEntry?
+    @Namespace private var namespace
 
     private var selectedVehicle: Vehicle {
         vehicles.first(where: { $0.id == selectedVehicleID }) ?? vehicles[0]
     }
 
+    private var statuses: [SystemStatus] {
+        logEntries.systemStatuses(for: selectedVehicleID)
+    }
+
+    private var activeSymbolIDs: Set<Int> {
+        Set(logEntries.filter { $0.vehicleID == selectedVehicleID && $0.isActive }.map { $0.carSymbol.id })
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             header
-            ClusterSystemsDashboardView(statuses: selectedVehicle.systemStatuses, isScrolledDown: $isScrolledDown)
+            ClusterSystemsDashboardView(
+                statuses: selectedVehicle.systemStatuses,
+                onSelect: { system in selectedSystem = system },
+                isScrolledDown: $isScrolledDown)
         }
         .background(ClusterTheme.Colors.background)
         .sheet(isPresented: $showGarage) {
-            GarageView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID)
+            GarageView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, logEntries: logEntries)
+        }
+        .sheet(item: $selectedSystem) { system in
+            ClusterCategoryLightsView(
+                system: system,
+                lights: allLights.filter { ($0.categories ?? []).contains(system.rawValue) },
+                activeSymbolID: activeSymbolIDs,
+                onSelectLight: { light in
+                    selectedSystem = nil
+                    let existingEntry = logEntries.first {
+                        $0.vehicleID == selectedVehicleID && $0.carSymbol.id == light.id && $0.isActive
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        detailLogEntry = existingEntry
+                        detailSymbol = light
+                    }
+                }
+            )
+        }
+        .fullScreenCover(item: $detailSymbol) { symbol in
+            ClusterExpandedView(
+                carSymbol: symbol,
+                namespace: namespace,
+                isShowingLarge: .constant(true),
+                bigImageId: 0,
+                index: .constant(0),
+                logEntry: detailLogEntry,
+                onToggleResolved: {
+                    guard let entry = detailLogEntry,
+                          let idx = logEntries.firstIndex(where: { $0.id == entry.id }) else { return }
+                    logEntries[idx].isActive.toggle()
+                    detailLogEntry = logEntries[idx]
+                },
+                onDismiss: {
+                    detailSymbol = nil
+                    detailLogEntry = nil
+                }
+            )
         }
     }
 
@@ -70,29 +125,35 @@ struct ClusterDashboardView: View {
     struct PreviewHost: View {
         @State var vehicles: [Vehicle]
         @State var selectedVehicleID: UUID
+        @State var logEntries: [LightLogEntry]
+        let sampleLights: [CarSymbol]
 
         init() {
-            // 1. Create the initial data array locally
             let initialVehicles = [
-                Vehicle(name: "My Civic", systemStatuses: [
-                    SystemStatus(system: .engine, activeCount: 1, worstSeverity: .warning),
-                    SystemStatus(system: .braking, activeCount: 0),
-                    SystemStatus(system: .electrical, activeCount: 0),
-                    SystemStatus(system: .lighting, activeCount: 1, worstSeverity: .advisory),
-                    SystemStatus(system: .driverAssist, activeCount: 0),
-                    SystemStatus(system: .tiresSuspension, activeCount: 0),
-                    SystemStatus(system: .comfort, activeCount: 0),
-                ], imageName: "vehicleSedan"),
-                Vehicle(name: "Wife's CR-V", systemStatuses: VehicleSystem.allCases.map { SystemStatus(system: $0) }, imageName: "vehicleSUV")
+                Vehicle(name: "My Civic", systemStatuses: [], imageName: "vehicleSedan"),
+                Vehicle(name: "Wife's CR-V", systemStatuses: [], imageName: "vehicleSUV")
             ]
-
-            // 2. Initialize both State wrappers safely
             _vehicles = State(initialValue: initialVehicles)
             _selectedVehicleID = State(initialValue: initialVehicles[0].id)
+
+            let checkEngine = CarSymbol(id: 23, name: "Check Engine Light", imageName: "Check Engine Light", description: "Sample.", symbolType: .warning, fixDescription: "Sample.", drivable: .no, categories: ["Engine & Powertrain"])
+            let fogLight = CarSymbol(id: 75, name: "Fog Lights On", imageName: "Fog Lights On", description: "Sample.", symbolType: .info, fixDescription: "Sample.", drivable: .yes, categories: ["Lighting"])
+            sampleLights = [checkEngine, fogLight]
+            _logEntries = State(initialValue: [
+                LightLogEntry(carSymbol: checkEngine, dateLogged: Date(), vehicleID: initialVehicles[0].id)
+            ])
         }
 
         var body: some View {
-            ClusterDashboardView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, isScrolledDown: .constant(false))
+            ClusterDashboardView(
+                vehicles: $vehicles,
+                selectedVehicleID: $selectedVehicleID,
+                isScrolledDown: .constant(false),
+                allLights: sampleLights,
+                logEntries: $logEntries
+            )
+            .environmentObject(UIStateManager())
+            .preferredColorScheme(.dark)
         }
     }
     return PreviewHost()
