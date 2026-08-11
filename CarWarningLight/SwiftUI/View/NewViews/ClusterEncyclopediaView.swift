@@ -36,6 +36,7 @@ struct ClusterEncyclopediaView: View {
                     bigImageId: 999,
                     index: $selectedIndex
                 )
+//                .id(allLights[index].id)
                 .opacity(isShowingLarge ? 1 : 0)
                 .transition(.opacity)
             }
@@ -84,7 +85,7 @@ struct ClusterEncyclopediaView: View {
             guard selectedIndex == nil, !isShowingLarge, !isTransitioning else { return }
             isTransitioning = true
             selectedIndex = index
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
                 isShowingLarge = true
                 isDetailActive = true
             }

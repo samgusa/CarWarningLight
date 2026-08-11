@@ -27,13 +27,14 @@ struct ClusterWarningLightCell: View {
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             glowingIcon
+            Spacer()
             Text(carData.name)
                 .font(ClusterTheme.Types.body(13, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .lineLimit(3)
                 .minimumScaleFactor(0.9)
 
-            Spacer(minLength: 0)
+//            Spacer(minLength: 0)
         }
         .padding(12)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

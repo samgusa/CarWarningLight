@@ -14,12 +14,9 @@ struct ClusterDashboardView: View {
     @Binding var isScrolledDown: Bool
     let allLights: [CarSymbol]
     @Binding var logEntries: [LightLogEntry]
+    var onOpenLight: (CarSymbol, LightLogEntry?) -> Void
 
     @State private var showGarage: Bool = false
-    @State private var selectedSystem: VehicleSystem?
-    @State private var detailSymbol: CarSymbol?
-    @State private var detailLogEntry: LightLogEntry?
-    @Namespace private var namespace
 
     private var selectedVehicle: Vehicle {
         vehicles.first(where: { $0.id == selectedVehicleID }) ?? vehicles[0]
@@ -38,50 +35,10 @@ struct ClusterDashboardView: View {
             header
             ClusterSystemsDashboardView(
                 statuses: selectedVehicle.systemStatuses,
-                onSelect: { system in selectedSystem = system },
-                isScrolledDown: $isScrolledDown)
+                isScrolledDown: $isScrolledDown
+            )
         }
         .background(ClusterTheme.Colors.background)
-        .sheet(isPresented: $showGarage) {
-            GarageView(vehicles: $vehicles, selectedVehicleID: $selectedVehicleID, logEntries: logEntries)
-        }
-        .sheet(item: $selectedSystem) { system in
-            ClusterCategoryLightsView(
-                system: system,
-                lights: allLights.filter { ($0.categories ?? []).contains(system.rawValue) },
-                activeSymbolID: activeSymbolIDs,
-                onSelectLight: { light in
-                    selectedSystem = nil
-                    let existingEntry = logEntries.first {
-                        $0.vehicleID == selectedVehicleID && $0.carSymbol.id == light.id && $0.isActive
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        detailLogEntry = existingEntry
-                        detailSymbol = light
-                    }
-                }
-            )
-        }
-        .fullScreenCover(item: $detailSymbol) { symbol in
-            ClusterExpandedView(
-                carSymbol: symbol,
-                namespace: namespace,
-                isShowingLarge: .constant(true),
-                bigImageId: 0,
-                index: .constant(0),
-                logEntry: detailLogEntry,
-                onToggleResolved: {
-                    guard let entry = detailLogEntry,
-                          let idx = logEntries.firstIndex(where: { $0.id == entry.id }) else { return }
-                    logEntries[idx].isActive.toggle()
-                    detailLogEntry = logEntries[idx]
-                },
-                onDismiss: {
-                    detailSymbol = nil
-                    detailLogEntry = nil
-                }
-            )
-        }
     }
 
     private var header: some View {
@@ -150,7 +107,8 @@ struct ClusterDashboardView: View {
                 selectedVehicleID: $selectedVehicleID,
                 isScrolledDown: .constant(false),
                 allLights: sampleLights,
-                logEntries: $logEntries
+                logEntries: $logEntries,
+                onOpenLight: { _, _ in }
             )
             .environmentObject(UIStateManager())
             .preferredColorScheme(.dark)

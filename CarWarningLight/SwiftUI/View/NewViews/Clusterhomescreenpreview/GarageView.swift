@@ -99,7 +99,8 @@ struct GarageView: View {
                 selectedVehicleID: $selectedVehicleID,
                 isScrolledDown: .constant(false),
                 allLights: sampleLights,
-                logEntries: $logEntries
+                logEntries: $logEntries,
+                onOpenLight: { _, _ in }
             )
             .environmentObject(UIStateManager())
             .preferredColorScheme(.dark)

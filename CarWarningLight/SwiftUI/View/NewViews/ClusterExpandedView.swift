@@ -10,32 +10,36 @@ import SwiftUI
 
 struct ClusterExpandedView: View {
     @EnvironmentObject private var uiState: UIStateManager
-    @StateObject var viewModel          = ExpandedViewModel()
+    @StateObject var viewModel              = ExpandedViewModel()
 
     let carSymbol: CarSymbol
     var namespace: Namespace.ID
     @Binding var isShowingLarge: Bool
     let bigImageId: Int
     @Binding var index: Int?
+    var isStandAlone: Bool                  = false
 
-    var logEntry: LightLogEntry?        = nil
-    var onToggleResolved: (() -> Void)? = nil
-    var onDismiss: (() -> Void)?        = nil
+    var logEntry: LightLogEntry?            = nil
+    var onToggleResolved: (() -> Void)?     = nil
+    var headerTitle: String                 = "WARNING LIGHT"
+    var onDismiss: (() -> Void)?            = nil
+    var onConfirmMatch: (() -> Void)?       = nil
+    var onLogEntry: (() -> Void)?           = nil
+
+
+    @State private var hasConfirmed: Bool   = false
+    @State private var hasLoggedNow: Bool   = false
 
     private var telltale: Color { ClusterTheme.Colors.forSymbolType(carSymbol.symbolType) }
     private var safetyColor: Color { ClusterTheme.Colors.forDrivable(carSymbol.drivable) }
 
-    private var isStandalonePresentation: Bool { onDismiss != nil}
-
 
     var body: some View {
         Group {
-            if isStandalonePresentation {
-                contentStack
-                    .clipShape(RoundedRectangle(cornerRadius: 0, style: .continuous))
+            if isStandAlone {
+                shapedContent
             } else {
-                contentStack
-                    .clipShape(RoundedRectangle(cornerRadius: isShowingLarge ? 0 : 16, style: .continuous))
+                shapedContent
                     .matchedGeometryEffect(
                         id: isShowingLarge ? "\(bigImageId) card" : "\(index ?? 0) card",
                         in: namespace,
@@ -48,24 +52,24 @@ struct ClusterExpandedView: View {
             viewModel.resetAnimations()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 viewModel.startAnimations()
-                viewModel.hasAppeared = true
+                viewModel.hasAppeared   = true
             }
         }
         .onDisappear {
             viewModel.cancelAnimations()
             uiState.detailViewDisappeared(id: carSymbol.imageName)
-            if !viewModel.isDismissing { viewModel.hasAppeared = false }
+            viewModel.hasAppeared       = false
         }
     }
 
-    private var contentStack: some View {
+    private var shapedContent: some View {
         ZStack {
             ClusterTheme.Colors.background
-                .ignoresSafeArea()
-
             mainContent
                 .clusterTopSafeArea(fill: ClusterTheme.Colors.panel)
         }
+        .ignoresSafeArea()
+        .clipShape(RoundedRectangle(cornerRadius: isShowingLarge ? 0 : 16, style: .continuous))
     }
 
     private var mainContent: some View {
@@ -76,6 +80,9 @@ struct ClusterExpandedView: View {
                 VStack(alignment: .leading, spacing: 14) {
                     heroRow
                     safetyPlaquard
+                    if onConfirmMatch != nil {
+                        confirmMatchControl
+                    }
                     if let logEntry {
                         resolvedControl(for: logEntry)
                     }
@@ -89,29 +96,25 @@ struct ClusterExpandedView: View {
 
     private var headerBar: some View {
         HStack {
-            Text("WARNING LIGHT")
+            Text(headerTitle)
                 .font(ClusterTheme.Types.mono(11, weight: .bold))
                 .tracking(1.5)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Spacer()
             Button {
-                guard viewModel.showDismissButton else { return }
-                viewModel.dismissView()
 
                 if let onDismiss {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        onDismiss()
-                    }
+                    onDismiss()
                 } else {
-                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
                         isShowingLarge = false
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         index = nil
                     }
                 }
             } label: {
-                Image(systemName: "xmark")
+                Image(systemName: onConfirmMatch != nil ? "chevron.left" : "xmark")
                     .font(.system(size: 13, weight: .bold))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                     .frame(width: 28, height: 28)
@@ -122,8 +125,7 @@ struct ClusterExpandedView: View {
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 6))
             }
-            .opacity(viewModel.showDismissButton ? 1 : 0.5)
-            .accessibilityLabel("Close")
+            .accessibilityLabel(onConfirmMatch != nil ? "Back to results" : "Close")
         }
         .padding()
         .background(ClusterTheme.Colors.panel)
@@ -188,6 +190,29 @@ struct ClusterExpandedView: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
         )
+        .padding(.horizontal)
+    }
+
+    private var confirmMatchControl: some View {
+        Button {
+            guard !hasConfirmed else { return }
+            hasConfirmed = true
+            onConfirmMatch?()
+        } label: {
+            HStack {
+                Image(systemName: "checkmark.circle.fill")
+                Text("Confirm & Log This Light")
+                    .font(ClusterTheme.Types.body(14, weight: .bold))
+                Spacer()
+            }
+            .foregroundStyle(ClusterTheme.Colors.background)
+            .padding(14)
+            .background(ClusterTheme.Colors.amber)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .buttonStyle(.plain)
+        .opacity(hasConfirmed ? 0.6 : 1)
+        .disabled(hasConfirmed)
         .padding(.horizontal)
     }
 

@@ -15,10 +15,12 @@ class CapturedPhoto: Identifiable, Hashable {
     let id = UUID()
     let image: UIImage
     let timestamp: Date
+    var source: PhotoSource = .camera
 
-    init(image: UIImage, timestamp: Date = Date()) {
+    init(image: UIImage, timestamp: Date = Date(), source: PhotoSource = .camera) {
         self.image = image
         self.timestamp = timestamp
+        self.source = source
     }
 
     static func == (lhs: CapturedPhoto, rhs: CapturedPhoto) -> Bool {
@@ -28,6 +30,11 @@ class CapturedPhoto: Identifiable, Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+}
+
+enum PhotoSource {
+    case camera
+    case library
 }
 
 // Custom camera Errors for better error handling

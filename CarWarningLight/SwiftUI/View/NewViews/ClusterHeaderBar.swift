@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ClusterHeaderBar: View {
     let title: String
-    var onClose: (() -> Void)? = nil
+    var icon: String            = "xmark"
+    var onClose: (() -> Void)?  = nil
 
     var body: some View {
         HStack {
@@ -21,7 +22,7 @@ struct ClusterHeaderBar: View {
             Spacer()
             if let onClose {
                 Button(action: onClose) {
-                    Image(systemName: "xmark")
+                    Image(systemName: icon)
                         .font(.system(size: 13, weight: .bold))
                         .foregroundStyle(ClusterTheme.Colors.textPrimary)
                         .frame(width: 28, height: 28)
@@ -32,7 +33,7 @@ struct ClusterHeaderBar: View {
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                 }
-                .accessibilityLabel("Close")
+                .accessibilityLabel(icon == "xmark" ? "Close" : "Back")
             }
         }
         .padding()

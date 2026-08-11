@@ -3,6 +3,7 @@
 
 import SwiftUI
 import PhotosUI
+import AVFoundation
 
 
 enum AppTab: String, CaseIterable {
@@ -42,6 +43,9 @@ struct ClusterRootView: View {
 
     @State private var detailSymbol: CarSymbol?
     @State private var detailLogEntry: LightLogEntry?
+
+    @State private var pendingCapturedImage: UIImage?
+    @State private var pendingPostPreviewAction: (() -> Void)?
 
     @Namespace private var standaloneNamespace
     @Namespace private var tabAnimation
@@ -92,30 +96,48 @@ struct ClusterRootView: View {
         .onAppear {
             if let first = vehicles.first { selectedVehicleID = first.id }
         }
-        .fullScreenCover(isPresented: $showCamera) {
+        .fullScreenCover(isPresented: $showCamera, onDismiss: {
+            guard let image = pendingCapturedImage else { return }
+            pendingCapturedImage = nil
+            photoForPreview = CapturedPhoto(image: image, source: .camera)
+        }) {
             CameraView { image in
+                pendingCapturedImage = image
                 showCamera = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                    photoForPreview = CapturedPhoto(image: image)
-                }
             }
         }
-        .fullScreenCover(item: $photoForPreview) { photo in
-            ClusterPhotoPreviewView(
+        .fullScreenCover(item: $photoForPreview, onDismiss: {
+            pendingPostPreviewAction?()
+            pendingPostPreviewAction = nil
+        }) { photo in
+            ClusterScanFlowView(
                 capturedPhoto: photo,
                 onScanLogged: { symbol in
                     let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicleID: selectedVehicleID)
                     logEntries.append(entry)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        photoForPreview = nil
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                            detailSymbol = symbol
-                            detailLogEntry = entry
+                    pendingPostPreviewAction = {
+                        detailSymbol = symbol
+                        detailLogEntry = entry
+                    }
+                    photoForPreview = nil
+                },
+                onNoMatch: {
+                    pendingPostPreviewAction = { activeTab = .encyclopedia }
+                    photoForPreview = nil
+                },
+                onDismiss: {
+                    photoForPreview = nil
+                },
+                onRetakePhoto: { source in
+                    pendingPostPreviewAction = {
+                        switch source {
+                        case .camera:   showCamera = true
+                        case .library:  showImagePicker = true
                         }
                     }
+                    photoForPreview = nil
                 }
             )
-            .ignoresSafeArea()
         }
         .fullScreenCover(item: $detailSymbol) { symbol in
             ClusterExpandedView(
@@ -124,6 +146,7 @@ struct ClusterRootView: View {
                 isShowingLarge: .constant(true),
                 bigImageId: 0,
                 index: .constant(0),
+                isStandAlone: true,
                 logEntry: detailLogEntry,
                 onToggleResolved: {
                     guard let entry = detailLogEntry,
@@ -144,7 +167,7 @@ struct ClusterRootView: View {
             Task {
                 do {
                     if let data = try await item.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
-                        photoForPreview = CapturedPhoto(image: uiImage)
+                        photoForPreview = CapturedPhoto(image: uiImage, source: .library)
                     }
                 } catch {
                     print("Photo load failed: \(error)")

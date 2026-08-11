@@ -54,14 +54,20 @@ enum ClusterTheme {
     }
 
     struct PanelStyle: ViewModifier {
-        var cornerRadius: CGFloat = 8
+        var cornerRadius: CGFloat = 6
         func body(content: Content) -> some View {
             content
                 .background(Colors.panel)
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .stroke(Colors.bezel, lineWidth: 1)
+                        .stroke(
+                            LinearGradient(
+                                colors: [Colors.bezel.opacity(0.9), Colors.bezel.opacity(0.35)],
+                                startPoint: .top, endPoint: .bottom
+                            ),
+                            lineWidth: 1.25
+                        )
                 )
         }
     }

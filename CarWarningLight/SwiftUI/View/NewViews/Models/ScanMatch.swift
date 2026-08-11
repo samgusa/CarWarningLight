@@ -8,7 +8,8 @@
 
 import SwiftUI
 
-struct ScanMatch {
+struct ScanMatch: Identifiable {
     let carSymbol: CarSymbol
     let confidence: Double
+    var id: Int { carSymbol.id }
 }

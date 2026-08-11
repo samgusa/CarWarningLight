@@ -17,6 +17,7 @@ struct ClusterPhotoPreviewView: View {
     let capturedPhoto: CapturedPhoto?
 
     var onScanLogged: (CarSymbol) -> Void = { _ in }
+    var onNoMatch: () -> Void = { }
 
     @State private var buttonState: ScanButtonState = .idle
     @State private var showResults: Bool = false
@@ -61,9 +62,9 @@ struct ClusterPhotoPreviewView: View {
         }
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $showResults) {
-            ClusterScanResultsView(matches: viewModel.scanMatches) { selected in
+            ClusterScanResultsView(matches: viewModel.scanMatches, onSelect: { selected in
                 onScanLogged(selected)
-            }
+            }, onNoMatch: onNoMatch)
         }
     }
 
