@@ -11,6 +11,10 @@ import SwiftUI
 struct ClusterEncyclopediaView: View {
     let allLights: [CarSymbol]
     @Binding var isScrolledDown: Bool
+    let logEntries: [LightLogEntry]                          // NEW
+    let selectedVehicleID: UUID                               // NEW
+    var onLogEntry: (CarSymbol) -> Void = { _ in }             // NEW
+    var onToggleResolved: (LightLogEntry) -> Void = { _ in }   // NEW
 
     @Namespace private var namespace
     @State private var selectedIndex: Int?
@@ -23,6 +27,14 @@ struct ClusterEncyclopediaView: View {
     private let minimumCellWidth: CGFloat           = 100
     private let desiredCellAspectRatio: CGFloat     = 1.0
 
+    // NEW — most recent entry for this light + vehicle, regardless of
+    // active/resolved. nil means never logged at all.
+    private func entry(for symbol: CarSymbol) -> LightLogEntry? {
+        logEntries
+            .filter { $0.carSymbol.id == symbol.id && $0.vehicleID == selectedVehicleID }
+            .max { $0.dateLogged < $1.dateLogged }
+    }
+
     var body: some View {
         ZStack {
             contentView
@@ -34,18 +46,22 @@ struct ClusterEncyclopediaView: View {
                     namespace: namespace,
                     isShowingLarge: $isShowingLarge,
                     bigImageId: 999,
-                    index: $selectedIndex
+                    index: $selectedIndex,
+                    logEntry: entry(for: allLights[index]),
+                    onToggleResolved: {
+                        if let match = entry(for: allLights[index]) {
+                            onToggleResolved(match)
+                        }
+                    },
+                    onLogEntry: {
+                        onLogEntry(allLights[index])
+                    }
                 )
-//                .id(allLights[index].id)
                 .opacity(isShowingLarge ? 1 : 0)
                 .transition(.opacity)
             }
         }
         .background(ClusterTheme.Colors.background)
-        // Only give up the top safe area while the expanded view is showing.
-        // Normal grid browsing keeps respecting it (so cells stay clear of
-        // the notch); once expanded, this becomes ClusterExpandedView's own
-        // edge-to-edge surface, matching how it looks as a fullScreenCover.
         .ignoresSafeArea(edges: isShowingLarge ? .top : [])
         .onChange(of: isShowingLarge) { _, newValue in
             isDetailActive = newValue
@@ -112,12 +128,16 @@ struct ClusterEncyclopediaView: View {
 
 #Preview {
     ClusterEncyclopediaView(allLights: [
-            CarSymbol(id: 1, name: "Check Engine Light", imageName: "Check Engine Light", description: "Sample description.", symbolType: .warning, fixDescription: "Sample fix.", drivable: .no, categories: nil),
-            CarSymbol(id: 2, name: "Battery Charging Light", imageName: "Battery Charging Light", description: "Sample description.", symbolType: .warning, fixDescription: "Sample fix.", drivable: .uncertain, categories: nil),
-            CarSymbol(id: 3, name: "Tire Pressure Warning Light", imageName: "Tire Pressure Warning Light", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
-            CarSymbol(id: 4, name: "Child Safety Lock", imageName: "Child Safety Lock", description: "Sample description.", symbolType: .info, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
-            CarSymbol(id: 5, name: "Adaptive Front Lighting System", imageName: "Adaptive Front Lighting System", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
-            CarSymbol(id: 6, name: "Traction Control Light", imageName: "Traction Control Light", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
-    ], isScrolledDown: .constant(false), isDetailActive: .constant(false))
+        CarSymbol(id: 1, name: "Check Engine Light", imageName: "Check Engine Light", description: "Sample description.", symbolType: .warning, fixDescription: "Sample fix.", drivable: .no, categories: nil),
+        CarSymbol(id: 2, name: "Battery Charging Light", imageName: "Battery Charging Light", description: "Sample description.", symbolType: .warning, fixDescription: "Sample fix.", drivable: .uncertain, categories: nil),
+        CarSymbol(id: 3, name: "Tire Pressure Warning Light", imageName: "Tire Pressure Warning Light", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
+        CarSymbol(id: 4, name: "Child Safety Lock", imageName: "Child Safety Lock", description: "Sample description.", symbolType: .info, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
+        CarSymbol(id: 5, name: "Adaptive Front Lighting System", imageName: "Adaptive Front Lighting System", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
+        CarSymbol(id: 6, name: "Traction Control Light", imageName: "Traction Control Light", description: "Sample description.", symbolType: .advisory, fixDescription: "Sample fix.", drivable: .yes, categories: nil),
+    ],
+                            isScrolledDown: .constant(false),
+                            logEntries: [],
+                            selectedVehicleID: UUID(),
+                            isDetailActive: .constant(false))
     .preferredColorScheme(.dark)
 }

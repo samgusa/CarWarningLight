@@ -47,7 +47,7 @@ struct LogEntryRow: View {
             }
             Spacer()
 
-            Text(entry.isActive ? "ACTIVE" : "FIXED")
+            Text(entry.isActive ? "ACTIVE" : "RESOLVED")
                 .font(ClusterTheme.Types.mono(9, weight: .bold))
                 .tracking(0.8)
                 .foregroundStyle(entry.isActive ? telltale : ClusterTheme.Colors.green)

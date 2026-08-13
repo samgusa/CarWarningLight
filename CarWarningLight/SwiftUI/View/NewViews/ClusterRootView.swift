@@ -46,6 +46,7 @@ struct ClusterRootView: View {
 
     @State private var pendingCapturedImage: UIImage?
     @State private var pendingPostPreviewAction: (() -> Void)?
+    @State private var showLightPicker: Bool        = false
 
     @Namespace private var standaloneNamespace
     @Namespace private var tabAnimation
@@ -57,7 +58,21 @@ struct ClusterRootView: View {
                 let currentIndex = tabs.firstIndex(of: activeTab) ?? 0
 
                 HStack(spacing: 0) {
-                    ClusterEncyclopediaView(allLights: allLights, isScrolledDown: $isScrolledDown, isDetailActive: $isDetailActive)
+                    ClusterEncyclopediaView(
+                        allLights: allLights,
+                        isScrolledDown: $isScrolledDown,
+                        logEntries: logEntries,
+                        selectedVehicleID: selectedVehicleID,
+                        onLogEntry: { symbol in
+                            let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicleID: selectedVehicleID)
+                            logEntries.append(entry)
+                        },
+                        onToggleResolved: { entry in
+                            guard let idx = logEntries.firstIndex(where: { $0.id == entry.id }) else { return }
+                            logEntries[idx].isActive.toggle()
+                        },
+                        isDetailActive: $isDetailActive
+                    )
                         .frame(width: geo.size.width)
 
                     ClusterDashboardView(
@@ -73,7 +88,7 @@ struct ClusterRootView: View {
                     )
                         .frame(width: geo.size.width)
 
-                    ClusterTripLogView(isScrolledDown: $isScrolledDown, entries: logEntries) { entry in
+                    ClusterTripLogView(isScrolledDown: $isScrolledDown, entries: logEntries, onAddLight: { showLightPicker = true }) { entry in
                         detailSymbol = entry.carSymbol
                         detailLogEntry = entry
                     }
@@ -160,6 +175,21 @@ struct ClusterRootView: View {
                 }
             )
             .environmentObject(uiState)
+        }
+        .fullScreenCover(isPresented: $showLightPicker) {
+            ClusterLightPickerView(
+                allLights: allLights,
+                logEntries: logEntries,
+                selectedVehicleID: selectedVehicleID,
+                onLogEntry: { symbol in
+                    let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicleID: selectedVehicleID)
+                    logEntries.append(entry)
+                },
+                onToggleResolved: { entry in
+                    guard let idx = logEntries.firstIndex(where: { $0.id == entry.id }) else { return }
+                    logEntries[idx].isActive.toggle()
+                }
+            )
         }
         .photosPicker(isPresented: $showImagePicker, selection: $pickerItem, matching: .images)
         .onChange(of: pickerItem) { _, newItem in

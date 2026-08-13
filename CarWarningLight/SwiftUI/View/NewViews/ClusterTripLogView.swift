@@ -11,6 +11,7 @@ import SwiftUI
 struct ClusterTripLogView: View {
     @Binding var isScrolledDown: Bool
     let entries: [LightLogEntry]
+    var onAddLight: () -> Void = { }
     var onSelect: (LightLogEntry) -> Void = { _ in }
 
     private var active: [LightLogEntry] { entries.filter(\.isActive).sorted { $0.dateLogged > $1.dateLogged }}
@@ -40,13 +41,25 @@ struct ClusterTripLogView: View {
     }
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text("Trip Log")
-                .font(ClusterTheme.Types.display(24))
-                .foregroundStyle(ClusterTheme.Colors.textPrimary)
-            Text("\(entries.count) light\(entries.count == 1 ? "" : "s") logged")
-                .font(ClusterTheme.Types.body(13))
-                .foregroundStyle(ClusterTheme.Colors.textSecondary)
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Trip Log")
+                    .font(ClusterTheme.Types.display(24))
+                    .foregroundStyle(ClusterTheme.Colors.textPrimary)
+                Text("\(entries.count) light\(entries.count == 1 ? "" : "s") logged")
+                    .font(ClusterTheme.Types.body(13))
+                    .foregroundStyle(ClusterTheme.Colors.textSecondary)
+            }
+            Spacer()
+            Button(action: onAddLight) {
+                Image(systemName: "plus")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundStyle(ClusterTheme.Colors.background)
+                    .frame(width: 32, height: 32)
+                    .background(ClusterTheme.Colors.amber)
+                    .clipShape(Circle())
+            }
+            .accessibilityLabel("Add a Light")
         }
         .padding(.horizontal)
         .padding(.top, 20)

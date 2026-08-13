@@ -80,17 +80,23 @@ struct ClusterExpandedView: View {
                 VStack(alignment: .leading, spacing: 14) {
                     heroRow
                     safetyPlaquard
-                    if onConfirmMatch != nil {
-                        confirmMatchControl
-                    }
-                    if let logEntry {
-                        resolvedControl(for: logEntry)
-                    }
+                    actionControl
                     infoPanel(label: "DESCRIPTION", body: carSymbol.description)
                     infoPanel(label: "HOW TO FIX", body: carSymbol.fixDescription)
                 }
                 .padding(.bottom, 24)
             }
+        }
+    }
+
+    @ViewBuilder
+    private var actionControl: some View {
+        if onConfirmMatch != nil {
+            confirmMatchControl
+        } else if let logEntry {
+            resolvedControl(for: logEntry)
+        } else if onLogEntry != nil {
+            logThisLightControl
         }
     }
 
@@ -216,13 +222,37 @@ struct ClusterExpandedView: View {
         .padding(.horizontal)
     }
 
+    private var logThisLightControl: some View {
+        Button {
+            guard !hasLoggedNow else { return }
+            hasLoggedNow = true
+            onLogEntry?()
+        } label: {
+            HStack {
+                Image(systemName: hasLoggedNow ? "checkmark.circle.fill" : "plus.circle.fill")
+                Text(hasLoggedNow ? "Logged" : "Log This Light")
+                    .font(ClusterTheme.Types.body(14, weight: .bold))
+                Spacer()
+            }
+            .foregroundStyle(ClusterTheme.Colors.background)
+            .padding(14)
+            .background(ClusterTheme.Colors.amber)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .buttonStyle(.plain)
+        .opacity(hasLoggedNow ? 0.6 : 1)
+        .disabled(hasLoggedNow)
+        .padding(.horizontal)
+        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: hasLoggedNow)
+    }
+
     private func resolvedControl(for entry: LightLogEntry) -> some View {
         Button {
             onToggleResolved?()
         } label: {
             HStack {
                 Image(systemName: entry.isActive ? "checkmark.circle.fill" : "arrow.uturn.backward.circle.fill")
-                Text(entry.isActive ? "Mark as Fixed" : "Mark Active Again")
+                Text(entry.isActive ? "Mark as Resolved" : "Mark Active Again")
                     .font(ClusterTheme.Types.body(14, weight: .bold))
                 Spacer()
                 Text(entry.isActive ? "ACTIVE" : "RESOLVED")
