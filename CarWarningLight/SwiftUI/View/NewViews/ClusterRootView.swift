@@ -8,13 +8,11 @@ import AVFoundation
 
 enum AppTab: String, CaseIterable {
     case encyclopedia           = "ENCYCLOPEDIA"
-    case dashboard              = "DASHBOARD"
     case tripLog                = "TRIP LOG"
 
     var icon: String {
         switch self {
         case .encyclopedia:      return "book.closed.fill"
-        case .dashboard:         return "gauge.with.dots.needle.67percent"
         case .tripLog:           return "clock.arrow.circlepath"
         }
     }
@@ -72,19 +70,6 @@ struct ClusterRootView: View {
                             logEntries[idx].isActive.toggle()
                         },
                         isDetailActive: $isDetailActive
-                    )
-                        .frame(width: geo.size.width)
-
-                    ClusterDashboardView(
-                        vehicles: $vehicles,
-                        selectedVehicleID: $selectedVehicleID,
-                        isScrolledDown: $isScrolledDown,
-                        allLights: allLights,
-                        logEntries: $logEntries,
-                        onOpenLight: { light, entry in
-                            detailSymbol = light
-                            detailLogEntry = entry
-                        }
                     )
                         .frame(width: geo.size.width)
 
@@ -269,13 +254,12 @@ struct ClusterRootView: View {
                     .foregroundStyle(isActive ? (isScrolledDown ? ClusterTheme.Colors.amber : Color.white) : Color.secondary)
                     .scaleEffect(isActive ? 1.05 : 0.8)
                     .frame(width: isScrolledDown ? 54 : nil, height: isScrolledDown ? 54 : nil)
-//                    .padding(.horizontal, activeTab != tab ? 10 : 0)
 
-                if isActive && !isScrolledDown{
+                if !isScrolledDown{
                     Text(tab.rawValue)
                         .font(.system(size: 11, weight: .bold))
-                        .minimumScaleFactor(0.8)
-                        .foregroundStyle(ClusterTheme.Colors.textPrimary)
+                        .scaleEffect(isActive ? 1.05 : 0.8)
+                        .foregroundStyle(isActive ? (isScrolledDown ? ClusterTheme.Colors.amber : Color.white) : Color.secondary)
                         .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .leading)))
                         .lineLimit(1)
                 }
