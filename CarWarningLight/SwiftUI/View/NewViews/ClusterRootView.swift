@@ -52,6 +52,11 @@ struct ClusterRootView: View {
     @State private var pendingCapturedImage: UIImage?
     @State private var pendingPostPreviewAction: (() -> Void)?
 
+    @State private var showNoVehicleAlert: Bool     = false
+    @State private var showVehiclePicker: Bool      = false
+    @State private var pendingLightSymbol: CarSymbol?
+    @State private var pendingLightCompletion: ((Vehicle) -> Void)?
+
     @Namespace private var standaloneNamespace
     @Namespace private var tabAnimation
 
@@ -68,8 +73,10 @@ struct ClusterRootView: View {
                         logEntries: logEntries,
                         selectedVehicleID: selectedVehicleID,
                         onLogEntry: { symbol in
-                            let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicle: selectedVehicle)
-                            modelContext.insert(entry)
+                            requestLogLight(symbol) { vehicle in
+                                let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicle: vehicle)
+                                modelContext.insert(entry)
+                            }
                         },
                         onToggleResolved: { entry in
                             entry.isActive.toggle()
@@ -96,9 +103,15 @@ struct ClusterRootView: View {
                 .allowsHitTesting(!isDetailActive)
                 .animation(.easeInOut(duration: 0.25), value: isDetailActive)
         }
+        .preferredColorScheme(.dark)
         .ignoresSafeArea(edges: .bottom)
         .onAppear {
             if let first = vehicles.first { selectedVehicleID = first.id }
+        }
+        .onChange(of: vehicles) { _, newVehicles in
+            if selectedVehicle == nil, let first = newVehicles.first {
+                selectedVehicleID = first.id
+            }
         }
         .fullScreenCover(isPresented: $showCamera, onDismiss: {
             guard let image = pendingCapturedImage else { return }
@@ -162,6 +175,21 @@ struct ClusterRootView: View {
             )
             .environmentObject(uiState)
         }
+        .sheet(isPresented: $showVehiclePicker, content: {
+            if let symbol = pendingLightSymbol {
+                ClusterVehiclePickerSheet(vehicle: vehicles, symbol: symbol) { vehicle in
+                    pendingLightCompletion?(vehicle)
+                    pendingLightSymbol = nil
+                    pendingLightCompletion = nil
+                }
+            }
+        })
+        .alert("Add a Vehicle First", isPresented: $showNoVehicleAlert) {
+            Button("Go to Garage") { activeTab = .garage }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("There's no vehicle to attach this light to yet. Add one from the Garage tab, then log the light again.")
+        }
         .photosPicker(isPresented: $showImagePicker, selection: $pickerItem, matching: .images)
         .onChange(of: pickerItem) { _, newItem in
             guard let item = newItem else { return }
@@ -175,6 +203,18 @@ struct ClusterRootView: View {
                 }
                 pickerItem = nil
             }
+        }
+    }
+
+    private func requestLogLight(_ symbol: CarSymbol, completion: @escaping (Vehicle) -> Void) {
+        if vehicles.isEmpty {
+            showNoVehicleAlert = true
+        } else if vehicles.count == 1, let only = vehicles.first {
+            completion(only)
+        } else {
+            pendingLightSymbol = symbol
+            pendingLightCompletion = completion
+            showVehiclePicker = true
         }
     }
 
