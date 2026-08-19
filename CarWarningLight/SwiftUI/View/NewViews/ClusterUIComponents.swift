@@ -129,13 +129,19 @@ struct ClusterVehicleImagePlate: View {
     var body: some View {
         Image(imageName)
             .resizable()
+            .renderingMode(.template)
+            .foregroundStyle(.white)
             .scaledToFit()
             .frame(width: size, height: size)
             .padding(6)
-            .background(
+            .overlay(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color(white: 0.92))
+                    .stroke(Color(white: 0.92), lineWidth: 1)
             )
+//            .background(
+//                RoundedRectangle(cornerRadius: 8)
+//                    .fill(Color(white: 0.92))
+//            )
     }
 }
 

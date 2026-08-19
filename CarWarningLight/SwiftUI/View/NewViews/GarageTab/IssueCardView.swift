@@ -18,18 +18,11 @@ struct IssueCardView: View {
     }
     var body: some View {
         HStack(spacing: 12) {
-            ZStack {
-                Circle()
-                    .fill(ClusterTheme.Colors.amber)
-                    .frame(width: 20, height: 20)
-                    .blur(radius: 8)
-                    .opacity(issue.isActive ? 0.5 : 0.15)
-
-                Image(systemName: issue.sortedCategories.first?.icon ?? "exclamationmark.circle")
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(issue.isActive ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
-            }
-            .frame(width: 44, height: 44)
+            ClusterStackedIcon(
+                icons: issue.sortedCategories.map(\.icon),
+                tint: ClusterTheme.Colors.amber,
+                isDimmed: !issue.isActive
+            )
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(issue.title)
@@ -45,7 +38,7 @@ struct IssueCardView: View {
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
                             .background(ClusterTheme.Colors.bezel.opacity(0.5))
-                            .clipShape(Capsule())
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
                     }
                     Text(relativeDate.uppercased())
                         .font(ClusterTheme.Types.mono(10, weight: .semibold))

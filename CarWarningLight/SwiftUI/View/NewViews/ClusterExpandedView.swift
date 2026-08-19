@@ -79,7 +79,15 @@ struct ClusterExpandedView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 14) {
                     heroRow
-                    safetyPlaquard
+
+                    ClusterAccentBanner(
+                        icon: "shield.lefthalf.filled",
+                        title: "SAFE TO DRIVE",
+                        subtitle: carSymbol.drivable.message,
+                        tint: safetyColor
+                    )
+                    .padding(.horizontal)
+
                     actionControl
                     infoPanel(label: "DESCRIPTION", body: carSymbol.description)
                     infoPanel(label: "HOW TO FIX", body: carSymbol.fixDescription)
@@ -101,40 +109,21 @@ struct ClusterExpandedView: View {
     }
 
     private var headerBar: some View {
-        HStack {
-            Text(headerTitle)
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
-                .tracking(1.5)
-                .foregroundStyle(ClusterTheme.Colors.textSecondary)
-            Spacer()
-            Button {
-
-                if let onDismiss {
-                    onDismiss()
-                } else {
-                    withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
-                        isShowingLarge = false
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        index = nil
-                    }
+        ClusterHeaderBar(
+            title: headerTitle,
+            icon: onConfirmMatch != nil ? "chevron.left" : "xmark"
+        ) {
+            if let onDismiss {
+                onDismiss()
+            } else {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
+                    isShowingLarge = false
                 }
-            } label: {
-                Image(systemName: onConfirmMatch != nil ? "chevron.left" : "xmark")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(ClusterTheme.Colors.textPrimary)
-                    .frame(width: 28, height: 28)
-                    .background(ClusterTheme.Colors.panel)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    index = nil
+                }
             }
-            .accessibilityLabel(onConfirmMatch != nil ? "Back to results" : "Close")
         }
-        .padding()
-        .background(ClusterTheme.Colors.panel)
     }
 
     private var heroRow: some View {
@@ -170,33 +159,6 @@ struct ClusterExpandedView: View {
         }
         .padding(.horizontal)
         .padding(.top, 16)
-    }
-
-    private var safetyPlaquard: some View {
-        HStack(spacing: 0) {
-            Rectangle()
-                .fill(safetyColor)
-                .frame(width: 5)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text("SAFE TO DRIVE?")
-                    .font(ClusterTheme.Types.mono(10, weight: .bold))
-                    .tracking(1.2)
-                    .foregroundStyle(safetyColor)
-                Text(carSymbol.drivable.message)
-                    .font(ClusterTheme.Types.body(13))
-                    .foregroundStyle(ClusterTheme.Colors.textSecondary)
-            }
-            .padding(14)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(ClusterTheme.Colors.panel)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
-        )
-        .padding(.horizontal)
     }
 
     private var confirmMatchControl: some View {

@@ -17,10 +17,11 @@ struct AddIssueView: View {
 
     @State private var selectedCategories: Set<IssueCategory> = []
     @State private var noteText: String = ""
+    @FocusState private var noteFieldFocused: Bool
 
     private var isValid: Bool { !selectedCategories.isEmpty }
 
-    private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
+    private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
     var body: some View {
         VStack(spacing: 0) {
@@ -37,7 +38,16 @@ struct AddIssueView: View {
 
                         LazyVGrid(columns: columns, spacing: 10) {
                             ForEach(IssueCategory.allCases) { category in
-                                categoryChip(category)
+                                ClusterCategoryChip(
+                                    icon: category.icon,
+                                    label: category.label,
+                                    isSelected: selectedCategories.contains(category)) {
+                                        if selectedCategories.contains(category) {
+                                            selectedCategories.remove(category)
+                                        } else {
+                                            selectedCategories.insert(category)
+                                        }
+                                    }
                             }
                         }
                         .padding(.horizontal)
@@ -50,6 +60,7 @@ struct AddIssueView: View {
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
                         TextEditor(text: $noteText)
+                            .focused($noteFieldFocused)
                             .font(ClusterTheme.Types.body(15))
                             .foregroundStyle(ClusterTheme.Colors.textPrimary)
                             .scrollContentBackground(.hidden)
@@ -87,39 +98,17 @@ struct AddIssueView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 24)
             }
+            .scrollDismissesKeyboard(.interactively)
         }
         .background(ClusterTheme.Colors.background)
-    }
-
-    private func categoryChip(_ category: IssueCategory) -> some View {
-        let isSelected = selectedCategories.contains(category)
-        return Button {
-            if isSelected {
-                selectedCategories.remove(category)
-            } else {
-                selectedCategories.insert(category)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") { noteFieldFocused = false }
+                    .font(ClusterTheme.Types.body(15, weight: .semibold))
+                    .foregroundStyle(ClusterTheme.Colors.amber)
             }
-        } label: {
-            HStack(spacing: 8) {
-                Image(systemName: category.icon)
-                    .font(.system(size: 13, weight: .semibold))
-                Text(category.label)
-                    .font(ClusterTheme.Types.body(13, weight: .semibold))
-                Spacer(minLength: 0)
-            }
-            .foregroundStyle(isSelected ? ClusterTheme.Colors.background : ClusterTheme.Colors.textPrimary)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 12)
-            .frame(maxWidth: .infinity)
-            .background(isSelected ? ClusterTheme.Colors.amber : ClusterTheme.Colors.panel)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(isSelected ? .clear : ClusterTheme.Colors.bezel, lineWidth: 1)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
-        .buttonStyle(.plain)
-
     }
 }
 

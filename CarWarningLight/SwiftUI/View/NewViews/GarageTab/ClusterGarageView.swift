@@ -2,9 +2,6 @@
 //  ClusterGarageView.swift
 //  CarWarningLight
 //
-//  Created by Sam Greenhill on 8/17/26.
-//  Copyright © 2026 simplyAmazingMachines. All rights reserved.
-//
 
 import SwiftUI
 import SwiftData
@@ -49,7 +46,7 @@ struct ClusterGarageView: View {
                                 }
                             }
                         }
-                        ClusterDashedActionTile(icon: "plus", label: "Add Vehicle") {
+                        ClusterDashedActionTile(icon: "plus", label: "Add vehicle") {
                             showAddVehicle = true
                         }
                     }
@@ -73,7 +70,7 @@ struct ClusterGarageView: View {
         }
         .alert("Delete this vehicle?", isPresented: Binding(
             get: { vehicleToDelete != nil },
-            set: { if $0 { vehicleToDelete = nil } }
+            set: { if !$0 { vehicleToDelete = nil } }
         )) {
             Button("Cancel", role: .cancel) { vehicleToDelete = nil }
             Button("Delete", role: .destructive) {
@@ -99,15 +96,8 @@ struct ClusterGarageView: View {
             }
             Spacer()
 
-            Button {
+            ClusterSquareIconButton(icon: "plus") {
                 showAddVehicle = true
-            } label: {
-                Image(systemName: "plus")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(ClusterTheme.Colors.background)
-                    .frame(width: 32, height: 32)
-                    .background(ClusterTheme.Colors.amber)
-                    .clipShape(Circle())
             }
             .accessibilityLabel("Add a vehicle")
         }
@@ -129,9 +119,9 @@ struct ClusterGarageView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
 
-            ClusterDashedActionTile(icon: "plus", label: "Add Vehicle", height: 110, action: {
+            ClusterDashedActionTile(icon: "plus", label: "Add Vehicle", height: 110) {
                 showAddVehicle = true
-            })
+            }
             .padding(.horizontal, 40)
             .padding(.top, 6)
         }

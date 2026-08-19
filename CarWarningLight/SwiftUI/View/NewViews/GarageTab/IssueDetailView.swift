@@ -15,8 +15,9 @@ struct IssueDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @State private var showDeleteConfirm: Bool = false
+    @FocusState private var noteFieldFocused: Bool
 
-    private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
+    private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
 
     private var dateLabel: String {
@@ -27,64 +28,85 @@ struct IssueDetailView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                heroRow
-                resolvedControl
-                
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("CATEGORIES")
-                        .font(ClusterTheme.Types.mono(10, weight: .bold))
-                        .tracking(1.2)
-                        .foregroundStyle(ClusterTheme.Colors.textSecondary)
-                        .padding(.horizontal)
-                    
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(IssueCategory.allCases) { category in
-                            categoryChip(category)
+        VStack(spacing: 0) {
+            ClusterHeaderBar(title: "Issue", icon: "chevron.left") { dismiss()
+            }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    heroRow
+                    resolvedControl
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("CATEGORIES")
+                            .font(ClusterTheme.Types.mono(10, weight: .bold))
+                            .tracking(1.2)
+                            .foregroundStyle(ClusterTheme.Colors.textSecondary)
+                            .padding(.horizontal)
+
+                        LazyVGrid(columns: columns, spacing: 10) {
+                            ForEach(IssueCategory.allCases) { category in
+                                ClusterCategoryChip(
+                                    icon: category.icon,
+                                    label: category.label,
+                                    isSelected: issue.categories.contains(category)) {
+                                        var updated = issue.categories
+                                        if updated.contains(category) { updated.remove(category) } else { updated.insert(category) }
+                                        issue.categories = updated
+                                    }
+                            }
                         }
+                        .padding(.horizontal)
+                    }
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("NOTES FOR THE MECHANIC")
+                            .font(ClusterTheme.Types.mono(10, weight: .bold))
+                            .tracking(1.2)
+                            .foregroundStyle(ClusterTheme.Colors.textSecondary)
+
+                        TextEditor(text: $issue.noteText)
+                            .focused($noteFieldFocused)
+                            .font(ClusterTheme.Types.body(15))
+                            .foregroundStyle(ClusterTheme.Colors.textPrimary)
+                            .scrollContentBackground(.hidden)
+                            .frame(height: 120)
+                            .padding(10)
+                            .background(ClusterTheme.Colors.panel)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
+                    .padding(.horizontal)
+
+                    Button(role: .destructive) {
+                        showDeleteConfirm = true
+                    } label: {
+                        Text("Delete Issue")
+                            .font(ClusterTheme.Types.body(14, weight: .semibold))
+                            .foregroundStyle(ClusterTheme.Colors.red)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
                     }
                     .padding(.horizontal)
                 }
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("NOTES FOR THE MECHANIC")
-                        .font(ClusterTheme.Types.mono(10, weight: .bold))
-                        .tracking(1.2)
-                        .foregroundStyle(ClusterTheme.Colors.textSecondary)
-                    
-                    TextEditor(text: $issue.noteText)
-                        .font(ClusterTheme.Types.body(15))
-                        .foregroundStyle(ClusterTheme.Colors.textPrimary)
-                        .scrollContentBackground(.hidden)
-                        .frame(height: 120)
-                        .padding(10)
-                        .background(ClusterTheme.Colors.panel)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
-                .padding(.horizontal)
-                
-                Button(role: .destructive) {
-                    showDeleteConfirm = true
-                } label: {
-                    Text("Delete Issue")
-                        .font(ClusterTheme.Types.body(14, weight: .semibold))
-                        .foregroundStyle(ClusterTheme.Colors.red)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                }
-                .padding(.horizontal)
+                .padding(.top, 16)
+                .padding(.bottom, 24)
             }
-            .padding(.top, 16)
-            .padding(.bottom, 24)
+            .scrollDismissesKeyboard(.interactively)
         }
         .background(ClusterTheme.Colors.background)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .navigationBar)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") { noteFieldFocused = false }
+                    .font(ClusterTheme.Types.body(15, weight: .semibold))
+                    .foregroundStyle(ClusterTheme.Colors.amber)
+            }
+        }
         .alert("Delete this issue?", isPresented: $showDeleteConfirm) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
@@ -96,17 +118,11 @@ struct IssueDetailView: View {
 
     private var heroRow: some View {
         HStack(spacing: 14) {
-            ZStack {
-                Circle()
-                    .fill(ClusterTheme.Colors.amber)
-                    .frame(width: 60, height: 60)
-                    .blur(radius: 18)
-                    .opacity(0.5)
-
-                Image(systemName: issue.sortedCategories.first?.icon ?? "exclamationmark.circle")
-                    .font(.system(size: 26, weight: .semibold))
-                    .foregroundStyle(ClusterTheme.Colors.amber)
-            }
+            ClusterStackedIcon(
+                icons: issue.sortedCategories.map(\.icon),
+                tint: ClusterTheme.Colors.amber,
+                isDimmed: !issue.isActive
+            )
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(issue.title)
@@ -147,34 +163,6 @@ struct IssueDetailView: View {
         }
         .buttonStyle(.plain)
         .padding(.horizontal)
-    }
-
-    private func categoryChip(_ category: IssueCategory) -> some View {
-        let isSelected = issue.categories.contains(category)
-        return Button {
-            var updated = issue.categories
-            if isSelected { updated.remove(category) } else { updated.insert(category) }
-            issue.categories = updated
-        } label: {
-            HStack(spacing: 8) {
-                Image(systemName: category.icon)
-                    .font(.system(size: 13, weight: .semibold))
-                Text(category.label)
-                    .font(ClusterTheme.Types.body(13, weight: .semibold))
-                Spacer(minLength: 0)
-            }
-            .foregroundStyle(isSelected ? ClusterTheme.Colors.background : ClusterTheme.Colors.textPrimary)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 12)
-            .frame(maxWidth: .infinity)
-            .background(isSelected ? ClusterTheme.Colors.amber : ClusterTheme.Colors.panel)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(isSelected ? .clear : ClusterTheme.Colors.bezel, lineWidth: 1)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-        }
-        .buttonStyle(.plain)
     }
 }
 

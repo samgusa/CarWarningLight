@@ -12,6 +12,7 @@ import SwiftData
 struct GarageVehicleDetailView: View {
     @Bindable var vehicle: Vehicle
 
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Vehicle.dateCreated) private var allVehicles: [Vehicle]
 
@@ -28,34 +29,44 @@ struct GarageVehicleDetailView: View {
 
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                header
+        VStack(spacing: 0) {
+            ClusterHeaderBar(title: vehicle.name, icon: "chevron.left") { dismiss() }
 
-                if vehicle.totalActive > 0 {
-                    activeBanner
-                }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    controlsRow
 
-                if vehicle.timelineItems.isEmpty {
-                    emptyState
-                } else {
-                    ForEach(groupedTimeline, id: \.day) { group in
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(daylabel(group.day))
-                                .font(ClusterTheme.Types.mono(11, weight: .bold))
-                                .tracking(1.2)
-                                .foregroundStyle(ClusterTheme.Colors.textSecondary)
-                                .padding(.horizontal)
+                    if vehicle.totalActive > 0 {
+                        ClusterAccentBanner(
+                            icon: "eye.fill",
+                            title: "\(vehicle.totalActive) thing\(vehicle.totalActive == 1 ? "" : "s") to keep an eye on",
+                            subtitle: "Tap any entry for details, or mark it resolved"
+                        )
+                        .padding(.horizontal)
+                    }
 
-                            ForEach(group.items) { item in
-                                timelineRow(for: item)
+                    if vehicle.timelineItems.isEmpty {
+                        emptyState
+                    } else {
+                        ForEach(groupedTimeline, id: \.day) { group in
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text(daylabel(group.day))
+                                    .font(ClusterTheme.Types.mono(11, weight: .bold))
+                                    .tracking(1.2)
+                                    .foregroundStyle(ClusterTheme.Colors.textSecondary)
                                     .padding(.horizontal)
+
+                                ForEach(group.items) { item in
+                                    timelineRow(for: item)
+                                        .padding(.horizontal)
+                                }
                             }
                         }
                     }
                 }
+                .padding(.top, 16)
+                .padding(.bottom, 24)
             }
-            .padding(.bottom, 24)
         }
         .background(ClusterTheme.Colors.background)
         .navigationBarTitleDisplayMode(.inline)
@@ -80,16 +91,13 @@ struct GarageVehicleDetailView: View {
         }
     }
 
-    private var header: some View {
+    private var controlsRow: some View {
         HStack {
             Menu {
                 ForEach(allVehicles) { candidate in
                     if candidate.id == vehicle.id {
                         Label(candidate.name, systemImage: "checkmark")
                     } else {
-                        // Pushes a new detail screen for the chosen vehicle,
-                        // reusing the navigationDestination(for: Vehicle.self)
-                        // declared up in ClusterGarageView.
                         NavigationLink(candidate.name, value: candidate)
                     }
                 }
@@ -106,56 +114,19 @@ struct GarageVehicleDetailView: View {
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
                 .background(ClusterTheme.Colors.panel)
-                .clipShape(Capsule())
-                .overlay(Capsule().stroke(ClusterTheme.Colors.bezel, lineWidth: 1))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
+                )
             }
 
             Spacer()
 
-            Button {
+            ClusterTagButton(icon: "plus", label: "Log Issue") {
                 showAddIssue = true
-            } label: {
-                Image(systemName: "plus")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(ClusterTheme.Colors.background)
-                    .frame(width: 32, height: 32)
-                    .background(ClusterTheme.Colors.amber)
-                    .clipShape(Circle())
             }
-            .accessibilityLabel("Log an issue")
         }
-        .padding(.horizontal)
-        .padding(.top, 16)
-    }
-
-    private var activeBanner: some View {
-        HStack(spacing: 12) {
-            ZStack {
-                Circle()
-                    .fill(ClusterTheme.Colors.amber.opacity(0.18))
-                Image(systemName: "eye")
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundStyle(ClusterTheme.Colors.amber)
-            }
-            .frame(width: 40, height: 40)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text("\(vehicle.totalActive) thing\(vehicle.totalActive == 1 ? "" : "s") to keep an eye on")
-                    .font(ClusterTheme.Types.body(14, weight: .bold))
-                    .foregroundStyle(ClusterTheme.Colors.textPrimary)
-                Text("Tap any entry for details, or mark it resolved")
-                    .font(ClusterTheme.Types.body(12))
-                    .foregroundStyle(ClusterTheme.Colors.textSecondary)
-            }
-            Spacer(minLength: 0)
-        }
-        .padding(14)
-        .background(ClusterTheme.Colors.amber.opacity(0.08))
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(ClusterTheme.Colors.amber.opacity(0.35), lineWidth: 1)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding(.horizontal)
     }
 
@@ -199,7 +170,3 @@ struct GarageVehicleDetailView: View {
         return formatter.string(from: date).uppercased()
     }
 }
-
-//#Preview {
-//    GarageVehicleDetailView()
-//}

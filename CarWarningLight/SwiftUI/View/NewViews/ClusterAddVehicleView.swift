@@ -34,7 +34,7 @@ struct ClusterAddVehicleView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            headerBar
+            ClusterHeaderBar(title: "Add Vehicle") { dismiss() }
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
@@ -68,7 +68,7 @@ struct ClusterAddVehicleView: View {
                             .padding(.vertical, 14)
                             .background(isValid ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
                             .foregroundStyle(isValid ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                     .disabled(!isValid)
                     .padding(.horizontal)
@@ -79,31 +79,6 @@ struct ClusterAddVehicleView: View {
             }
         }
         .background(ClusterTheme.Colors.background)
-    }
-
-    private var headerBar: some View {
-        HStack {
-            Text("ADD VEHICLE")
-                .font(ClusterTheme.Types.mono(12, weight: .bold))
-                .tracking(1.5)
-                .foregroundStyle(ClusterTheme.Colors.textSecondary)
-            Spacer()
-            Button { dismiss() } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(ClusterTheme.Colors.textPrimary)
-                    .frame(width: 28, height: 28)
-                    .background(ClusterTheme.Colors.panel)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
-            }
-            .accessibilityLabel("Close")
-        }
-        .padding()
-        .background(ClusterTheme.Colors.panel)
     }
 
     private var fieldSection: some View {
@@ -132,10 +107,7 @@ struct ClusterAddVehicleView: View {
             selectedImageName = style.imageName
         } label: {
             VStack(spacing: 8) {
-                Image(style.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 50)
+                ClusterVehicleImagePlate(imageName: style.imageName, size: 46)
                     .padding(.top, 10)
 
                 Text(style.label.uppercased())

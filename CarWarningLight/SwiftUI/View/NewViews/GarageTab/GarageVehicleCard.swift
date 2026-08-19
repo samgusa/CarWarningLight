@@ -19,17 +19,7 @@ struct GarageVehicleCard: View {
     var body: some View {
         VStack(spacing: 10) {
             ZStack(alignment: .topTrailing) {
-                Circle()
-                    .fill(ClusterTheme.Colors.bezel.opacity(0.5))
-                    .frame(width: 64, height: 64)
-                    .overlay(
-                        Image(vehicle.imageName)
-                            .resizable()
-                            .renderingMode(.template)
-                            .foregroundStyle(ClusterTheme.Colors.textSecondary)
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                    )
+                ClusterVehicleImagePlate(imageName: vehicle.imageName, size: 44)
 
                 Circle()
                     .fill(statusColor)
