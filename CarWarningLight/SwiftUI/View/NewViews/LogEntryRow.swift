@@ -57,32 +57,32 @@ struct LogEntryRow: View {
     }
 }
 
-#Preview {
-    let sampleEngine = CarSymbol(
-        id: 1, name: "Check Engine Light", imageName: "Check Engine Light",
-        description: "", symbolType: .warning, fixDescription: "", drivable: .no, categories: nil
-    )
-    let sampleBattery = CarSymbol(
-        id: 2, name: "Battery Charging Light", imageName: "Battery Charging Light",
-        description: "", symbolType: .warning, fixDescription: "", drivable: .uncertain, categories: nil
-    )
-    let sampleTire = CarSymbol(
-        id: 3, name: "Tire Pressure Warning Light", imageName: "Tire Pressure Warning Light",
-        description: "", symbolType: .advisory, fixDescription: "", drivable: .yes, categories: nil
-    )
-    return ClusterTripLogView(
-        isScrolledDown: .constant(false),
-        entries: [
-        LightLogEntry(
-            carSymbol: sampleEngine,
-            dateLogged: Date().addingTimeInterval(-3600)),
-        LightLogEntry(
-            carSymbol: sampleTire,
-            dateLogged: Date().addingTimeInterval(-86400 * 2)),
-        LightLogEntry(
-            carSymbol: sampleBattery,
-            dateLogged: Date().addingTimeInterval(-86400 * 9),
-            isActive: false)
-    ]
-    )
-}
+//#Preview {
+//    let sampleEngine = CarSymbol(
+//        id: 1, name: "Check Engine Light", imageName: "Check Engine Light",
+//        description: "", symbolType: .warning, fixDescription: "", drivable: .no, categories: nil
+//    )
+//    let sampleBattery = CarSymbol(
+//        id: 2, name: "Battery Charging Light", imageName: "Battery Charging Light",
+//        description: "", symbolType: .warning, fixDescription: "", drivable: .uncertain, categories: nil
+//    )
+//    let sampleTire = CarSymbol(
+//        id: 3, name: "Tire Pressure Warning Light", imageName: "Tire Pressure Warning Light",
+//        description: "", symbolType: .advisory, fixDescription: "", drivable: .yes, categories: nil
+//    )
+//    return ClusterTripLogView(
+//        isScrolledDown: .constant(false),
+//        entries: [
+//        LightLogEntry(
+//            carSymbol: sampleEngine,
+//            dateLogged: Date().addingTimeInterval(-3600)),
+//        LightLogEntry(
+//            carSymbol: sampleTire,
+//            dateLogged: Date().addingTimeInterval(-86400 * 2)),
+//        LightLogEntry(
+//            carSymbol: sampleBattery,
+//            dateLogged: Date().addingTimeInterval(-86400 * 9),
+//            isActive: false)
+//    ]
+//    )
+//}

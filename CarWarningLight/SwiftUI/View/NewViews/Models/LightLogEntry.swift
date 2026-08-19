@@ -7,12 +7,28 @@
 //
 
 import Foundation
+import SwiftData
 
-struct LightLogEntry: Identifiable {
-    let id = UUID()
-    let carSymbol: CarSymbol
-    let dateLogged: Date
-    var isActive: Bool = true
-    var note: String = ""
-    var vehicleID: UUID = UUID()
+@Model
+final class LightLogEntry {
+    var id: UUID            = UUID()
+    var carSymbolData: Data = Data()
+    var dateLogged: Date    = Date()
+    var isActive: Bool      = true
+    var note: String        = ""
+
+    var vehicle: Vehicle?
+
+    var carSymbol: CarSymbol {
+        get { (try? JSONDecoder().decode(CarSymbol.self, from: carSymbolData)) ?? .empty }
+        set { carSymbolData = (try? JSONEncoder().encode(newValue)) ?? Data() }
+    }
+
+    init(carSymbol: CarSymbol, dateLogged: Date = Date(), isActive: Bool = true, note: String = "", vehicle: Vehicle? = nil) {
+        self.carSymbolData  = (try? JSONEncoder().encode(carSymbol)) ?? Data()
+        self.dateLogged     = dateLogged
+        self.isActive       = isActive
+        self.note           = note
+        self.vehicle        = vehicle
+    }
 }

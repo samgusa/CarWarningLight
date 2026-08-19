@@ -164,7 +164,7 @@ extension Array where Element == LightLogEntry {
     func systemStatuses(for vehicleID: UUID) -> [SystemStatus] {
         VehicleSystem.allCases.map { system in
             let matching = self.filter {
-                $0.vehicleID == vehicleID &&
+                $0.vehicle?.id == vehicleID &&
                 $0.isActive &&
                 ($0.carSymbol.categories?.contains(system.rawValue) ?? false)
             }

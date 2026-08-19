@@ -11,10 +11,10 @@ import SwiftUI
 struct ClusterEncyclopediaView: View {
     let allLights: [CarSymbol]
     @Binding var isScrolledDown: Bool
-    let logEntries: [LightLogEntry]                          // NEW
-    let selectedVehicleID: UUID                               // NEW
-    var onLogEntry: (CarSymbol) -> Void = { _ in }             // NEW
-    var onToggleResolved: (LightLogEntry) -> Void = { _ in }   // NEW
+    let logEntries: [LightLogEntry]
+    let selectedVehicleID: UUID
+    var onLogEntry: (CarSymbol) -> Void = { _ in }
+    var onToggleResolved: (LightLogEntry) -> Void = { _ in }
 
     @Namespace private var namespace
     @State private var selectedIndex: Int?
@@ -31,7 +31,7 @@ struct ClusterEncyclopediaView: View {
     // active/resolved. nil means never logged at all.
     private func entry(for symbol: CarSymbol) -> LightLogEntry? {
         logEntries
-            .filter { $0.carSymbol.id == symbol.id && $0.vehicleID == selectedVehicleID }
+            .filter { $0.carSymbol.id == symbol.id && $0.vehicle?.id == selectedVehicleID }
             .max { $0.dateLogged < $1.dateLogged }
     }
 

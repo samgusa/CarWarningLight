@@ -18,10 +18,12 @@ struct ClusterAddVehicleView: View {
     private let bodyStyles: [(label: String, imageName: String)] = [
         ("Sedan",                                   "vehicleSedan"),
         ("SUV",                                     "vehicleSUV"),
-        ("Truck",                                   "vehicleTruck"),
+        ("Pickup",                                  "vehiclePickup"),
         ("Hatchback",                               "vehicleHatchback"),
         ("Minivan",                                 "vehicleMinivan"),
         ("Coupe",                                   "vehicleCoupe"),
+        ("Sports Car",                              "vehicleSportsCar"),
+        ("Wagon",                                   "vehicleWagon")
     ]
 
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
@@ -55,8 +57,6 @@ struct ClusterAddVehicleView: View {
                     Button {
                         let vehicle = Vehicle(
                             name: name.trimmingCharacters(in: .whitespaces),
-                            systemStatuses: VehicleSystem.allCases.map { SystemStatus(system: $0) },
-
                             imageName: selectedImageName ?? bodyStyles[0].imageName
                         )
                         onSave(vehicle)

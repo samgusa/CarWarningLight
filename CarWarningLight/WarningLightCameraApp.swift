@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct WarningLightCameraApp: App {
@@ -18,5 +19,6 @@ struct WarningLightCameraApp: App {
             ClusterRootView(allLights: allLights)
                 .environmentObject(uiState)
         }
+        .modelContainer(for: [Vehicle.self, VehicleIssue.self, LightLogEntry.self])
     }
 }

@@ -4,16 +4,17 @@
 import SwiftUI
 import PhotosUI
 import AVFoundation
+import SwiftData
 
 
 enum AppTab: String, CaseIterable {
     case encyclopedia           = "ENCYCLOPEDIA"
-    case tripLog                = "TRIP LOG"
+    case garage                 = "Garage"
 
     var icon: String {
         switch self {
         case .encyclopedia:      return "book.closed.fill"
-        case .tripLog:           return "clock.arrow.circlepath"
+        case .garage:            return "wrench.and.screwdriver.fill"
         }
     }
 }
@@ -22,20 +23,26 @@ struct ClusterRootView: View {
 
     let allLights: [CarSymbol]
     @EnvironmentObject private var uiState: UIStateManager
+    @Environment(\.modelContext) private var modelContext
+
+    @Query(sort: \Vehicle.dateCreated) private var vehicles: [Vehicle]
+    @Query(sort: \LightLogEntry.dateLogged, order: .reverse) private var logEntries: [LightLogEntry]
 
     @State private var activeTab: AppTab            = .encyclopedia
 
     @State private var isScrolledDown: Bool         = false
 
-    @State private var vehicles: [Vehicle]          = [Vehicle(name: "My Vehicle", systemStatuses: VehicleSystem.allCases.map { SystemStatus(system: $0) })]
     @State private var selectedVehicleID: UUID      = UUID()
-    @State private var logEntries: [LightLogEntry]  = []
 
-    @State private var showCamera                   = false
-    @State private var showImagePicker              = false
+    private var selectedVehicle: Vehicle? {
+        vehicles.first { $0.id == selectedVehicleID }
+    }
+
+    @State private var showCamera: Bool                   = false
+    @State private var showImagePicker: Bool              = false
     @State private var pickerItem: PhotosPickerItem?
 
-    @State private var isDetailActive: Bool         = false
+    @State private var isDetailActive: Bool               = false
 
     @State private var photoForPreview: CapturedPhoto?
 
@@ -44,7 +51,6 @@ struct ClusterRootView: View {
 
     @State private var pendingCapturedImage: UIImage?
     @State private var pendingPostPreviewAction: (() -> Void)?
-    @State private var showLightPicker: Bool        = false
 
     @Namespace private var standaloneNamespace
     @Namespace private var tabAnimation
@@ -62,20 +68,18 @@ struct ClusterRootView: View {
                         logEntries: logEntries,
                         selectedVehicleID: selectedVehicleID,
                         onLogEntry: { symbol in
-                            let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicleID: selectedVehicleID)
-                            logEntries.append(entry)
+                            let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicle: selectedVehicle)
+                            modelContext.insert(entry)
                         },
                         onToggleResolved: { entry in
-                            guard let idx = logEntries.firstIndex(where: { $0.id == entry.id }) else { return }
-                            logEntries[idx].isActive.toggle()
+                            entry.isActive.toggle()
                         },
                         isDetailActive: $isDetailActive
                     )
                         .frame(width: geo.size.width)
 
-                    ClusterTripLogView(isScrolledDown: $isScrolledDown, entries: logEntries, onAddLight: { showLightPicker = true }) { entry in
-                        detailSymbol = entry.carSymbol
-                        detailLogEntry = entry
+                    NavigationStack {
+                        ClusterGarageView(isScrolledDown: $isScrolledDown)
                     }
                     .frame(width: geo.size.width)
                 }
@@ -102,8 +106,8 @@ struct ClusterRootView: View {
             photoForPreview = CapturedPhoto(image: image, source: .camera)
         }) {
             CameraView { image in
-                pendingCapturedImage = image
-                showCamera = false
+                pendingCapturedImage    = image
+                showCamera              = false
             }
         }
         .fullScreenCover(item: $photoForPreview, onDismiss: {
@@ -113,8 +117,8 @@ struct ClusterRootView: View {
             ClusterScanFlowView(
                 capturedPhoto: photo,
                 onScanLogged: { symbol in
-                    let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicleID: selectedVehicleID)
-                    logEntries.append(entry)
+                    let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicle: selectedVehicle)
+                    modelContext.insert(entry)
                     pendingPostPreviewAction = {
                         detailSymbol = symbol
                         detailLogEntry = entry
@@ -149,10 +153,7 @@ struct ClusterRootView: View {
                 isStandAlone: true,
                 logEntry: detailLogEntry,
                 onToggleResolved: {
-                    guard let entry = detailLogEntry,
-                          let idx = logEntries.firstIndex(where: { $0.id == entry.id }) else { return }
-                    logEntries[idx].isActive.toggle()
-                    detailLogEntry = logEntries[idx]
+                    detailLogEntry?.isActive.toggle()
                 },
                 onDismiss: {
                     detailSymbol = nil
@@ -160,21 +161,6 @@ struct ClusterRootView: View {
                 }
             )
             .environmentObject(uiState)
-        }
-        .fullScreenCover(isPresented: $showLightPicker) {
-            ClusterLightPickerView(
-                allLights: allLights,
-                logEntries: logEntries,
-                selectedVehicleID: selectedVehicleID,
-                onLogEntry: { symbol in
-                    let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicleID: selectedVehicleID)
-                    logEntries.append(entry)
-                },
-                onToggleResolved: { entry in
-                    guard let idx = logEntries.firstIndex(where: { $0.id == entry.id }) else { return }
-                    logEntries[idx].isActive.toggle()
-                }
-            )
         }
         .photosPicker(isPresented: $showImagePicker, selection: $pickerItem, matching: .images)
         .onChange(of: pickerItem) { _, newItem in

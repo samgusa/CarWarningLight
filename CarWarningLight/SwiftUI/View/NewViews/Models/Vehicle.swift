@@ -7,28 +7,51 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct Vehicle: Identifiable {
-    let id = UUID()
-    var name: String
-    var systemStatuses: [SystemStatus]
-    var imageName: String = "vehicleSedan"
+@Model
+final class Vehicle {
+    var id: UUID                = UUID()
+    var name: String            = ""
+    var imageName: String       = "vehicleSedan"
+    var dateCreated: Date       = Date()
+
+    @Relationship(deleteRule: .cascade, inverse: \VehicleIssue.vehicle)
+    var issues: [VehicleIssue]  = []
+
+    @Relationship(deleteRule: .cascade, inverse: \LightLogEntry.vehicle)
+    var lightLogEntries: [LightLogEntry] = []
+
+    init(name: String, imageName: String = "vehicleSedan") {
+        self.name               = name
+        self.imageName          = imageName
+    }
+
+    // MARK: - Derived status (Garage card + banners read these)
+
+    var activeIssues: [VehicleIssue] { issues.filter(\.isActive) }
+    var activeLightEntries: [LightLogEntry] { lightLogEntries.filter(\.isActive) }
+
+    var totalActive: Int { activeIssues.count + activeLightEntries.count }
+
+    var worstSeverity: SymbolType? {
+        activeLightEntries
+            .map(\.carSymbol.symbolType)
+            .min { severityRank($0) < severityRank($1) }
+    }
 
     private func severityRank(_ type: SymbolType) -> Int {
         switch type {
-        case .advisory:
-            return 1
-        case .info:
-            return 2
-        case .warning:
-            return 0
+        case .warning:      return 0
+        case .advisory:     return 1
+        case .info:         return 2
         }
     }
 
-    var totalActive: Int {
-        systemStatuses.reduce(0) { $0 + $1.activeCount }
+    var timelineItems: [GarageTimelineItem] {
+        let lights = lightLogEntries.map(GarageTimelineItem.light)
+        let issueItems = issues.map(GarageTimelineItem.issue)
+        return (lights + issueItems).sorted { $0.date > $1.date }
     }
-    var worstSeverity: SymbolType? {
-        systemStatuses.compactMap(\.worstSeverity).min { severityRank($0) < severityRank($1) }
-    }
+
 }
