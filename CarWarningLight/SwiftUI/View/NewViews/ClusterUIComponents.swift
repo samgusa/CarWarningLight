@@ -29,7 +29,6 @@ struct ClusterSquareIconButton: View {
     }
 }
 
-
 struct ClusterTagButton: View {
     var icon: String
     var label: String
@@ -47,6 +46,7 @@ struct ClusterTagButton: View {
             }
             .foregroundStyle(ClusterTheme.Colors.background)
             .padding(.horizontal, 12)
+            .padding(.vertical, 9)
             .background(tint)
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
@@ -120,8 +120,6 @@ struct ClusterAccentBanner: View {
     }
 }
 
-
-
 struct ClusterVehicleImagePlate: View {
     var imageName: String
     var size: CGFloat = 54
@@ -144,7 +142,6 @@ struct ClusterVehicleImagePlate: View {
 //            )
     }
 }
-
 
 struct ClusterCategoryChip: View {
     var icon: String
@@ -203,4 +200,91 @@ struct ClusterStackedIcon: View {
         }
         .frame(width: 44, height: 44, alignment: .bottomLeading)
     }
+}
+
+struct ClusterCornerCutShape: Shape {
+    var cut: CGFloat = 10
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: cut, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+        path.addLine(to: CGPoint(x: 0, y: rect.height))
+        path.addLine(to: CGPoint(x: 0, y: cut))
+        path.closeSubpath()
+        return path
+    }
+}
+
+struct ClusterCautionLabel: View {
+    var icon: String
+    var title: String
+    var subtitle: String
+    var tint: Color = ClusterTheme.Colors.amber
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: icon)
+                .font(.system(size: 15, weight: .heavy))
+                .foregroundStyle(ClusterTheme.Colors.background)
+                .frame(width: 28, height: 28)
+                .background(ClusterTheme.Colors.background.opacity(0.15))
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title.uppercased())
+                    .font(ClusterTheme.Types.mono(12, weight: .heavy))
+                    .tracking(0.6)
+                    .foregroundStyle(ClusterTheme.Colors.background)
+                Text(subtitle)
+                    .font(ClusterTheme.Types.body(12, weight: .semibold))
+                    .foregroundStyle(ClusterTheme.Colors.background.opacity(0.8))
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(12)
+        .background(tint)
+        .clipShape(ClusterCornerCutShape(cut: 10))
+    }
+}
+
+struct ClusterParallelogramShape: Shape {
+    var skew: CGFloat = 8
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: skew, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        path.addLine(to: CGPoint(x: rect.width - skew, y: rect.height))
+        path.addLine(to: CGPoint(x: 0, y: rect.height))
+        path.closeSubpath()
+        return path
+    }
+}
+
+struct ClusterAngledButton: View {
+    var icon: String
+    var label: String
+    var tint: Color = ClusterTheme.Colors.amber
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.system(size: 12, weight: .bold))
+                Text(label.uppercased())
+                    .font(ClusterTheme.Types.mono(11, weight: .bold))
+                    .tracking(0.8)
+            }
+            .foregroundStyle(ClusterTheme.Colors.background)
+            .padding(.horizontal, 18)
+            .padding(.vertical, 9)
+            .background(tint)
+            .clipShape(ClusterParallelogramShape(skew: 8))
+        }
+        .buttonStyle(PressedButtonStyle())
+    }
+
 }

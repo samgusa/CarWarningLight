@@ -82,7 +82,7 @@ struct ClusterExpandedView: View {
 
                     ClusterAccentBanner(
                         icon: "shield.lefthalf.filled",
-                        title: "SAFE TO DRIVE",
+                        title: "SAFE TO DRIVE?",
                         subtitle: carSymbol.drivable.message,
                         tint: safetyColor
                     )
