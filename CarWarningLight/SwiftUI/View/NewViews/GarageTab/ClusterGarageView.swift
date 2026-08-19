@@ -49,7 +49,9 @@ struct ClusterGarageView: View {
                                 }
                             }
                         }
-                        addVehicleTile
+                        ClusterDashedActionTile(icon: "plus", label: "Add Vehicle") {
+                            showAddVehicle = true
+                        }
                     }
                     .padding(.horizontal)
                 }
@@ -113,29 +115,6 @@ struct ClusterGarageView: View {
         .padding(.top, 20)
     }
 
-    private var addVehicleTile: some View {
-        Button {
-            showAddVehicle = true
-        } label: {
-            VStack(spacing: 10) {
-                Image(systemName: "plus")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(ClusterTheme.Colors.textSecondary)
-                Text("Add vehicle")
-                    .font(ClusterTheme.Types.body(13, weight: .semibold))
-                    .foregroundStyle(ClusterTheme.Colors.textSecondary)
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 150)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(style: StrokeStyle(lineWidth: 1.25, dash: [5, 5]))
-                    .foregroundStyle(ClusterTheme.Colors.bezel)
-            )
-        }
-        .buttonStyle(.plain)
-    }
-
     private var emptyState: some View {
         VStack(spacing: 14) {
             Image(systemName: "car.side")
@@ -150,17 +129,10 @@ struct ClusterGarageView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
 
-            Button {
+            ClusterDashedActionTile(icon: "plus", label: "Add Vehicle", height: 110, action: {
                 showAddVehicle = true
-            } label: {
-                Text("Add Vehicle")
-                    .font(ClusterTheme.Types.body(15, weight: .bold))
-                    .foregroundStyle(ClusterTheme.Colors.background)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                    .background(ClusterTheme.Colors.amber)
-                    .clipShape(Capsule())
-            }
+            })
+            .padding(.horizontal, 40)
             .padding(.top, 6)
         }
         .frame(maxWidth: .infinity)
@@ -169,5 +141,7 @@ struct ClusterGarageView: View {
 }
 
 #Preview {
-    ClusterGarageView(isScrolledDown: .constant(false))
+    NavigationStack {
+        ClusterGarageView(isScrolledDown: .constant(false))
+    }
 }

@@ -130,13 +130,15 @@ struct ClusterRootView: View {
             ClusterScanFlowView(
                 capturedPhoto: photo,
                 onScanLogged: { symbol in
-                    let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicle: selectedVehicle)
-                    modelContext.insert(entry)
-                    pendingPostPreviewAction = {
-                        detailSymbol = symbol
-                        detailLogEntry = entry
+                    requestLogLight(symbol) { vehicle in
+                        let entry = LightLogEntry(carSymbol: symbol, dateLogged: Date(), vehicle: vehicle)
+                        modelContext.insert(entry)
+                        pendingPostPreviewAction = {
+                            detailSymbol = symbol
+                            detailLogEntry = entry
+                        }
+                        photoForPreview = nil
                     }
-                    photoForPreview = nil
                 },
                 onNoMatch: {
                     pendingPostPreviewAction = { activeTab = .encyclopedia }
@@ -175,7 +177,7 @@ struct ClusterRootView: View {
             )
             .environmentObject(uiState)
         }
-        .sheet(isPresented: $showVehiclePicker, content: {
+        .sheet(isPresented: $showVehiclePicker) {
             if let symbol = pendingLightSymbol {
                 ClusterVehiclePickerSheet(vehicle: vehicles, symbol: symbol) { vehicle in
                     pendingLightCompletion?(vehicle)
@@ -183,7 +185,7 @@ struct ClusterRootView: View {
                     pendingLightCompletion = nil
                 }
             }
-        })
+        }
         .alert("Add a Vehicle First", isPresented: $showNoVehicleAlert) {
             Button("Go to Garage") { activeTab = .garage }
             Button("Cancel", role: .cancel) { }
