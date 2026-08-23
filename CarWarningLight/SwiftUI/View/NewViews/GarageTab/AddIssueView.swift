@@ -42,6 +42,7 @@ struct AddIssueView: View {
                                     icon: category.icon,
                                     label: category.label,
                                     isSelected: selectedCategories.contains(category)) {
+
                                         if selectedCategories.contains(category) {
                                             selectedCategories.remove(category)
                                         } else {
@@ -90,7 +91,7 @@ struct AddIssueView: View {
                             .padding(.vertical, 14)
                             .background(isValid ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
                             .foregroundStyle(isValid ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                     .disabled(!isValid)
                     .padding(.horizontal)

@@ -11,6 +11,7 @@ import SwiftUI
 struct ClusterExpandedView: View {
     @EnvironmentObject private var uiState: UIStateManager
     @StateObject var viewModel              = ExpandedViewModel()
+    @Environment(\.dismiss) private var dismiss
 
     let carSymbol: CarSymbol
     var namespace: Namespace.ID
@@ -25,10 +26,12 @@ struct ClusterExpandedView: View {
     var onDismiss: (() -> Void)?            = nil
     var onConfirmMatch: (() -> Void)?       = nil
     var onLogEntry: (() -> Void)?           = nil
+    var onDeleteEntry: (() -> Void)?        = nil
 
 
-    @State private var hasConfirmed: Bool   = false
-    @State private var hasLoggedNow: Bool   = false
+    @State private var hasConfirmed: Bool       = false
+    @State private var hasLoggedNow: Bool       = false
+    @State private var showDeleteConfirm: Bool  = false
 
     private var telltale: Color { ClusterTheme.Colors.forSymbolType(carSymbol.symbolType) }
     private var safetyColor: Color { ClusterTheme.Colors.forDrivable(carSymbol.drivable) }
@@ -89,6 +92,9 @@ struct ClusterExpandedView: View {
                     .padding(.horizontal)
 
                     actionControl
+                    if onDeleteEntry != nil {
+                        deleteControl
+                    }
                     infoPanel(label: "DESCRIPTION", body: carSymbol.description)
                     infoPanel(label: "HOW TO FIX", body: carSymbol.fixDescription)
                 }
@@ -108,21 +114,27 @@ struct ClusterExpandedView: View {
         }
     }
 
+    private func closeDetail() {
+        if let onDismiss {
+            onDismiss()
+        } else if isStandAlone {
+            dismiss()
+        } else {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
+                isShowingLarge      = false
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                index               = nil
+            }
+        }
+    }
+
     private var headerBar: some View {
         ClusterHeaderBar(
             title: headerTitle,
             icon: onConfirmMatch != nil ? "chevron.left" : "xmark"
         ) {
-            if let onDismiss {
-                onDismiss()
-            } else {
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
-                    isShowingLarge = false
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    index = nil
-                }
-            }
+            closeDetail()
         }
     }
 
@@ -209,32 +221,30 @@ struct ClusterExpandedView: View {
     }
 
     private func resolvedControl(for entry: LightLogEntry) -> some View {
-        Button {
+        ClusterStatusToggle(isActive: entry.isActive) {
             onToggleResolved?()
-        } label: {
-            HStack {
-                Image(systemName: entry.isActive ? "checkmark.circle.fill" : "arrow.uturn.backward.circle.fill")
-                Text(entry.isActive ? "Mark as Resolved" : "Mark Active Again")
-                    .font(ClusterTheme.Types.body(14, weight: .bold))
-                Spacer()
-                Text(entry.isActive ? "ACTIVE" : "RESOLVED")
-                    .font(ClusterTheme.Types.mono(10, weight: .bold))
-                    .tracking(1)
-            }
-            .foregroundStyle(entry.isActive ? ClusterTheme.Colors.background : ClusterTheme.Colors.textPrimary)
-            .padding(14)
-            .background(entry.isActive ? ClusterTheme.Colors.green : ClusterTheme.Colors.panel)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(
-                        entry.isActive ? .clear : ClusterTheme.Colors.bezel,
-                        lineWidth: 1
-                    )
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
-        .buttonStyle(.plain)
         .padding(.horizontal)
+    }
+
+    private var deleteControl: some View {
+        Button(role: .destructive) {
+            showDeleteConfirm = true
+        } label: {
+            Text("Delete Light")
+                .font(ClusterTheme.Types.body(14, weight: .semibold))
+                .foregroundStyle(ClusterTheme.Colors.red)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+        }
+        .padding(.horizontal)
+        .alert("Delete this logged light", isPresented: $showDeleteConfirm) {
+            Button("Cencel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                onDeleteEntry?()
+                closeDetail()
+            }
+        }
     }
 
     private func infoPanel(label: String, body: String) -> some View {

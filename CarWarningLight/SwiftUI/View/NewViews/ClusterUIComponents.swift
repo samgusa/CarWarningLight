@@ -180,9 +180,17 @@ struct ClusterStackedIcon: View {
     var tint: Color
     var isDimmed: Bool = false
 
+    private var effectiveIcons: [String] {
+        icons.isEmpty ? ["exclamationmark.circle"] : Array(icons.prefix(3))
+    }
+
     var body: some View {
+        let count = effectiveIcons.count
+        let step: CGFloat = 4
+        let centering = CGFloat(count - 1) * step / 2
+
         ZStack {
-            ForEach(Array(icons.prefix(3).enumerated().reversed()), id: \.offset) { index, icon in
+            ForEach(Array(effectiveIcons.enumerated().reversed()), id: \.offset) { index, icon in
                 RoundedRectangle(cornerRadius: 8)
                     .fill(ClusterTheme.Colors.panel)
                     .overlay(
@@ -195,10 +203,10 @@ struct ClusterStackedIcon: View {
                             .foregroundStyle(isDimmed ? ClusterTheme.Colors.textSecondary : tint)
                     )
                     .frame(width: 34, height: 34)
-                    .offset(x: CGFloat(index) * 4, y: CGFloat(index) * -4)
+                    .offset(x: CGFloat(index) * step - centering, y: CGFloat(index) * -step + centering)
             }
         }
-        .frame(width: 44, height: 44, alignment: .bottomLeading)
+        .frame(width: 44, height: 44)
     }
 }
 
@@ -287,4 +295,58 @@ struct ClusterAngledButton: View {
         .buttonStyle(PressedButtonStyle())
     }
 
+}
+
+struct ClusterStatusToggle: View {
+    var isActive: Bool
+    var activeTint: Color = ClusterTheme.Colors.amber
+    var resolvedTint: Color = ClusterTheme.Colors.green
+    var action: () -> Void
+
+    private var tint: Color { isActive ? activeTint : resolvedTint }
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                ZStack {
+                    Circle()
+                        .fill(tint)
+                        .frame(width: 22, height: 22)
+                        .blur(radius: 10)
+                        .opacity(0.7)
+                    Circle()
+                        .fill(tint)
+                        .frame(width: 10, height: 10)
+                    Circle()
+                        .stroke(tint.opacity(0.5), lineWidth: 1)
+                        .frame(width: 22, height: 22)
+                }
+                .frame(width: 28, height: 28)
+
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(isActive ? "ACTIVE" : "RESOLVED")
+                        .font(ClusterTheme.Types.mono(12, weight: .bold))
+                        .tracking(1.0)
+                        .foregroundStyle(tint)
+                    Text(isActive ? "Tap to mark resolved" : "Tap to mark active again")
+                        .font(ClusterTheme.Types.body(12))
+                        .foregroundStyle(ClusterTheme.Colors.textSecondary)
+                }
+
+                Spacer(minLength: 0)
+
+                Image(systemName: isActive ? "checkmark" : "arrow.uturn.backward")
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(ClusterTheme.Colors.textSecondary)
+            }
+            .padding(14)
+            .background(ClusterTheme.Colors.panel)
+            .overlay(
+                ClusterCornerCutShape(cut: 10)
+                    .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
+            )
+            .clipShape(ClusterCornerCutShape(cut: 10))
+        }
+        .buttonStyle(PressedButtonStyle())
+    }
 }

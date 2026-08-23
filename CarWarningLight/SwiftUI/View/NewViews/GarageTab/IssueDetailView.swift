@@ -19,7 +19,6 @@ struct IssueDetailView: View {
 
     private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
-
     private var dateLabel: String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -29,8 +28,8 @@ struct IssueDetailView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ClusterHeaderBar(title: "Issue", icon: "chevron.left") { dismiss()
-            }
+            ClusterHeaderBar(title: "Issue", icon: "chevron.left") { dismiss() }
+
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     heroRow
@@ -48,11 +47,12 @@ struct IssueDetailView: View {
                                 ClusterCategoryChip(
                                     icon: category.icon,
                                     label: category.label,
-                                    isSelected: issue.categories.contains(category)) {
-                                        var updated = issue.categories
-                                        if updated.contains(category) { updated.remove(category) } else { updated.insert(category) }
-                                        issue.categories = updated
-                                    }
+                                    isSelected: issue.categories.contains(category)
+                                ) {
+                                    var updated = issue.categories
+                                    if updated.contains(category) { updated.remove(category) } else { updated.insert(category) }
+                                    issue.categories = updated
+                                }
                             }
                         }
                         .padding(.horizontal)
@@ -97,6 +97,8 @@ struct IssueDetailView: View {
             .scrollDismissesKeyboard(.interactively)
         }
         .background(ClusterTheme.Colors.background)
+        .contentShape(Rectangle())
+        .onTapGesture { noteFieldFocused = false }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .navigationBar)
         .toolbar {
@@ -139,29 +141,9 @@ struct IssueDetailView: View {
     }
 
     private var resolvedControl: some View {
-        Button {
+        ClusterStatusToggle(isActive: issue.isActive) {
             issue.isActive.toggle()
-        } label: {
-            HStack {
-                Image(systemName: issue.isActive ? "checkmark.circle.fill" : "arrow.uturn.backward.circle.fill")
-
-                Text(issue.isActive ? "Mark as Resolved" : "Mark Active Again")
-                    .font(ClusterTheme.Types.body(14, weight: .bold))
-                Spacer()
-                Text(issue.isActive ? "ACTIVE" : "RESOLVED")
-                    .font(ClusterTheme.Types.mono(10, weight: .bold))
-                    .tracking(1)
-            }
-            .foregroundStyle(issue.isActive ? ClusterTheme.Colors.background : ClusterTheme.Colors.textPrimary)
-            .padding(14)
-            .background(issue.isActive ? ClusterTheme.Colors.green : ClusterTheme.Colors.panel)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(issue.isActive ? .clear : ClusterTheme.Colors.bezel, lineWidth: 1)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
-        .buttonStyle(.plain)
         .padding(.horizontal)
     }
 }

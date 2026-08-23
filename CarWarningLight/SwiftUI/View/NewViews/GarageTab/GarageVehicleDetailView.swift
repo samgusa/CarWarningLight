@@ -37,7 +37,7 @@ struct GarageVehicleDetailView: View {
                     controlsRow
 
                     if vehicle.totalActive > 0 {
-                        ClusterAccentBanner(
+                        ClusterCautionLabel(
                             icon: "eye.fill",
                             title: "\(vehicle.totalActive) thing\(vehicle.totalActive == 1 ? "" : "s") to keep an eye on",
                             subtitle: "Tap any entry for details, or mark it resolved"
@@ -80,7 +80,8 @@ struct GarageVehicleDetailView: View {
                 index: .constant(0),
                 isStandAlone: true,
                 logEntry: entry,
-                onToggleResolved: { entry.isActive.toggle() }
+                onToggleResolved: { entry.isActive.toggle() },
+                onDeleteEntry: { modelContext.delete(entry) }
             )
         }
         .navigationDestination(for: VehicleIssue.self) { issue in
@@ -123,7 +124,7 @@ struct GarageVehicleDetailView: View {
 
             Spacer()
 
-            ClusterTagButton(icon: "plus", label: "Log Issue") {
+            ClusterAngledButton(icon: "plus", label: "Log Issue") {
                 showAddIssue = true
             }
         }

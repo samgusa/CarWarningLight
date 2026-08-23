@@ -26,7 +26,7 @@ struct ClusterAddVehicleView: View {
         ("Wagon",                                   "vehicleWagon")
     ]
 
-    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
+    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
     private var isValid: Bool {
         !name.trimmingCharacters(in: .whitespaces).isEmpty && selectedImageName != nil
@@ -107,8 +107,8 @@ struct ClusterAddVehicleView: View {
             selectedImageName = style.imageName
         } label: {
             VStack(spacing: 8) {
-                ClusterVehicleImagePlate(imageName: style.imageName, size: 46)
-                    .padding(.top, 10)
+                ClusterVehicleImagePlate(imageName: style.imageName, size: 72)
+                    .padding(.top, 14)
 
                 Text(style.label.uppercased())
                     .font(ClusterTheme.Types.mono(10, weight: .semibold))
