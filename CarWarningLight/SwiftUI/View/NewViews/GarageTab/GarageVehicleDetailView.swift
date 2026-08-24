@@ -16,7 +16,8 @@ struct GarageVehicleDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Vehicle.dateCreated) private var allVehicles: [Vehicle]
 
-    @State private var showAddIssue: Bool = false
+    @State private var showAddIssue: Bool           = false
+    @State private var showReportBuilder: Bool      = false
     @Namespace private var detailedNamespace
 
     private var groupedTimeline: [(day: Date, items: [GarageTimelineItem])] {
@@ -90,6 +91,9 @@ struct GarageVehicleDetailView: View {
         .sheet(isPresented: $showAddIssue) {
             AddIssueView(vehicle: vehicle)
         }
+        .sheet(isPresented: $showReportBuilder) {
+            ReportBuilderView(vehicle: vehicle)
+        }
     }
 
     private var controlsRow: some View {
@@ -123,6 +127,11 @@ struct GarageVehicleDetailView: View {
             }
 
             Spacer()
+
+            ClusterSquareIconButton(icon: "doc.text.fill") {
+                showReportBuilder = true
+            }
+            .accessibilityLabel("Build a report")
 
             ClusterAngledButton(icon: "plus", label: "Log Issue") {
                 showAddIssue = true

@@ -85,7 +85,7 @@ struct ClusterExpandedView: View {
 
                     ClusterAccentBanner(
                         icon: "shield.lefthalf.filled",
-                        title: "SAFE TO DRIVE?",
+                        title: "Safe To Drive?",
                         subtitle: carSymbol.drivable.message,
                         tint: safetyColor
                     )
@@ -174,50 +174,29 @@ struct ClusterExpandedView: View {
     }
 
     private var confirmMatchControl: some View {
-        Button {
+        ClusterConsoleActionButton(
+            icon: "checkmark",
+            label: hasConfirmed ? "Confirmed" : "Confirm & Log This Light",
+            isEnabled: !hasConfirmed
+        ) {
             guard !hasConfirmed else { return }
             hasConfirmed = true
             onConfirmMatch?()
-        } label: {
-            HStack {
-                Image(systemName: "checkmark.circle.fill")
-                Text("Confirm & Log This Light")
-                    .font(ClusterTheme.Types.body(14, weight: .bold))
-                Spacer()
-            }
-            .foregroundStyle(ClusterTheme.Colors.background)
-            .padding(14)
-            .background(ClusterTheme.Colors.amber)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
-        .buttonStyle(.plain)
-        .opacity(hasConfirmed ? 0.6 : 1)
-        .disabled(hasConfirmed)
         .padding(.horizontal)
     }
 
     private var logThisLightControl: some View {
-        Button {
-            guard !hasLoggedNow else { return }
-            hasLoggedNow = true
-            onLogEntry?()
-        } label: {
-            HStack {
-                Image(systemName: hasLoggedNow ? "checkmark.circle.fill" : "plus.circle.fill")
-                Text(hasLoggedNow ? "Logged" : "Log This Light")
-                    .font(ClusterTheme.Types.body(14, weight: .bold))
-                Spacer()
+        ClusterConsoleActionButton(
+            icon: hasLoggedNow ? "checkmark" : "plus",
+            label: hasLoggedNow ? "Logged" : "Log This Light",
+            isEnabled: !hasLoggedNow) {
+                guard !hasLoggedNow else { return }
+                hasLoggedNow = true
+                onLogEntry?()
             }
-            .foregroundStyle(ClusterTheme.Colors.background)
-            .padding(14)
-            .background(ClusterTheme.Colors.amber)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-        }
-        .buttonStyle(.plain)
-        .opacity(hasLoggedNow ? 0.6 : 1)
-        .disabled(hasLoggedNow)
-        .padding(.horizontal)
-        .animation(.spring(response: 0.35, dampingFraction: 0.85), value: hasLoggedNow)
+            .padding(.horizontal)
+            .animation(.spring(response: 0.35, dampingFraction: 0.85), value: hasLoggedNow)
     }
 
     private func resolvedControl(for entry: LightLogEntry) -> some View {

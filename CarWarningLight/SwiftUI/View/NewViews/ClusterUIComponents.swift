@@ -350,3 +350,31 @@ struct ClusterStatusToggle: View {
         .buttonStyle(PressedButtonStyle())
     }
 }
+
+struct ClusterConsoleActionButton: View {
+    var icon: String
+    var label: String
+    var tint: Color = ClusterTheme.Colors.amber
+    var isEnabled: Bool = true
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.system(size: 15, weight: .bold))
+                Text(label.uppercased())
+                    .font(ClusterTheme.Types.mono(13, weight: .bold))
+                    .tracking(0.6)
+                Spacer(minLength: 0)
+            }
+            .foregroundStyle(isEnabled ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
+            .padding(14)
+            .frame(maxWidth: .infinity)
+            .background(isEnabled ? tint : ClusterTheme.Colors.bezel)
+            .clipShape(ClusterCornerCutShape(cut: 10))
+        }
+        .buttonStyle(PressedButtonStyle())
+        .disabled(!isEnabled)
+    }
+}
