@@ -58,6 +58,12 @@ struct IssueDetailView: View {
                         .padding(.horizontal)
                     }
 
+                    ClusterVehicleDiagramPicker(vehicle: issue.vehicle ?? Vehicle(name: ""), selectedZones: Binding(
+                        get: { issue.markedZones },
+                        set: { issue.markedZones = $0 }
+                    ))
+                    .padding(.horizontal)
+
                     VStack(alignment: .leading, spacing: 8) {
                         Text("NOTES FOR THE MECHANIC")
                             .font(ClusterTheme.Types.mono(10, weight: .bold))

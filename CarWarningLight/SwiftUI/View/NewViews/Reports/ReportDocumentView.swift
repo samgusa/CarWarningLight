@@ -9,14 +9,9 @@
 import SwiftUI
 
 struct ReportDocumentView: View {
-    struct IssueEntry {
-        let issue: VehicleIssue
-        let categories: [IssueCategory]
-    }
-
     let vehicle: Vehicle
     let lights: [LightLogEntry]
-    let issueEntries: [IssueEntry]
+    let issueEntries: [ReportIssueEntry]
     let generatedDate: Date = Date()
 
     private let pageWidth: CGFloat = 612 // US Letter, 72pt/inch
@@ -109,6 +104,11 @@ struct ReportDocumentView: View {
                             .font(.system(size: 11))
                             .foregroundStyle(.black.opacity(0.8))
                     }
+                    if !entry.issue.markedZones.isEmpty {
+                        Text("Location: \(zoneSummary(entry.issue.markedZones))")
+                            .font(.system(size: 10, design: .monospaced))
+                            .foregroundStyle(.gray)
+                    }
                 }
                 .padding(.vertical, 8)
                 .overlay(alignment: .bottom) {
@@ -134,6 +134,16 @@ struct ReportDocumentView: View {
         case .advisory:     return .orange
         case .info:         return .green
         }
+    }
+
+    private func zoneSummary(_ zones: Set<String>) -> String {
+        zones.sorted().compactMap { raw -> String? in
+            let parts = raw.split(separator: ":", maxSplits: 1)
+            guard parts.count == 2, let kind = VehicleDiagramKind(rawValue: String(parts[0])) else { return nil }
+            let zoneID = String(parts[1])
+            guard let zone = kind.zones.first(where: { $0.id == zoneID }) else { return nil }
+            return "\(kind.title) -\(zone.label)"
+        }.joined(separator: ", ")
     }
 
     private var footer: some View {

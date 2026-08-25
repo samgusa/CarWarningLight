@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "vehiclePickup_transparent.png",
+      "filename" : "vehiclePickup.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

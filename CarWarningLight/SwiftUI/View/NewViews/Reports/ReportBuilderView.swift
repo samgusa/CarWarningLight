@@ -213,11 +213,11 @@ struct ReportBuilderView: View {
     private func generateReport() {
         isGenerating = true
         let lights = activeLights.filter { includedLightIDs.contains($0.id) }
-        let issueEntries: [ReportDocumentView.IssueEntry] = activeIssues.compactMap { issue in
+        let issueEntries: [ReportIssueEntry] = activeIssues.compactMap { issue in
             guard let categories = includedCategoriesByIssue[issue.id], !categories.isEmpty else { return nil }
 
             let ordered = IssueCategory.allCases.filter { categories.contains($0) }
-            return ReportDocumentView.IssueEntry(issue: issue, categories: ordered)
+            return ReportIssueEntry(issue: issue, categories: ordered)
         }
 
         let document = ReportDocumentView(vehicle: vehicle, lights: lights, issueEntries: issueEntries)

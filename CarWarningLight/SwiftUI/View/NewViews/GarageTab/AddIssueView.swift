@@ -17,6 +17,7 @@ struct AddIssueView: View {
 
     @State private var selectedCategories: Set<IssueCategory> = []
     @State private var noteText: String = ""
+    @State private var markedZones: Set<String> = []
     @FocusState private var noteFieldFocused: Bool
 
     private var isValid: Bool { !selectedCategories.isEmpty }
@@ -54,6 +55,9 @@ struct AddIssueView: View {
                         .padding(.horizontal)
                     }
 
+                    ClusterVehicleDiagramPicker(vehicle: vehicle, selectedZones: $markedZones)
+                        .padding(.horizontal)
+
                     VStack(alignment: .leading, spacing: 8) {
                         Text("NOTES FOR THE MECHANIC")
                             .font(ClusterTheme.Types.mono(11, weight: .bold))
@@ -82,6 +86,7 @@ struct AddIssueView: View {
                             categories: selectedCategories,
                             noteText: noteText.trimmingCharacters(in: .whitespacesAndNewlines)
                         )
+                        issue.markedZones = markedZones
                         modelContext.insert(issue)
                         dismiss()
                     } label: {
@@ -102,6 +107,10 @@ struct AddIssueView: View {
             .scrollDismissesKeyboard(.interactively)
         }
         .background(ClusterTheme.Colors.background)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            noteFieldFocused = false
+        }
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()

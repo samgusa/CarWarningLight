@@ -72,6 +72,13 @@ final class VehicleIssue {
     var title: String {
         sortedCategories.first?.label ?? "Issue"
     }
+
+    private var markedZonesRaw: [String] = []
+
+    var markedZones: Set<String> {
+        get { Set(markedZonesRaw) }
+        set { markedZonesRaw = Array(newValue) }
+    }
 }
 
 enum GarageTimelineItem: Identifiable {
