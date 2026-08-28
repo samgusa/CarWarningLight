@@ -14,11 +14,42 @@ struct ClusterVehicleDiagramPicker: View {
 
     @State private var activeKind: VehicleDiagramKind = .topDown
 
+    private let inset: CGFloat = 16
+
     private func imageName(for kind: VehicleDiagramKind) -> String {
         switch kind {
         case .topDown:                          return vehicle.imageName
-        case .driverSide, .passengerSide:       return vehicle.imageName.replacingOccurrences(of: "vehicle", with: "side")
+        case .leftSide, .rightSide:       return vehicle.imageName.replacingOccurrences(of: "vehicle", with: "side")
         }
+    }
+
+    private func nativeImageSize(_ name: String) -> CGSize {
+        guard let size = UIImage(named: name)?.size, size.width > 0, size.height > 0 else {
+            return CGSize(width: 1, height: 1)
+        }
+        return size
+    }
+
+    private func fittedRect(for imageSize: CGSize, in containerSize: CGSize) -> CGRect {
+        let available = CGSize(
+            width: max(containerSize.width - inset * 2, 1),
+            height: max(containerSize.height - inset * 2, 1)
+        )
+        let imageAspect = imageSize.width / imageSize.height
+        let availableAspect = available.width / available.height
+
+        let fittedSize: CGSize
+        if imageAspect > availableAspect {
+            fittedSize = CGSize(width: available.width, height: available.width / imageAspect)
+        } else {
+            fittedSize = CGSize(width: available.height * imageAspect, height: available.height)
+        }
+
+        let origin = CGPoint(
+            x: (containerSize.width - fittedSize.width) / 2,
+            y: (containerSize.height - fittedSize.height) / 2
+        )
+        return CGRect(origin: origin, size: fittedSize)
     }
 
     private func key(_ zone: DiagramZone) -> String { "\(activeKind.rawValue):\(zone.id)" }
@@ -27,10 +58,15 @@ struct ClusterVehicleDiagramPicker: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("MARK THE LOCATION")
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
-                .tracking(1.2)
-                .foregroundStyle(ClusterTheme.Colors.textSecondary)
+            VStack(alignment: .leading, spacing: 2){
+                Text("MARK THE LOCATION")
+                    .font(ClusterTheme.Types.mono(11, weight: .bold))
+                    .tracking(1.2)
+                    .foregroundStyle(ClusterTheme.Colors.textSecondary)
+                Text("Left/right as if sitting in the driver's seat facing forward — same on any car, anywhere.")
+                    .font(ClusterTheme.Types.body(11))
+                    .foregroundStyle(ClusterTheme.Colors.textSecondary.opacity(0.8))
+            }
 
             kindPicker
             diagramCanvas
@@ -69,18 +105,21 @@ struct ClusterVehicleDiagramPicker: View {
 
     private var diagramCanvas: some View {
         GeometryReader { geo in
+            let name = imageName(for: activeKind)
+            let rect = fittedRect(for: nativeImageSize(name), in: geo.size)
+
             ZStack {
                 Image(imageName(for: activeKind))
                     .resizable()
                     .renderingMode(.template)
                     .foregroundStyle(ClusterTheme.Colors.textPrimary.opacity(0.8))
-                    .scaledToFit()
+//                    .scaledToFit()
                     .scaleEffect(x: activeKind.isFlipped ? -1 : 1, y: 1)
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .padding(20)
+                    .frame(width: geo.size.width, height: rect.height)
+                    .position(x: rect.midX, y: rect.midY)
 
                 ForEach(activeKind.zones) { zone in
-                    zoneButton(zone, in: geo.size)
+                    zoneButton(zone, in: rect)
                 }
             }
         }
@@ -93,11 +132,17 @@ struct ClusterVehicleDiagramPicker: View {
         )
     }
 
-    private func zoneButton(_ zone: DiagramZone, in size: CGSize) -> some View {
+    private func zoneButton(_ zone: DiagramZone, in imageRect: CGRect) -> some View {
         var x = zone.rect.minX
         if activeKind.isFlipped { x = 1 - x - zone.rect.width }
-        let rect = CGRect(x: x * size.width, y: zone.rect.minY * size.height,
-                          width: zone.rect.width * size.width, height: zone.rect.height * size.height)
+
+        let zoneRect = CGRect(
+            x: imageRect.minX + x * imageRect.width,
+            y: imageRect.minY + zone.rect.minY * imageRect.height,
+            width: zone.rect.width * imageRect.width,
+            height: zone.rect.height * imageRect.height
+        )
+
         let isOn = selectedZones.contains(key(zone))
 
         return Button {
@@ -112,8 +157,8 @@ struct ClusterVehicleDiagramPicker: View {
                 )
         }
         .buttonStyle(.plain)
-        .frame(width: rect.width, height: rect.height)
-        .position(x: rect.midX, y: rect.midY)
+        .frame(width: zoneRect.width, height: zoneRect.height)
+        .position(x: zoneRect.midX, y: zoneRect.midY)
     }
 
     private var summary: some View {
