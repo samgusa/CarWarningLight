@@ -9,33 +9,18 @@
 import SwiftUI
 
 struct ReportBuilderView: View {
-    let vehicle: Vehicle
+    @State private var viewModel: ReportBuilderViewModel
     @Environment(\.dismiss) private var dismiss
 
-    @State private var includedLightIDs: Set<UUID>                              = []
-    @State private var includedCategoriesByIssue: [UUID: Set<IssueCategory>]    = [:]
-    @State private var isGenerating: Bool                                       = false
-    @State private var shareURL: IdentifiableURL?
-
-    private var activeLights: [LightLogEntry] {
-        vehicle.activeLightEntries.sorted { $0.dateLogged > $1.dateLogged }
-    }
-
-    private var activeIssues: [VehicleIssue] {
-        vehicle.activeIssues.sorted { $0.dateCreated > $1.dateCreated }
-    }
-    private var hasAnythingToReport: Bool {
-        !activeLights.isEmpty || !activeIssues.isEmpty
-    }
-    private var selectedCount: Int {
-        includedLightIDs.count + includedCategoriesByIssue.values.filter { !$0.isEmpty }.count
+    init(vehicle: Vehicle) {
+        _viewModel = State(initialValue: ReportBuilderViewModel(vehicle: vehicle))
     }
 
     var body: some View {
         VStack(spacing: 0) {
             ClusterHeaderBar(title: "Build Report", icon: "chevron.left") { dismiss() }
 
-            if hasAnythingToReport {
+            if viewModel.hasAnythingToReport {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         Text("Everything active is included by default. Tap anything to leave it out.")
@@ -43,8 +28,8 @@ struct ReportBuilderView: View {
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
                             .padding(.horizontal)
 
-                        if !activeLights.isEmpty { lightsSection }
-                        if !activeIssues.isEmpty { issuesSection }
+                        if !viewModel.activeLights.isEmpty { lightsSection }
+                        if !viewModel.activeIssues.isEmpty { issuesSection }
                     }
                     .padding(.top, 16)
                     .padding(.bottom, 110)
@@ -56,16 +41,11 @@ struct ReportBuilderView: View {
         }
         .background(ClusterTheme.Colors.background)
         .onAppear {
-            preselectAll()
+            viewModel.preselectAll()
         }
-        .sheet(item: $shareURL) { wrapped in
+        .sheet(item: $viewModel.shareURL) { wrapped in
             ShareSheet(activityItems: [wrapped.url])
         }
-    }
-
-    private func preselectAll() {
-        includedLightIDs = Set(activeLights.map(\.id))
-        includedCategoriesByIssue = Dictionary(uniqueKeysWithValues: activeIssues.map { ($0.id, $0.categories) })
     }
 
     private var lightsSection: some View {
@@ -76,7 +56,7 @@ struct ReportBuilderView: View {
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .padding(.horizontal)
 
-            ForEach(activeLights) { entry in
+            ForEach(viewModel.activeLights) { entry in
                 lightRow(entry)
                     .padding(.horizontal)
             }
@@ -84,11 +64,11 @@ struct ReportBuilderView: View {
     }
 
     private func lightRow(_ entry: LightLogEntry) -> some View {
-        let isIncluded = includedLightIDs.contains(entry.id)
+        let isIncluded = viewModel.isLightIncluded(entry)
         let telltale = ClusterTheme.Colors.forSymbolType(entry.carSymbol.symbolType)
 
         return Button {
-            if isIncluded { includedLightIDs.remove(entry.id) } else { includedLightIDs.insert(entry.id) }
+            viewModel.toggleLight(entry)
         } label: {
             HStack(spacing: 12) {
                 Image(entry.carSymbol.imageName)
@@ -126,7 +106,7 @@ struct ReportBuilderView: View {
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .padding(.horizontal)
 
-            ForEach(activeIssues) { issue in
+            ForEach(viewModel.activeIssues) { issue in
                 issueCard(issue)
                     .padding(.horizontal)
             }
@@ -134,7 +114,7 @@ struct ReportBuilderView: View {
     }
 
     private func issueCard(_ issue: VehicleIssue) -> some View {
-        let included = includedCategoriesByIssue[issue.id] ?? []
+        let included = viewModel.includedCategories(for: issue)
         let anyIncluded = !included.isEmpty
 
         return VStack(alignment: .leading, spacing: 10) {
@@ -154,9 +134,7 @@ struct ReportBuilderView: View {
             FlowChip(items: issue.sortedCategories) { category in
                 let isOn = included.contains(category)
                 Button {
-                    var updated = included
-                    if isOn { updated.remove(category) } else { updated.insert(category) }
-                    includedCategoriesByIssue[issue.id] = updated
+                    viewModel.toggleCategory(category, for: issue)
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: category.icon)
@@ -187,47 +165,27 @@ struct ReportBuilderView: View {
     private var generateBar: some View {
         VStack {
             Button {
-                generateReport()
+                viewModel.generateReport()
             } label: {
                 HStack {
-                    if isGenerating {
+                    if viewModel.isGenerating {
                         ClusterGaugeLoader(color: ClusterTheme.Colors.background, size: 18)
                     } else {
                         Image(systemName: "doc.text.fill")
                     }
-                    Text(isGenerating ? "Building…" : "Generate Report (\(selectedCount))")
+                    Text(viewModel.isGenerating ? "Building…" : "Generate Report (\(viewModel.selectedCount))")
                         .font(ClusterTheme.Types.body(16, weight: .bold))
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
-                .background(selectedCount > 0 ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
-                .foregroundStyle(selectedCount > 0 ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
+                .background(viewModel.selectedCount > 0 ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
+                .foregroundStyle(viewModel.selectedCount > 0 ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-            .disabled(selectedCount == 0 || isGenerating)
+            .disabled(viewModel.selectedCount == 0 || viewModel.isGenerating)
             .padding()
         }
         .background(ClusterTheme.Colors.panel)
-    }
-
-    private func generateReport() {
-        isGenerating = true
-        let lights = activeLights.filter { includedLightIDs.contains($0.id) }
-        let issueEntries: [ReportIssueEntry] = activeIssues.compactMap { issue in
-            guard let categories = includedCategoriesByIssue[issue.id], !categories.isEmpty else { return nil }
-
-            let ordered = IssueCategory.allCases.filter { categories.contains($0) }
-            return ReportIssueEntry(issue: issue, categories: ordered)
-        }
-
-        let document = ReportDocumentView(vehicle: vehicle, lights: lights, issueEntries: issueEntries)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            if let url = ReportPDFGenerator.generate(from: document) {
-                shareURL = IdentifiableURL(url: url)
-            }
-            isGenerating = false
-        }
     }
 
     private var emptyState: some View {
