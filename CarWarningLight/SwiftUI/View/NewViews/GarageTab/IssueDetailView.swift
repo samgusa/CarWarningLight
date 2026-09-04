@@ -10,20 +10,16 @@ import SwiftUI
 import SwiftData
 
 struct IssueDetailView: View {
-    @Bindable var issue: VehicleIssue
+    @State private var viewModel: IssueDetailViewModel
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    @State private var showDeleteConfirm: Bool = false
     @FocusState private var noteFieldFocused: Bool
 
     private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
-    private var dateLabel: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: issue.dateCreated)
+    init(issue: VehicleIssue) {
+        _viewModel = State(initialValue: IssueDetailViewModel(issue: issue))
     }
 
     var body: some View {
@@ -47,21 +43,19 @@ struct IssueDetailView: View {
                                 ClusterCategoryChip(
                                     icon: category.icon,
                                     label: category.label,
-                                    isSelected: issue.categories.contains(category)
+                                    isSelected: viewModel.issue.categories.contains(category)
                                 ) {
-                                    var updated = issue.categories
-                                    if updated.contains(category) { updated.remove(category) } else { updated.insert(category) }
-                                    issue.categories = updated
+                                    viewModel.toggleCategory(category)
                                 }
                             }
                         }
                         .padding(.horizontal)
                     }
 
-                    ClusterVehicleDiagramPicker(vehicle: issue.vehicle ?? Vehicle(name: ""), selectedZones: Binding(
-                        get: { issue.markedZones },
-                        set: { issue.markedZones = $0 }
-                    ))
+                    ClusterVehicleDiagramPicker(
+                        vehicle: viewModel.issue.vehicle,
+                        selectedZones: viewModel.markedZonesBinding
+                    )
                     .padding(.horizontal)
 
                     VStack(alignment: .leading, spacing: 8) {
@@ -70,7 +64,7 @@ struct IssueDetailView: View {
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
-                        TextEditor(text: $issue.noteText)
+                        TextEditor(text: Bindable(viewModel.issue).noteText)
                             .focused($noteFieldFocused)
                             .font(ClusterTheme.Types.body(15))
                             .foregroundStyle(ClusterTheme.Colors.textPrimary)
@@ -87,7 +81,7 @@ struct IssueDetailView: View {
                     .padding(.horizontal)
 
                     Button(role: .destructive) {
-                        showDeleteConfirm = true
+                        viewModel.requestDelete()
                     } label: {
                         Text("Delete Issue")
                             .font(ClusterTheme.Types.body(14, weight: .semibold))
@@ -98,7 +92,7 @@ struct IssueDetailView: View {
                     .padding(.horizontal)
                 }
                 .padding(.top, 16)
-                .padding(.bottom, 24)
+                .padding(.bottom, 50)
             }
             .scrollDismissesKeyboard(.interactively)
         }
@@ -115,10 +109,10 @@ struct IssueDetailView: View {
                     .foregroundStyle(ClusterTheme.Colors.amber)
             }
         }
-        .alert("Delete this issue?", isPresented: $showDeleteConfirm) {
+        .alert("Delete this issue?", isPresented: $viewModel.showDeleteConfirm) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
-                modelContext.delete(issue)
+                modelContext.delete(viewModel.issue)
                 dismiss()
             }
         }
@@ -127,16 +121,16 @@ struct IssueDetailView: View {
     private var heroRow: some View {
         HStack(spacing: 14) {
             ClusterStackedIcon(
-                icons: issue.sortedCategories.map(\.icon),
+                icons: viewModel.issue.sortedCategories.map(\.icon),
                 tint: ClusterTheme.Colors.amber,
-                isDimmed: !issue.isActive
+                isDimmed: !viewModel.issue.isActive
             )
 
             VStack(alignment: .leading, spacing: 3) {
-                Text(issue.title)
+                Text(viewModel.issue.title)
                     .font(ClusterTheme.Types.display(18))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
-                Text("LOGGED \(dateLabel.uppercased())")
+                Text("LOGGED \(viewModel.dateLabel.uppercased())")
                     .font(ClusterTheme.Types.mono(10, weight: .bold))
                     .tracking(1.0)
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
@@ -147,8 +141,8 @@ struct IssueDetailView: View {
     }
 
     private var resolvedControl: some View {
-        ClusterStatusToggle(isActive: issue.isActive) {
-            issue.isActive.toggle()
+        ClusterStatusToggle(isActive: viewModel.issue.isActive) {
+            viewModel.toggleResolved()
         }
         .padding(.horizontal)
     }

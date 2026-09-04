@@ -10,29 +10,28 @@ import SwiftUI
 import Vision
 import CoreML
 import OSLog
-import Combine
 
+@Observable
+@MainActor
 class ImageDetectionViewModel: ObservableObject {
 
-    @Published var scanMatches: [ScanMatch]         = []
-    @Published var imageRecogResults: CarSymbols    = []
-    @Published var showResults: Bool                = false
-    @Published var errorMessage: String?
-    @Published var showError: Bool                  = false
-    @Published var isProcessing: Bool               = false
+    var scanMatches: [ScanMatch]         = []
+    var imageRecogResults: CarSymbols    = []
+    var showResults: Bool                = false
+    var errorMessage: String?
+    var showError: Bool                  = false
+    var isProcessing: Bool               = false
 
     private let bundleLight: [CarSymbol]            = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
     private let logger = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "ImageDetection")
 
     func processImage(photo: UIImage) async -> TaskStatus {
+        isProcessing       = true
+        scanMatches        = []
+        imageRecogResults  = []
+        errorMessage       = nil
+        showError          = false
 
-        await MainActor.run {
-            self.isProcessing       = true
-            self.scanMatches        = []
-            self.imageRecogResults  = []
-            self.errorMessage       = nil
-            self.showError          = false
-        }
 
         guard let ciImage = CIImage(image: photo) else {
             let message = "Could not process the image"
@@ -47,30 +46,22 @@ class ImageDetectionViewModel: ObservableObject {
 
         if scanMatches.isEmpty {
             let message = "No Symbols detected in the image"
-            await MainActor.run {
-                self.errorMessage = message
-                self.showError = true
-                self.isProcessing = false
-            }
+            self.errorMessage = message
+            self.showError = true
+            self.isProcessing = false
             logger.warning("\(message)")
             return .failed(message)
         }
 
-        await MainActor.run {
-            self.isProcessing = false
-        }
-
+        self.isProcessing = false
         return .success
     }
 
     func detectAsync(image: CIImage) async {
         // Clear previous results
-        await MainActor.run {
-            self.scanMatches        = []
-            self.imageRecogResults  = []
-        }
+        scanMatches        = []
+        imageRecogResults  = []
 
-        // Let's avoid continuations completely and use atomic operations
         do {
             // Load the model
             let url = MainCarLightMLModel.urlOfModelInThisBundle
@@ -88,10 +79,8 @@ class ImageDetectionViewModel: ObservableObject {
             let matches = await processVisionResults(request)
 
             // Update UI on the main thread with the isolated results
-            await MainActor.run {
-                self.scanMatches        = matches
-                self.imageRecogResults  = matches.map(\.carSymbol)
-            }
+            scanMatches        = matches
+            imageRecogResults  = matches.map(\.carSymbol)
         } catch {
             logger.error("Error in vision processing: \(error.localizedDescription)")
             // Don't update results if there's an error

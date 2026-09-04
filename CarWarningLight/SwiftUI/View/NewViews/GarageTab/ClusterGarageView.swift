@@ -12,9 +12,7 @@ struct ClusterGarageView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Vehicle.dateCreated) private var vehicles: [Vehicle]
 
-    @State private var showAddVehicle: Bool = false
-    @State private var editingVehicle: Vehicle?
-    @State private var vehicleToDelete: Vehicle?
+    @State private var viewModel                        = ClusterGarageViewModel()
 
     private let columns = [GridItem(.flexible(), spacing: 14), GridItem(.flexible(), spacing: 14)]
 
@@ -34,20 +32,20 @@ struct ClusterGarageView: View {
                             .buttonStyle(.plain)
                             .contextMenu {
                                 Button {
-                                    editingVehicle = vehicle
+                                    viewModel.beginEditing(vehicle)
                                 } label: {
                                     Label("Edit", systemImage: "pencil")
                                 }
 
                                 Button(role: .destructive) {
-                                    vehicleToDelete = vehicle
+                                    viewModel.requestDelete(vehicle)
                                 } label: {
                                     Label("Delete", systemImage: "trash")
                                 }
                             }
                         }
                         ClusterDashedActionTile(icon: "plus", label: "Add vehicle") {
-                            showAddVehicle = true
+                            viewModel.showAddVehicle = true
                         }
                     }
                     .padding(.horizontal)
@@ -60,24 +58,23 @@ struct ClusterGarageView: View {
         .navigationDestination(for: Vehicle.self) { vehicle in
             GarageVehicleDetailView(vehicle: vehicle)
         }
-        .sheet(isPresented: $showAddVehicle) {
+        .sheet(isPresented: $viewModel.showAddVehicle) {
             ClusterAddVehicleView { newVehicle in
                 modelContext.insert(newVehicle)
             }
         }
-        .sheet(item: $editingVehicle) { vehicle in
+        .sheet(item: $viewModel.editingVehicle) { vehicle in
             ClusterEditVehicleSheet(vehicle: vehicle)
         }
         .alert("Delete this vehicle?", isPresented: Binding(
-            get: { vehicleToDelete != nil },
-            set: { if !$0 { vehicleToDelete = nil } }
+            get: { viewModel.vehicleToDelete != nil },
+            set: { if !$0 { viewModel.cancelDelete() } }
         )) {
-            Button("Cancel", role: .cancel) { vehicleToDelete = nil }
+            Button("Cancel", role: .cancel) { viewModel.cancelDelete() }
             Button("Delete", role: .destructive) {
-                if let vehicle = vehicleToDelete {
+                if let vehicle = viewModel.confirmDelete() {
                     modelContext.delete(vehicle)
                 }
-                vehicleToDelete = nil
             }
         } message: {
             Text("This removes all its logged issues and warning lights too. This can't be undone.")
@@ -97,7 +94,7 @@ struct ClusterGarageView: View {
             Spacer()
 
             ClusterSquareIconButton(icon: "plus") {
-                showAddVehicle = true
+                viewModel.showAddVehicle = true
             }
             .accessibilityLabel("Add a vehicle")
         }
@@ -120,7 +117,7 @@ struct ClusterGarageView: View {
                 .padding(.horizontal, 40)
 
             ClusterDashedActionTile(icon: "plus", label: "Add Vehicle", height: 110) {
-                showAddVehicle = true
+                viewModel.showAddVehicle = true
             }
             .padding(.horizontal, 40)
             .padding(.top, 6)

@@ -16,6 +16,10 @@ struct ReportDocumentView: View {
 
     private let pageWidth: CGFloat = 612 // US Letter, 72pt/inch
 
+    private var vehicleSubtitle: String {
+        [vehicle.year, vehicle.make, vehicle.model].filter { !$0.isEmpty }.joined(separator: " ")
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
             header
@@ -40,10 +44,21 @@ struct ReportDocumentView: View {
                 .foregroundStyle(.gray)
             Text(vehicle.name)
                 .font(.system(size: 26, weight: .heavy, design: .monospaced))
+            if vehicleSubtitle.isEmpty {
+                Text(vehicleSubtitle)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.gray)
+            }
+
+            if !vehicle.vin.isEmpty {
+                Text("VIN: \(vehicle.vin)")
+                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundStyle(.gray.opacity(0.8))
+            }
             Text("Generated \(generatedDate.formatted(date: .abbreviated, time: .shortened))")
                 .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(.gray)
-
+            
             Rectangle()
                 .fill(Color.black)
                 .frame(height: 2)
@@ -98,6 +113,12 @@ struct ReportDocumentView: View {
                         Text(entry.issue.dateCreated.formatted(date: .abbreviated, time: .omitted))
                             .font(.system(size: 10, design: .monospaced))
                             .foregroundStyle(.gray)
+
+                        if let mileage = entry.issue.mileage {
+                            Text("\(mileage.formatted()) mi")
+                                .font(.system(size: 10, design: .monospaced))
+                                .foregroundStyle(.gray)
+                        }
                     }
                     if !entry.issue.noteText.isEmpty {
                         Text(entry.issue.noteText)
@@ -106,6 +127,14 @@ struct ReportDocumentView: View {
                     }
                     if !entry.issue.markedZones.isEmpty {
                         IssueDiagramSnapshot(vehicle: vehicle, markedZones: entry.issue.markedZones)
+                    }
+                    if let photo = entry.issue.photoImage {
+                        Image(uiImage: photo)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 240, maxHeight: 180)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .padding(.top, 4)
                     }
                 }
                 .padding(.vertical, 8)
@@ -152,19 +181,12 @@ private struct IssueDiagramSnapshot: View {
         }
     }
 
-    private func imageName(for kind: VehicleDiagramKind) -> String {
-        switch kind {
-        case .topDown:                  return vehicle.imageName
-        case .leftSide, .rightSide:     return vehicle.imageName.replacingOccurrences(of: "vehicle", with: "side")
-        }
-    }
-
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
             ForEach(kindsWithMarks) { kind in
                 VStack(spacing: 4) {
                     VehicleDiagramView(
-                        imageName: imageName(for: kind),
+                        imageName: vehicle.imageName(for: kind),
                         kind: kind,
                         selectedZones: .constant(markedZones),
                         tint: .black.opacity(0.7),

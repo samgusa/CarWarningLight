@@ -39,12 +39,14 @@ struct ReportBuilderView: View {
                 emptyState
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(ClusterTheme.Colors.background)
         .onAppear {
             viewModel.preselectAll()
         }
         .sheet(item: $viewModel.shareURL) { wrapped in
-            ShareSheet(activityItems: [wrapped.url])
+            QuickLookPreview(url: wrapped.url)
+                .ignoresSafeArea()
         }
     }
 

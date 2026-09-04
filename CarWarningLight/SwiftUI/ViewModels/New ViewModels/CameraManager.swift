@@ -64,16 +64,17 @@ enum CameraError: Error, LocalizedError {
         }
 }
 
-class CameraManager: NSObject, ObservableObject {
+@Observable
+class CameraManager: NSObject {
     let session = AVCaptureSession()
     private let photoOutput = AVCapturePhotoOutput()
     private let logger = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "CameraManager")
 
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
 
-    @Published var lastCapturedPhoto: CapturedPhoto?
-    @Published var isSessionRunning: Bool = false
-    @Published var error: CameraError?
+    var lastCapturedPhoto: CapturedPhoto?
+    var isSessionRunning: Bool = false
+    var error: CameraError?
 
     private let focusSize: CGFloat = 150
 

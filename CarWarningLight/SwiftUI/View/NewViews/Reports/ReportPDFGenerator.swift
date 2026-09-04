@@ -13,16 +13,28 @@ enum ReportPDFGenerator {
     private static let pageWidth: CGFloat = 612
     private static let pageHeight: CGFloat = 792 // US Letter, 72pt/inch
 
+    private static var reportsDirectory: URL {
+        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("Reports", isDirectory: true)
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        return dir
+    }
+
     @MainActor
-    static func generate(from document: ReportDocumentView) -> URL? {
+    static func generate(from document: ReportDocumentView, vehicleName: String) -> URL? {
         let renderer = ImageRenderer(content: document)
         renderer.scale = 3
 
         guard let fullImage = renderer.uiImage, fullImage.size.height > 0 else { return nil }
 
         let pdfRenderer = UIGraphicsPDFRenderer(bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight))
-        let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("VehicleReport-\(UUID().uuidString).pdf")
+
+        let safeName = vehicleName
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .joined()
+        let filename = "\(safeName.isEmpty ? "Vehicle" : safeName)-Report-\(shortDateStamp()).pdf"
+        let url = reportsDirectory.appendingPathComponent(filename)
 
         do {
             try pdfRenderer.writePDF(to: url) { context in
@@ -38,6 +50,12 @@ enum ReportPDFGenerator {
             print("Report PDF generation failed: \(error)")
             return nil
         }
+    }
+
+    private static func shortDateStamp() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd-HHmm"
+        return formatter.string(from: Date())
     }
 }
 

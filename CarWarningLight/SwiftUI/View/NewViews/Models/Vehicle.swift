@@ -15,6 +15,10 @@ final class Vehicle {
     var name: String            = ""
     var imageName: String       = "vehicleSedan"
     var dateCreated: Date       = Date()
+    var year: String            = ""
+    var make: String            = ""
+    var model: String           = ""
+    var vin: String             = ""
 
     @Relationship(deleteRule: .cascade, inverse: \VehicleIssue.vehicle)
     var issues: [VehicleIssue]  = []
@@ -22,9 +26,13 @@ final class Vehicle {
     @Relationship(deleteRule: .cascade, inverse: \LightLogEntry.vehicle)
     var lightLogEntries: [LightLogEntry] = []
 
-    init(name: String, imageName: String = "vehicleSedan") {
+    init(name: String, imageName: String = "vehicleSedan", year: String = "", make: String = "", model: String = "", vin: String = "") {
         self.name               = name
         self.imageName          = imageName
+        self.year               = year
+        self.make               = make
+        self.model              = model
+        self.vin                = vin
     }
 
     // MARK: - Derived status (Garage card + banners read these)
@@ -54,4 +62,11 @@ final class Vehicle {
         return (lights + issueItems).sorted { $0.date > $1.date }
     }
 
+    func imageName(for kind: VehicleDiagramKind) -> String {
+        switch kind {
+        case .topDown:                  return imageName
+        case .leftSide, .rightSide:     return imageName.replacingOccurrences(of: "vehicle", with: "side")
+        }
+    }
 }
+

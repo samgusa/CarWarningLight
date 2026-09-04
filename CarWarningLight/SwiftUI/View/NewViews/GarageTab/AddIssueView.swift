@@ -15,12 +15,9 @@ struct AddIssueView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
 
-    @State private var selectedCategories: Set<IssueCategory> = []
-    @State private var noteText: String = ""
-    @State private var markedZones: Set<String> = []
+    @State private var viewModel                    = AddIssueViewModel()
+    @State private var showCamera: Bool             = false
     @FocusState private var noteFieldFocused: Bool
-
-    private var isValid: Bool { !selectedCategories.isEmpty }
 
     private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
@@ -42,20 +39,17 @@ struct AddIssueView: View {
                                 ClusterCategoryChip(
                                     icon: category.icon,
                                     label: category.label,
-                                    isSelected: selectedCategories.contains(category)) {
-
-                                        if selectedCategories.contains(category) {
-                                            selectedCategories.remove(category)
-                                        } else {
-                                            selectedCategories.insert(category)
-                                        }
+                                    isSelected: viewModel.selectedCategories.contains(category)) {
+                                        viewModel.toggleCategory(category)
                                     }
                             }
                         }
                         .padding(.horizontal)
                     }
 
-                    ClusterVehicleDiagramPicker(vehicle: vehicle, selectedZones: $markedZones)
+                    optionalSection
+
+                    ClusterVehicleDiagramPicker(vehicle: vehicle, selectedZones: $viewModel.markedZones)
                         .padding(.horizontal)
 
                     VStack(alignment: .leading, spacing: 8) {
@@ -64,7 +58,15 @@ struct AddIssueView: View {
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
-                        TextEditor(text: $noteText)
+                        Spacer()
+
+                        ClusterPhotoAttachmentButton(
+                            image: viewModel.capturedPhoto,
+                            onCapture: { showCamera = true},
+                            onRemove: { viewModel.capturedPhoto = nil }
+                        )
+
+                        TextEditor(text: $viewModel.noteText)
                             .focused($noteFieldFocused)
                             .font(ClusterTheme.Types.body(15))
                             .foregroundStyle(ClusterTheme.Colors.textPrimary)
@@ -81,12 +83,7 @@ struct AddIssueView: View {
                     .padding(.horizontal)
 
                     Button {
-                        let issue = VehicleIssue(
-                            vehicle: vehicle,
-                            categories: selectedCategories,
-                            noteText: noteText.trimmingCharacters(in: .whitespacesAndNewlines)
-                        )
-                        issue.markedZones = markedZones
+                        guard let issue = viewModel.buildIssue(for: vehicle) else { return }
                         modelContext.insert(issue)
                         dismiss()
                     } label: {
@@ -94,11 +91,11 @@ struct AddIssueView: View {
                             .font(ClusterTheme.Types.body(16, weight: .bold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
-                            .background(isValid ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
-                            .foregroundStyle(isValid ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
+                            .background(viewModel.isValid ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
+                            .foregroundStyle(viewModel.isValid ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
-                    .disabled(!isValid)
+                    .disabled(!viewModel.isValid)
                     .padding(.horizontal)
                 }
                 .padding(.top, 16)
@@ -108,6 +105,12 @@ struct AddIssueView: View {
         }
         .background(ClusterTheme.Colors.background)
         .contentShape(Rectangle())
+        .fullScreenCover(isPresented: $showCamera, content: {
+            CameraView { image in
+                viewModel.capturedPhoto = image
+                showCamera = false
+            }
+        })
         .onTapGesture {
             noteFieldFocused = false
         }
@@ -119,6 +122,23 @@ struct AddIssueView: View {
                     .foregroundStyle(ClusterTheme.Colors.amber)
             }
         }
+    }
+
+    private var optionalSection: some View {
+        HStack(spacing: 10) {
+            Text("MILEAGE")
+                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .tracking(1.2)
+                .foregroundStyle(ClusterTheme.Colors.textSecondary)
+            TextField("Optional", text: $viewModel.mileageText)
+                .keyboardType(.numberPad)
+                .font(ClusterTheme.Types.body(14))
+                .foregroundStyle(ClusterTheme.Colors.textPrimary)
+                .multilineTextAlignment(.trailing)
+        }
+        .padding(12)
+        .clusterPanel()
+        .padding(.horizontal)
     }
 }
 

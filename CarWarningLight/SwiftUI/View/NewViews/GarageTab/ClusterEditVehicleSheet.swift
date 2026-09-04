@@ -9,31 +9,14 @@
 import SwiftUI
 
 struct ClusterEditVehicleSheet: View {
-    @Bindable var vehicle: Vehicle
     @Environment(\.dismiss) private var dismiss
 
-    @State private var name: String = ""
-    @State private var selectedImageName: String = ""
-
-    private let bodyStyles: [(label: String, imageName: String)] = [
-        ("Sedan",                                   "vehicleSedan"),
-        ("SUV",                                     "vehicleSUV"),
-        ("Pickup",                                  "vehiclePickup"),
-        ("Hatchback",                               "vehicleHatchback"),
-        ("Minivan",                                 "vehicleMinivan"),
-        ("Coupe",                                   "vehicleCoupe"),
-        ("Sports Car",                              "vehicleSportsCar"),
-        ("Wagon",                                   "vehicleWagon")
-    ]
+    @State private var viewModel: VehicleFormViewModel
 
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
-    private var isValid: Bool {
-        !name.trimmingCharacters(in: .whitespaces).isEmpty
-    }
-
-    private var hasChanges: Bool {
-        name.trimmingCharacters(in: .whitespaces) != vehicle.name || selectedImageName != vehicle.imageName
+    init(vehicle: Vehicle) {
+        _viewModel = State(initialValue: VehicleFormViewModel(existingVehicle: vehicle))
     }
 
     var body: some View {
@@ -43,11 +26,12 @@ struct ClusterEditVehicleSheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 8) {
+                        detailsSection
                         Text("NICKNAME")
                             .font(ClusterTheme.Types.mono(11, weight: .bold))
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
-                        TextField("Vehicle name", text: $vehicle.name)
+                        TextField("Vehicle name", text: $viewModel.name)
                             .font(ClusterTheme.Types.body(16))
                             .foregroundStyle(ClusterTheme.Colors.textPrimary)
                             .padding(14)
@@ -68,7 +52,7 @@ struct ClusterEditVehicleSheet: View {
                             .padding(.horizontal)
 
                         LazyVGrid(columns: columns, spacing: 12) {
-                            ForEach(bodyStyles, id: \.imageName) { style in
+                            ForEach(viewModel.bodyStyles, id: \.imageName) { style in
                                 bodyStyleTile(style)
                             }
                         }
@@ -76,19 +60,18 @@ struct ClusterEditVehicleSheet: View {
                     }
 
                     Button {
-                        vehicle.name = name.trimmingCharacters(in: .whitespaces)
-                        vehicle.imageName = selectedImageName
+                        viewModel.applyChanges()
                         dismiss()
                     } label: {
                         Text("Save Changes")
                             .font(ClusterTheme.Types.body(16, weight: .bold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
-                            .background((isValid && hasChanges) ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
-                            .foregroundStyle((isValid && hasChanges) ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
+                            .background((viewModel.isValid && viewModel.hasChanges) ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
+                            .foregroundStyle((viewModel.isValid && viewModel.hasChanges) ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
-                    .disabled(!(isValid && hasChanges))
+                    .disabled(!(viewModel.isValid && viewModel.hasChanges))
                     .padding(.horizontal)
                 }
                 .padding(.top, 16)
@@ -96,20 +79,44 @@ struct ClusterEditVehicleSheet: View {
             }
         }
         .background(ClusterTheme.Colors.background)
-        .onAppear {
-            name = vehicle.name
-            selectedImageName = vehicle.imageName
-        }
     }
 
+    private var detailsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("VEHICLE DETAILS (OPTIONAL)")
+                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .tracking(1.2)
+                .foregroundStyle(ClusterTheme.Colors.textSecondary)
+
+            HStack(spacing: 10) {
+                styledField("Year", text: $viewModel.year, keyboard: .numberPad)
+                styledField("Make", text: $viewModel.make)
+                styledField("Model", text: $viewModel.model)
+            }
+            styledField("VIN", text: $viewModel.vin)
+                .textInputAutocapitalization(.characters)
+        }
+        .padding(.horizontal)
+    }
+
+    private func styledField(_ placeholder: String, text: Binding<String>, keyboard: UIKeyboardType = .default) -> some View {
+        TextField(placeholder, text: text)
+            .keyboardType(keyboard)
+            .font(ClusterTheme.Types.body(15))
+            .foregroundStyle(ClusterTheme.Colors.textPrimary)
+            .padding(12)
+            .background(ClusterTheme.Colors.panel)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(ClusterTheme.Colors.bezel, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
 
     private func bodyStyleTile(_ style: (label: String, imageName: String)) -> some View {
-        let isSelected = selectedImageName == style.imageName
+        let isSelected = viewModel.selectedImageName == style.imageName
         return Button {
-            selectedImageName = style.imageName
+            viewModel.selectedImageName = style.imageName
         } label: {
             VStack(spacing: 8) {
-                ClusterVehicleImagePlate(imageName: style.imageName, size: 72)
+                ClusterVehicleImagePlate(imageName: style.imageName, size: 108)
                     .padding(.top, 14)
 
                 Text(style.label.uppercased())

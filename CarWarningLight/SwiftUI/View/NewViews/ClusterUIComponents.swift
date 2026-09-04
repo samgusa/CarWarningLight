@@ -136,10 +136,6 @@ struct ClusterVehicleImagePlate: View {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(Color(white: 0.92), lineWidth: 1)
             )
-//            .background(
-//                RoundedRectangle(cornerRadius: 8)
-//                    .fill(Color(white: 0.92))
-//            )
     }
 }
 

@@ -12,25 +12,10 @@ struct ClusterAddVehicleView: View {
     @Environment(\.dismiss) private var dismiss
     var onSave: (Vehicle) -> Void
 
-    @State private var name: String                 = ""
-    @State private var selectedImageName: String?   = nil
-
-    private let bodyStyles: [(label: String, imageName: String)] = [
-        ("Sedan",                                   "vehicleSedan"),
-        ("SUV",                                     "vehicleSUV"),
-        ("Pickup",                                  "vehiclePickup"),
-        ("Hatchback",                               "vehicleHatchback"),
-        ("Minivan",                                 "vehicleMinivan"),
-        ("Coupe",                                   "vehicleCoupe"),
-        ("Sports Car",                              "vehicleSportsCar"),
-        ("Wagon",                                   "vehicleWagon")
-    ]
+    @State private var viewModel = VehicleFormViewModel()
+    @State private var showBodyStyleHint: Bool = false
 
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
-
-    private var isValid: Bool {
-        !name.trimmingCharacters(in: .whitespaces).isEmpty && selectedImageName != nil
-    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -41,24 +26,49 @@ struct ClusterAddVehicleView: View {
                     fieldSection
 
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("BODY STYLE")
-                            .font(ClusterTheme.Types.mono(11, weight: .bold))
-                            .tracking(1.2)
-                            .foregroundStyle(ClusterTheme.Colors.textSecondary)
+                        HStack {
+                            Text("BODY STYLE")
+                                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                                .tracking(1.2)
+                                .foregroundStyle(ClusterTheme.Colors.textSecondary)
+    //                            .padding(.horizontal)
+                            Spacer()
+                            Button {
+                                withAnimation(.easeInOut(duration: 0.2)) { showBodyStyleHint.toggle() }
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "questionmark.circle")
+                                        .font(.system(size: 11, weight: .semibold))
+                                    Text("NOT SURE")
+                                        .font(ClusterTheme.Types.mono(10, weight: .bold))
+                                        .tracking(0.6)
+                                }
+                                .foregroundStyle(showBodyStyleHint ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(.horizontal)
+
+                        if showBodyStyleHint {
+                            ClusterAccentBanner(
+                                icon: "lightbulb.fill",
+                                title: "Just pick what looks closest",
+                                subtitle: "This only controls the icon shown in your Garage - it doesn't affect anything else, and you can change it anytime from Edit Vehicle.",
+                                tint: ClusterTheme.Colors.amber
+                            )
                             .padding(.horizontal)
+                            .transition(.opacity.combined(with: .move(edge: .top)))
+                        }
 
                         LazyVGrid(columns: columns, spacing: 12) {
-                            ForEach(bodyStyles, id: \.imageName) { style in
+                            ForEach(viewModel.bodyStyles, id: \.imageName) { style in
                                 bodyStyleTile(style)
                             }
                         }
                         .padding(.horizontal)
                     }
                     Button {
-                        let vehicle = Vehicle(
-                            name: name.trimmingCharacters(in: .whitespaces),
-                            imageName: selectedImageName ?? bodyStyles[0].imageName
-                        )
+                        guard let vehicle = viewModel.buildNewVehicle() else { return }
                         onSave(vehicle)
                         dismiss()
                     } label: {
@@ -66,11 +76,11 @@ struct ClusterAddVehicleView: View {
                             .font(ClusterTheme.Types.body(16, weight: .bold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
-                            .background(isValid ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
-                            .foregroundStyle(isValid ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
+                            .background(viewModel.isValid ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
+                            .foregroundStyle(viewModel.isValid ? ClusterTheme.Colors.background : ClusterTheme.Colors.textSecondary)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
-                    .disabled(!isValid)
+                    .disabled(!viewModel.isValid)
                     .padding(.horizontal)
                     .padding(.top, 4)
                 }
@@ -87,7 +97,7 @@ struct ClusterAddVehicleView: View {
                 .font(ClusterTheme.Types.mono(11, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
-            TextField("e.g. My Civic", text: $name)
+            TextField("e.g. My Civic", text: $viewModel.name)
                 .font(ClusterTheme.Types.body(16))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .padding(14)
@@ -101,13 +111,42 @@ struct ClusterAddVehicleView: View {
         .padding(.horizontal)
     }
 
+    private var detailsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("VEHICLE DETAILS (OPTIONAL)")
+                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .tracking(1.2)
+                .foregroundStyle(ClusterTheme.Colors.textSecondary)
+
+            HStack(spacing: 10) {
+                styledField("Year", text: $viewModel.year, keyboard: .numberPad)
+                styledField("Make", text: $viewModel.make)
+                styledField("Model", text: $viewModel.model)
+            }
+            styledField("VIN", text: $viewModel.vin)
+                .textInputAutocapitalization(.characters)
+        }
+        .padding(.horizontal)
+    }
+
+    private func styledField(_ placeholder: String, text: Binding<String>, keyboard: UIKeyboardType = .default) -> some View {
+        TextField(placeholder, text: text)
+            .keyboardType(keyboard)
+            .font(ClusterTheme.Types.body(15))
+            .foregroundStyle(ClusterTheme.Colors.textPrimary)
+            .padding(12)
+            .background(ClusterTheme.Colors.panel)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(ClusterTheme.Colors.bezel, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+
     private func bodyStyleTile(_ style: (label: String, imageName: String)) -> some View {
-        let isSelected = selectedImageName == style.imageName
+        let isSelected = viewModel.selectedImageName == style.imageName
         return Button {
-            selectedImageName = style.imageName
+            viewModel.selectedImageName = style.imageName
         } label: {
             VStack(spacing: 8) {
-                ClusterVehicleImagePlate(imageName: style.imageName, size: 72)
+                ClusterVehicleImagePlate(imageName: style.imageName, size: 108)
                     .padding(.top, 14)
 
                 Text(style.label.uppercased())

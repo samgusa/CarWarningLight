@@ -49,15 +49,18 @@ final class VehicleIssue {
     var dateCreated: Date               = Date()
     var isActive: Bool                  = true
     var noteText: String                = ""
+    var mileage: Int?
     private var categoriesRaw: [String] = []
+    @Attribute(.externalStorage) private var photoData: Data?
 
     var vehicle: Vehicle?
 
-    init(vehicle: Vehicle?, categories: Set<IssueCategory> = [], noteText: String = "", dateCreated: Date = Date()) {
+    init(vehicle: Vehicle?, categories: Set<IssueCategory> = [], noteText: String = "", dateCreated: Date = Date(), mileage: Int = 0) {
         self.vehicle                    = vehicle
         self.categoriesRaw              = categories.map(\.rawValue)
         self.noteText                   = noteText
         self.dateCreated                = dateCreated
+        self.mileage                    = mileage
     }
 
     var categories: Set<IssueCategory> {
@@ -78,6 +81,11 @@ final class VehicleIssue {
     var markedZones: Set<String> {
         get { Set(markedZonesRaw) }
         set { markedZonesRaw = Array(newValue) }
+    }
+
+    var photoImage: UIImage? {
+        get { photoData.flatMap(UIImage.init) }
+        set { photoData = newValue?.jpegData(compressionQuality: 0.7) }
     }
 }
 

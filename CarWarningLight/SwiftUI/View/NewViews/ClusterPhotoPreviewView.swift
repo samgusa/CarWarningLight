@@ -90,7 +90,7 @@ struct ClusterPhotoPreviewView: View {
                 case .success:
                     Image(systemName: "checkmark")
                         .font(.system(size: 18, weight: .bold))
-                case .failed(let string):
+                case .failed(_):
                     Image(systemName: "xmark")
                         .font(.system(size: 18, weight: .bold))
                 }

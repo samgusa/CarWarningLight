@@ -15,19 +15,19 @@ struct DiagramZone: Identifiable, Hashable {
 }
 
 enum VehicleDiagramKind: String, CaseIterable, Identifiable {
-    case topDown, driverSide, passengerSide
+    case topDown, leftSide, rightSide
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
         case .topDown:              return "Top Down"
-        case .driverSide:           return "Driver Side"
-        case .passengerSide:        return "Passenger Side"
+        case .leftSide:             return "Left Side"
+        case .rightSide:            return "Right Side"
         }
     }
 
-    var isFlipped: Bool { self == .passengerSide }
+    var isFlipped: Bool { self == .rightSide }
 
     var zones: [DiagramZone] {
         switch self {
@@ -43,14 +43,17 @@ enum VehicleDiagramKind: String, CaseIterable, Identifiable {
                     )
                 }
             }
-        case .driverSide, .passengerSide:
+        case .leftSide, .rightSide:
             let cols: [(name: String, x: CGFloat)] = [("Front", 0), ("Mid", 1.0 / 3), ("Rear", 2.0 / 3)]
-            return cols.map { col in
-                DiagramZone(
-                    id: col.name.lowercased(),
-                    label: col.name,
-                    rect: CGRect(x: col.x, y: 0, width: 1.0 / 3, height: 1)
-                )
+            let rows: [(name: String, y: CGFloat)] = [("Upper", 0), ("Lower", 0.5)]
+            return cols.flatMap { col in
+                rows.map { row in
+                    DiagramZone(
+                        id: "\(col.name.lowercased())\(row.name)",
+                        label: "\(col.name) \(row.name)",
+                        rect: CGRect(x: col.x, y: row.y, width: 1.0 / 3, height: 0.5)
+                    )
+                }
             }
         }
     }

@@ -10,18 +10,15 @@ import SwiftUI
 import AVFoundation
 
 struct CameraPreview: UIViewRepresentable {
-    @ObservedObject var cameraManager: CameraManager // Observe the CameraManager
+    let cameraManager: CameraManager // Observe the CameraManager
     let setPreviewLayer: (AVCaptureVideoPreviewLayer) -> Void
 
     func makeUIView(context: Context) -> UIView {
-        let view = UIView(frame: UIScreen.main.bounds)
+        let view = UIView()
         let previewLayer = AVCaptureVideoPreviewLayer(session: cameraManager.session)
         previewLayer.videoGravity = .resizeAspectFill
-        previewLayer.frame = view.bounds
-
         setPreviewLayer(previewLayer)
         view.layer.addSublayer(previewLayer)
-
         return view
     }
 
@@ -34,9 +31,8 @@ struct CameraPreview: UIViewRepresentable {
 
 struct CameraView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject private var cameraManager = CameraManager()
+    @State private var cameraManager = CameraManager()
     @State private var showPermissionAlert: Bool = false
-
     @State private var isAnimating: Bool = false
     var onPhotoCaptured: (UIImage) -> Void = { _ in }
 
@@ -123,22 +119,6 @@ struct CameraView: View {
             Spacer()
         }
         .padding(.horizontal)
-    }
-
-    private var loadingOverlay: some View {
-        ZStack {
-            Color.black.ignoresSafeArea()
-            VStack(spacing: 20) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .tint(.white)
-                    .scaleEffect(1.5)
-                Text("Initializing camera...")
-                    .font(.headline)
-                    .foregroundStyle(.white)
-            }
-        }
-        .transition(.opacity)
     }
 
     private var cameraPreview: some View {
