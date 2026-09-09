@@ -12,12 +12,15 @@ import SwiftData
 @main
 struct WarningLightCameraApp: App {
     @StateObject private var uiState = UIStateManager()
+    @State private var tipStore = TipJarStore()
     private let allLights: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
 
     var body: some Scene {
         WindowGroup {
-            ClusterRootView(allLights: allLights)
+            ClusterRootView()
                 .environmentObject(uiState)
+                .environment(tipStore)
+                .environment(\.allLights, allLights)
         }
         .modelContainer(for: [Vehicle.self, VehicleIssue.self, LightLogEntry.self])
     }

@@ -108,7 +108,6 @@ struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
     let symbolType: SymbolType
     let fixDescription: String
     let drivable: Drivable
-    let categories: [String]?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -118,7 +117,6 @@ struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
         case symbolType
         case fixDescription = "fixDescr"
         case drivable
-        case categories
     }
 
     var image: Image {
@@ -145,7 +143,6 @@ struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
         symbolType: .warning, // Or a sensible default
         fixDescription: "",
         drivable: .yes, // Or a sensible default
-        categories: []
     )
 
     static func == (lhs: CarSymbol, rhs: CarSymbol) -> Bool {
@@ -165,8 +162,7 @@ extension Array where Element == LightLogEntry {
         VehicleSystem.allCases.map { system in
             let matching = self.filter {
                 $0.vehicle?.id == vehicleID &&
-                $0.isActive &&
-                ($0.carSymbol.categories?.contains(system.rawValue) ?? false)
+                $0.isActive
             }
             let worst = matching
                 .map(\.carSymbol.symbolType)

@@ -1,0 +1,84 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "2EF1BE09",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "8D112AA7",
+      "localizations" : [
+        {
+          "description" : "A small tip to help keep the app running and ad-free.",
+          "displayName" : "Buy Me a Coffee",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.simple.CarWarningLight.tip.small",
+      "referenceName" : "tip_small",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "EACDF53A",
+      "localizations" : [
+        {
+          "description" : "A bigger thank-you if the app's saved you a trip to the mechanic.",
+          "displayName" : "Buy Me Lunch",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.simple.CarWarningLight.tip.medium",
+      "referenceName" : "tip_medium",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "1BFC3126",
+      "localizations" : [
+        {
+          "description" : "The biggest tip tier — genuinely appreciated.",
+          "displayName" : "Go Big — Thank You",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.simple.CarWarningLight.tip.large",
+      "referenceName" : "tip_large",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_billingIssuesEnabled" : false,
+    "_disableDialogs" : false,
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_renewalBillingIssuesEnabled" : false,
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+
+    ],
+    "_timeRate" : 0
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 5,
+    "minor" : 0
+  }
+}
