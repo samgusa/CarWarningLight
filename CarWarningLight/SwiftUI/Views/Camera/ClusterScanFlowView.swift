@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ClusterScanFlowView: View {
-    @StateObject private var viewModel = ImageDetectionViewModel()
+    @State private var viewModel = ImageDetectionViewModel()
     let capturedPhoto: CapturedPhoto
 
     var onScanLogged: (CarSymbol) -> Void = { _ in }

@@ -66,17 +66,19 @@ enum CameraError: Error, LocalizedError {
 
 @Observable
 class CameraManager: NSObject {
-    let session = AVCaptureSession()
-    private let photoOutput = AVCapturePhotoOutput()
-    private let logger = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "CameraManager")
+    let session                     = AVCaptureSession()
+    private let photoOutput         = AVCapturePhotoOutput()
+    private let logger              = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "CameraManager")
 
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
 
     var lastCapturedPhoto: CapturedPhoto?
-    var isSessionRunning: Bool = false
+    var isSessionRunning: Bool      = false
     var error: CameraError?
 
-    private let focusSize: CGFloat = 150
+    var cropsToFocusSquare: Bool    = true
+
+    private let focusSize: CGFloat  = 150
 
     override init() {
         super.init()
@@ -155,7 +157,6 @@ class CameraManager: NSObject {
             await startSessionAsync()
         }
     }
-
 
     private func startSessionAsync() async {
         await MainActor.run {
@@ -250,7 +251,7 @@ extension CameraManager: AVCapturePhotoCaptureDelegate {
 
 
     private func processAndStoreCapturedImage(_ image: UIImage) {
-        guard let previewLayer = self.videoPreviewLayer else {
+        guard cropsToFocusSquare, let previewLayer = self.videoPreviewLayer else {
             let resizedImage = image.resized(toMax: 1024)
             self.lastCapturedPhoto = CapturedPhoto(image: resizedImage)
             return

@@ -31,12 +31,14 @@ struct CameraPreview: UIViewRepresentable {
 
 struct CameraView: View {
     @Environment(\.dismiss) var dismiss
-    @State private var cameraManager = CameraManager()
+    @State private var cameraManager        = CameraManager()
     @State private var showPermissionAlert: Bool = false
-    @State private var isAnimating: Bool = false
-    var onPhotoCaptured: (UIImage) -> Void = { _ in }
+    @State private var isAnimating: Bool    = false
 
-    private let focusSquareSize: CGFloat = 150
+    var cropsToFocusSquare: Bool            = true
+    var onPhotoCaptured: (UIImage) -> Void  = { _ in }
+
+    private let focusSquareSize: CGFloat    = 150
 
     var body: some View {
         NavigationStack {
@@ -50,25 +52,35 @@ struct CameraView: View {
                     headerToolBar
                     Spacer()
 
-                    ZStack {
-                        CameraFocusShape(
-                            size: focusSquareSize,
-                            lineWidth: 3,
-                            color: .white,
-                            gapSize: focusSquareSize / 3,
-                            cornerRadius: 10
-                        )
-
-                        RoundedRectangle(cornerRadius: 10)
-                            .strokeBorder(.white.opacity(0.5), lineWidth: 3 / 2)
-                            .frame(width: focusSquareSize - 3, height: focusSquareSize - 3)
-                            .scaleEffect(isAnimating ? 1.1 : 1.0)
-                            .opacity(isAnimating ? 0.0 : 0.3)
-                            .animation(
-                                Animation.easeInOut(duration: 1.5)
-                                    .repeatForever(autoreverses: false),
-                                value: isAnimating
+                    if cropsToFocusSquare {
+                        ZStack {
+                            CameraFocusShape(
+                                size: focusSquareSize,
+                                lineWidth: 3,
+                                color: .white,
+                                gapSize: focusSquareSize / 3,
+                                cornerRadius: 10
                             )
+
+                            RoundedRectangle(cornerRadius: 10)
+                                .strokeBorder(.white.opacity(0.5), lineWidth: 3 / 2)
+                                .frame(width: focusSquareSize - 3, height: focusSquareSize - 3)
+                                .scaleEffect(isAnimating ? 1.1 : 1.0)
+                                .opacity(isAnimating ? 0.0 : 0.3)
+                                .animation(
+                                    Animation.easeInOut(duration: 1.5)
+                                        .repeatForever(autoreverses: false),
+                                    value: isAnimating
+                                )
+                        }
+                    } else {
+                        Text("Frame the issue, then capture")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.85))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(Color.black.opacity(0.25))
+                            .clipShape(Capsule())
                     }
 
                     Spacer()
@@ -84,6 +96,7 @@ struct CameraView: View {
                 }
             }
             .onAppear {
+                cameraManager.cropsToFocusSquare = cropsToFocusSquare
                 checkPermissionAndStart()
                 self.isAnimating = true
             }

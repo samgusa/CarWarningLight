@@ -19,8 +19,9 @@ struct AddIssueView: View {
     @State private var showCamera: Bool             = false
     @State private var showLightPicker: Bool        = false
     @Environment(\.allLights) private var allLights
-    @FocusState private var noteFieldFocused: Bool
-    @FocusState private var mileageFieldFocused: Bool
+
+    private enum Field: Hashable { case note, mileage }
+    @FocusState private var focusedField: Field?
 
     private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
@@ -73,7 +74,7 @@ struct AddIssueView: View {
                             )
 
                             TextEditor(text: $viewModel.noteText)
-                                .focused($noteFieldFocused)
+                                .focused($focusedField, equals: .note)
                                 .font(ClusterTheme.Types.body(15))
                                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                                 .scrollContentBackground(.hidden)
@@ -115,21 +116,19 @@ struct AddIssueView: View {
                 ClusterLightTagPicker(selectedIDs: $viewModel.linkedLightSymbolIDs)
             })
             .fullScreenCover(isPresented: $showCamera, content: {
-                CameraView { image in
+                CameraView(cropsToFocusSquare: false) { image in
                     viewModel.capturedPhoto = image
-                    showCamera = false
+                    showCamera              = false
                 }
             })
             .onTapGesture {
-                noteFieldFocused        = false
-                mileageFieldFocused     = false
+                focusedField                = nil
             }
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     Button("Done") {
-                        noteFieldFocused        = false
-                        mileageFieldFocused     = false
+                        focusedField        = nil
                     }
                         .font(ClusterTheme.Types.body(15, weight: .semibold))
                         .foregroundStyle(ClusterTheme.Colors.amber)
@@ -147,7 +146,7 @@ struct AddIssueView: View {
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
             TextField("Optional", text: $viewModel.mileageText)
-                .focused($mileageFieldFocused)
+                .focused($focusedField, equals: .mileage)
                 .keyboardType(.numberPad)
                 .font(ClusterTheme.Types.body(14))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
@@ -170,7 +169,7 @@ struct AddIssueView: View {
                 Spacer()
 
                 Button {
-                    showLightPicker = true
+                    showLightPicker         = true
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "plus")

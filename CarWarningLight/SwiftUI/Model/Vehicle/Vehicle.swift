@@ -45,15 +45,7 @@ final class Vehicle {
     var worstSeverity: SymbolType? {
         activeLightEntries
             .map(\.carSymbol.symbolType)
-            .min { severityRank($0) < severityRank($1) }
-    }
-
-    private func severityRank(_ type: SymbolType) -> Int {
-        switch type {
-        case .warning:      return 0
-        case .advisory:     return 1
-        case .info:         return 2
-        }
+            .min { $0.severityRank < $1.severityRank }
     }
 
     var timelineItems: [GarageTimelineItem] {

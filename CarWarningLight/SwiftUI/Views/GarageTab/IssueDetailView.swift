@@ -18,6 +18,7 @@ struct IssueDetailView: View {
     @FocusState private var noteFieldFocused: Bool
 
     @State private var showLightPicker: Bool = false
+    @State private var showCamera: Bool      = false
 
     private let columns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
 
@@ -69,6 +70,12 @@ struct IssueDetailView: View {
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
+                        ClusterPhotoAttachmentButton(
+                            image: viewModel.photo,
+                            onCapture: { showCamera = true },
+                            onRemove: { viewModel.photo = nil }
+                        )
+
                         TextEditor(text: Bindable(viewModel.issue).noteText)
                             .focused($noteFieldFocused)
                             .font(ClusterTheme.Types.body(15))
@@ -116,6 +123,12 @@ struct IssueDetailView: View {
         }
         .sheet(isPresented: $showLightPicker, content: {
             ClusterLightTagPicker(selectedIDs: viewModel.linkedLightSymbolIDsBinding)
+        })
+        .fullScreenCover(isPresented: $showCamera, content: {
+            CameraView(cropsToFocusSquare: false) { image in
+                viewModel.photo = image
+                showCamera = false
+            }
         })
         .clusterConfirmation(
             isPresented: $viewModel.showDeleteConfirm,

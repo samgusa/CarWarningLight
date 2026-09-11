@@ -11,5 +11,6 @@ import SwiftUI
 
 struct IdentifiableURL: Identifiable {
     let url: URL
+    var title: String? = nil
     var id: String { url.absoluteString }
 }

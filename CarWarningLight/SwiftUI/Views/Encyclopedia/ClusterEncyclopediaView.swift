@@ -44,8 +44,15 @@ struct ClusterEncyclopediaView: View {
 
     private var contentView: some View {
         GeometryReader { geometry in
-            let columns = calculateColumns(for: geometry.size.width)
-            let cellHeight = calculateCellHeight(width: geometry.size.width, columns: columns.count)
+            let columnCount = viewModel.columnCount(for: geometry.size.width)
+            let columns = Array(
+                repeating: GridItem(.flexible(), spacing: viewModel.gridSpacing),
+                count: columnCount
+            )
+            let cellHeight = viewModel.cellHeight(
+                width: geometry.size.width,
+                columns: columnCount
+            )
 
             ScrollView {
                 LazyVGrid(columns: columns, spacing: viewModel.gridSpacing) {
@@ -77,22 +84,6 @@ struct ClusterEncyclopediaView: View {
                 viewModel.finishTransition()
             }
         }
-    }
-
-    private func calculateColumns(for width: CGFloat) -> [GridItem] {
-        let availableWidth = width - (viewModel.horizontalPadding * 2)
-        let possibleColumns = Int((availableWidth + viewModel.gridSpacing) / (viewModel.minimumCellWidth + viewModel.gridSpacing))
-        let actualColumns = max(2, possibleColumns)
-        return Array(repeating: GridItem(.flexible(), spacing: viewModel.gridSpacing), count: actualColumns)
-    }
-
-    private func calculateCellWidth(for width: CGFloat, columns: Int) -> CGFloat {
-        let availableWidth = width - (viewModel.horizontalPadding * 2)
-        return (availableWidth - (viewModel.gridSpacing * CGFloat(columns - 1))) / CGFloat(columns)
-    }
-
-    private func calculateCellHeight(width: CGFloat, columns: Int) -> CGFloat {
-        calculateCellWidth(for: width, columns: columns) * viewModel.desiredCellAspectRatio
     }
 }
 

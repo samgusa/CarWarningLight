@@ -13,7 +13,7 @@ import SwiftData
 struct WarningLightCameraApp: App {
     @StateObject private var uiState = UIStateManager()
     @State private var tipStore = TipJarStore()
-    private let allLights: [CarSymbol] = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
+    private let allLights: [CarSymbol] = CarSymbol.bundledLibrary
 
     var body: some Scene {
         WindowGroup {

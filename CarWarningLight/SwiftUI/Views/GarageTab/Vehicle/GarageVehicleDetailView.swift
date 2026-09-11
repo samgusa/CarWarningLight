@@ -59,7 +59,7 @@ struct GarageVehicleDetailView: View {
                     }
                 }
                 .padding(.top, 16)
-                .padding(.bottom, 24)
+                .padding(.bottom, 50)
             }
         }
         .background(ClusterTheme.Colors.background)
@@ -94,33 +94,9 @@ struct GarageVehicleDetailView: View {
 
     private var controlsRow: some View {
         HStack {
-            Menu {
-                ForEach(allVehicles) { candidate in
-                    if candidate.id == vehicle.id {
-                        Label(candidate.name, systemImage: "checkmark")
-                    } else {
-                        NavigationLink(candidate.name, value: candidate)
-                    }
-                }
-            } label: {
-                HStack(spacing: 6) {
-                    Image(systemName: "car.fill")
-                        .font(.system(size: 12, weight: .semibold))
-                    Text(vehicle.name)
-                        .font(ClusterTheme.Types.body(15, weight: .bold))
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 10, weight: .bold))
-                }
+            Text(vehicle.name)
+                .font(ClusterTheme.Types.mono(15, weight: .bold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(ClusterTheme.Colors.panel)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
-                )
-            }
 
             Spacer()
 

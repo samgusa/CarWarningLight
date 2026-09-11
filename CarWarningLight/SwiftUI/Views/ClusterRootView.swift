@@ -33,13 +33,6 @@ struct ClusterRootView: View {
 
     @State private var isScrolledDown: Bool         = false
 
-    // MARK: CHECK
-    @State private var selectedVehicleID: UUID      = UUID()
-
-    private var selectedVehicle: Vehicle? {
-        vehicles.first { $0.id == selectedVehicleID }
-    }
-
     @State private var showCamera: Bool                   = false
     @State private var showImagePicker: Bool              = false
     @State private var pickerItem: PhotosPickerItem?
@@ -106,14 +99,6 @@ struct ClusterRootView: View {
         }
         .preferredColorScheme(.dark)
         .ignoresSafeArea(edges: .bottom)
-        .onAppear {
-            if let first = vehicles.first { selectedVehicleID = first.id }
-        }
-        .onChange(of: vehicles) { _, newVehicles in
-            if selectedVehicle == nil, let first = newVehicles.first {
-                selectedVehicleID = first.id
-            }
-        }
         .fullScreenCover(isPresented: $showCamera, onDismiss: {
             guard let image = pendingCapturedImage else { return }
             pendingCapturedImage = nil

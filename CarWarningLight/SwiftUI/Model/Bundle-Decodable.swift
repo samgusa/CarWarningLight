@@ -11,22 +11,38 @@ import UIKit
 
 //for jsonFile
 
+enum BundleDecodeError: Error {
+    case missingFile(String)
+    case unreadableData(String)
+    case decodeFailure(String, Error)
+}
+
 extension Bundle {
-    func decode<T: Decodable>(_ type: T.Type, from file: String) -> T {
+
+    func decodeOrThrow<T: Decodable>(_ type: T.Type, from file: String) throws -> T {
         guard let url = self.url(forResource: file, withExtension: nil) else {
-            fatalError("Failed to locate \(file) in bundle.")
+            throw BundleDecodeError.missingFile(file)
         }
 
-        guard let data = try? Data(contentsOf: url) else {
-            fatalError("Failed to load \(file) from bundle.")
+        let data: Data
+        do {
+            data = try Data(contentsOf: url)
+        } catch {
+            throw BundleDecodeError.unreadableData(file)
         }
 
-        let decoder = JSONDecoder()
-
-        guard let loaded = try? decoder.decode(T.self, from: data) else {
-            fatalError("Failed to decode \(file) from bundle. \(LocalizedError.self)")
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            throw BundleDecodeError.decodeFailure(file, error)
         }
+    }
 
-        return loaded
+    func decode<T: Decodable>(_ type: T.Type, from file: String) -> T {
+        do {
+            return try decodeOrThrow(type, from: file)
+        } catch {
+            fatalError("Failed to decode \(file) from bundle: \(error)")
+        }
     }
 }

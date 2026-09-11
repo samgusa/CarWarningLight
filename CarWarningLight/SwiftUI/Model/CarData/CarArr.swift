@@ -156,18 +156,3 @@ struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
 }
 
 typealias CarSymbols = [CarSymbol]
-
-extension Array where Element == LightLogEntry {
-    func systemStatuses(for vehicleID: UUID) -> [SystemStatus] {
-        VehicleSystem.allCases.map { system in
-            let matching = self.filter {
-                $0.vehicle?.id == vehicleID &&
-                $0.isActive
-            }
-            let worst = matching
-                .map(\.carSymbol.symbolType)
-                .min { $0.severityRank < $1.severityRank }
-            return SystemStatus(system: system, activeCount: matching.count, worstSeverity: worst)
-        }
-    }
-}

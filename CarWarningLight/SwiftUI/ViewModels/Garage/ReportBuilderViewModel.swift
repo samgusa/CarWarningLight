@@ -103,18 +103,17 @@ final class ReportBuilderViewModel {
             return ReportIssueEntry(issue: issue, categories: ordered)
         }
 
-        let document = ReportDocumentView(
-            vehicle: vehicle,
-            lights: lights,
-            issueEntries: issueEntries,
-            allLights: allLights,
-            ownerName: contactName,
-            ownerContact: contactPhone
-        )
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+        Task { [weak self] in
             guard let self else { return }
-            if let url = ReportPDFGenerator.generate(from: document, vehicleName: vehicle.name) {
+            let url = await ReportPDFGenerator.generate(
+                vehicle: vehicle,
+                lights: lights,
+                issueEntries: issueEntries,
+                allLights: allLights,
+                ownerName: contactName,
+                ownerContact: contactPhone
+            )
+            if let url {
                 self.shareURL = IdentifiableURL(url: url)
             }
             self.isGenerating = false

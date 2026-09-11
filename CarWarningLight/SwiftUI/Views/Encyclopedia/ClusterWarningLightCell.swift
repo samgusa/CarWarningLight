@@ -42,19 +42,6 @@ struct ClusterWarningLightCell: View {
         .matchedGeometryEffect(id: "\(index) card", in: namespace, isSource: true)
     }
 
-    private var typeBadge: some View {
-        Text(typeLetter)
-            .font(ClusterTheme.Types.mono(10, weight: .bold))
-            .foregroundStyle(telltale)
-            .frame(width: 20, height: 20)
-            .background(
-                Circle()
-                    .stroke(telltale, lineWidth: 1)
-            )
-            .opacity(0.5)
-            .accessibilityLabel(carData.symbolType.title)
-    }
-
     private var glowingIcon: some View {
         ZStack {
             Circle()

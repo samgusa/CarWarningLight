@@ -13,7 +13,7 @@ import OSLog
 
 @Observable
 @MainActor
-class ImageDetectionViewModel: ObservableObject {
+class ImageDetectionViewModel {
 
     var scanMatches: [ScanMatch]         = []
     var imageRecogResults: CarSymbols    = []
@@ -24,7 +24,7 @@ class ImageDetectionViewModel: ObservableObject {
 
     private static let notAWarningLightLabel: String = "Not a Warning Light"
 
-    private let bundleLight: [CarSymbol]            = Bundle.main.decode([CarSymbol].self, from: "carLights.json")
+    private let bundleLight: [CarSymbol]            = CarSymbol.bundledLibrary
     private let logger = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "ImageDetection")
 
     func processImage(photo: UIImage) async -> TaskStatus {
