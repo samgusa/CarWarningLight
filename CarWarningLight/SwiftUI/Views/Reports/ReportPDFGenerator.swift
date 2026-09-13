@@ -29,6 +29,7 @@ enum ReportPDFGenerator {
         vehicle: Vehicle,
         lights: [LightLogEntry],
         issueEntries: [ReportIssueEntry],
+        maintenanceItems: [MaintenanceItem],
         allLights: [CarSymbol],
         ownerName: String,
         ownerContact: String
@@ -37,6 +38,7 @@ enum ReportPDFGenerator {
             vehicle: vehicle,
             lights: lights,
             issueEntries: issueEntries,
+            maintenanceItems: maintenanceItems,
             allLights: allLights,
             ownerName: ownerName,
             ownerContact: ownerContact
@@ -47,7 +49,12 @@ enum ReportPDFGenerator {
         images.reserveCapacity(blocks.count)
 
         for block in blocks {
-            let renderer = ImageRenderer(content: block.view.frame(width: contentWidth, alignment: .topLeading))
+            let renderer = ImageRenderer(
+                content: block.view.frame(
+                    width: contentWidth,
+                    alignment: .topLeading
+                )
+            )
             renderer.scale = renderScale
             if let image = renderer.uiImage {
                 images.append(image)
@@ -109,9 +116,11 @@ enum ReportPDFGenerator {
         ) else { return }
 
         let sortedNewestFirst = files.sorted { lhs, rhs in
-            let lhsDate = (try? lhs.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? .distantPast
+            let lhsDate = (try? lhs.resourceValues(
+                forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? .distantPast
 
-            let rhsDate = (try? rhs.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? .distantPast
+            let rhsDate = (try? rhs.resourceValues(
+                forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? .distantPast
 
             return lhsDate > rhsDate
         }

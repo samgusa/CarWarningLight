@@ -22,6 +22,6 @@ struct WarningLightCameraApp: App {
                 .environment(tipStore)
                 .environment(\.allLights, allLights)
         }
-        .modelContainer(for: [Vehicle.self, VehicleIssue.self, LightLogEntry.self])
+        .modelContainer(for: [Vehicle.self, VehicleIssue.self, LightLogEntry.self, MaintenanceItem.self])
     }
 }

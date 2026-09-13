@@ -14,6 +14,7 @@ enum ReportBlock: Identifiable {
     case sectionLabel(title: String, count: Int)
     case light(LightLogEntry)
     case issue(ReportIssueEntry, allLights: [CarSymbol], vehicle: Vehicle)
+    case maintenanceItem(MaintenanceItem)
     case footer
 
     var id: String {
@@ -23,6 +24,7 @@ enum ReportBlock: Identifiable {
         case .sectionLabel(let title, _):   return "section-\(title)"
         case .light(let entry):             return "light-\(entry.id)"
         case .issue(let entry, _, _):       return "issue-\(entry.issue.id)"
+        case .maintenanceItem(let item):    return "maintenance-\(item.id)"
         case .footer:                       return "footer"
         }
     }
@@ -40,6 +42,8 @@ enum ReportBlock: Identifiable {
             ReportLightBlock(entry: entry)
         case .issue(let entry, let allLights, let vehicle):
             ReportIssueBlock(entry: entry, allLights: allLights, vehicle: vehicle)
+        case .maintenanceItem(let item):
+            ReportMaintenanceBlock(item: item)
         case .footer:
             ReportFooterBlock()
         }
@@ -49,6 +53,7 @@ enum ReportBlock: Identifiable {
             vehicle: Vehicle,
             lights: [LightLogEntry],
             issueEntries: [ReportIssueEntry],
+            maintenanceItems: [MaintenanceItem],
             allLights: [CarSymbol],
             ownerName: String,
             ownerContact: String
@@ -67,6 +72,12 @@ enum ReportBlock: Identifiable {
             blocks.append(.sectionLabel(title: "Issues", count: issueEntries.count))
             blocks.append(contentsOf: issueEntries.map { .issue($0, allLights: allLights, vehicle: vehicle) })
         }
+
+        if !maintenanceItems.isEmpty {
+            blocks.append(.sectionLabel(title: "Maintenance", count: maintenanceItems.count))
+            blocks.append(contentsOf: maintenanceItems.map(ReportBlock.maintenanceItem))
+        }
+
         blocks.append(.footer)
         return blocks
     }
@@ -320,6 +331,59 @@ private struct IssueDiagramSnapshot: View {
     }
 }
 
+// MARK: Maintenance Item
+
+private struct ReportMaintenanceBlock: View {
+    let item: MaintenanceItem
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack {
+                Image(systemName: item.category.icon)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.gray)
+                Text(item.title)
+                    .font(.system(size: 14, weight: .bold))
+                Spacer()
+                Text(item.dateCreated.formatted(date: .abbreviated, time: .omitted))
+                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundStyle(.gray)
+            }
+
+            if let mileage = item.mileage {
+                HStack {
+                    Image(systemName: "gauge.with.dots.needle.67percent")
+                        .font(.system(size: 10, weight: .semibold))
+                    Text("\(mileage.formatted()) \(item.mileageUnit.abbreviation)")
+                        .font(.system(size: 11, weight: .semibold))
+                }
+                .foregroundStyle(.black.opacity(0.7))
+            }
+
+            if !item.noteText.isEmpty {
+                Text(item.noteText)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.black.opacity(0.8))
+            }
+            if let photo = item.photoImage {
+                Image(uiImage: photo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 460, maxHeight: 360)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .padding(.top, 4)
+            }
+        }
+        .foregroundStyle(Color.black)
+        .padding(.vertical, 8)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(Color.gray.opacity(0.25))
+                .frame(height: 0.75)
+        }
+    }
+}
+
 // MARK: Footer
 
 private struct ReportFooterBlock: View {
@@ -331,234 +395,23 @@ private struct ReportFooterBlock: View {
     }
 }
 
-struct ReportDocumentView: View {
-    let vehicle: Vehicle
-    let lights: [LightLogEntry]
-    let issueEntries: [ReportIssueEntry]
-    let allLights: [CarSymbol]
-    let generatedDate: Date = Date()
-    let ownerName: String
-    let ownerContact: String
-
-    private let pageWidth: CGFloat = 612 // US Letter, 72pt/inch
-
-    private var vehicleSubtitle: String {
-        [vehicle.year, vehicle.make, vehicle.model].filter { !$0.isEmpty }.joined(separator: " ")
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 22) {
-            header
-
-            if !lights.isEmpty          { lightsSection }
-            
-            Text("Exact meaning can vary by vehicle make and model — always confirm against your owner's manual where possible.")
-                .font(.system(size: 9))
-                .foregroundStyle(.gray.opacity(0.7))
-                .padding(.top, 2)
-
-            if !issueEntries.isEmpty    { issuesSection }
-
-            Spacer(minLength: 0)
-            footer
+#Preview {
+    ScrollView {
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(ReportBlock.build(
+                vehicle: Vehicle(name: "My Civic"),
+                lights: [],
+                issueEntries: [],
+                maintenanceItems: [],
+                allLights: [],
+                ownerName: "John Doe",
+                ownerContact: "john@example.com"
+            )) { block in
+                block.view
+            }
         }
         .padding(32)
-        .frame(width: pageWidth, alignment: .topLeading)
+        .frame(width: 612, alignment: .topLeading)
         .background(Color.white)
-        .foregroundStyle(Color.black)
     }
-
-    private var header: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("VEHICLE REPORT")
-                .font(.system(size: 11, weight: .bold, design: .monospaced))
-                .tracking(2)
-                .foregroundStyle(.gray)
-            Text(vehicle.name)
-                .font(.system(size: 26, weight: .heavy, design: .monospaced))
-            if vehicleSubtitle.isEmpty {
-                Text(vehicleSubtitle)
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(.gray)
-            }
-
-            if !ownerName.isEmpty {
-                Text("\(ownerName)\(ownerContact.isEmpty ? "" : " · \(ownerContact)")")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.gray)
-            }
-
-            if !vehicle.vin.isEmpty {
-                Text("VIN: \(vehicle.vin)")
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundStyle(.gray.opacity(0.8))
-            }
-            Text("Generated \(generatedDate.formatted(date: .abbreviated, time: .shortened))")
-                .font(.system(size: 11, weight: .medium))
-                .foregroundStyle(.gray)
-            
-            Rectangle()
-                .fill(Color.black)
-                .frame(height: 2)
-                .padding(.top, 6)
-        }
-    }
-
-    private var lightsSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            sectionLabel("Warning Lights", count: lights.count)
-
-            ForEach(lights) { entry in
-                VStack(alignment: .leading, spacing: 3) {
-                    HStack {
-                        Image(entry.carSymbol.imageName)
-                            .resizable()
-                            .renderingMode(.template)
-                            .scaledToFit()
-                            .frame(width: 16, height: 16)
-                            .foregroundStyle(severityColor(entry.carSymbol.symbolType))
-                        Text(entry.carSymbol.name)
-                            .font(.system(size: 14, weight: .bold))
-                        Spacer()
-                        Text(entry.carSymbol.symbolType.title.uppercased())
-                            .font(.system(size: 9, weight: .bold, design: .monospaced))
-                            .foregroundStyle(.gray)
-                    }
-                    Text(entry.carSymbol.drivable.message)
-                        .font(.system(size: 11))
-                        .foregroundStyle(.gray)
-                    Text(entry.carSymbol.description)
-                        .font(.system(size: 11))
-                        .foregroundStyle(.gray)
-                    Text("How to fix: \(entry.carSymbol.fixDescription)")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.gray)
-                    Text("Logged \(entry.dateLogged.formatted(date: .abbreviated, time: .omitted))")
-                        .font(.system(size: 10, design: .monospaced))
-                        .foregroundStyle(.gray.opacity(0.8))
-                }
-                .padding(.vertical, 8)
-                .overlay(alignment: .bottom) {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.25))
-                        .frame(height: 0.75)
-                }
-            }
-        }
-    }
-
-    private var issuesSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            sectionLabel("Issues", count: issueEntries.count)
-
-            ForEach(Array(issueEntries.enumerated()), id: \.offset) { _, entry in
-                VStack(alignment: .leading, spacing: 5) {
-                    HStack {
-                        Text(entry.categories.isEmpty ?
-                             entry.issue.displayTitle(allLights: allLights) :
-                                entry.categories.map(\.label).joined(separator: " + ")
-                        )
-                            .font(.system(size: 14, weight: .bold))
-                        Spacer()
-                        Text(entry.issue.dateCreated.formatted(date: .abbreviated, time: .omitted))
-                            .font(.system(size: 10, design: .monospaced))
-                            .foregroundStyle(.gray)
-                    }
-                    if let mileage = entry.issue.mileage {
-                        HStack(spacing: 5) {
-                            Image(systemName: "gauge.with.dots.needle.67percent")
-                                .font(.system(size: 10, weight: .semibold))
-
-                            Text("\(mileage.formatted()) \(entry.issue.mileageUnit.abbreviation)")
-                                .font(.system(size: 11, weight: .semibold))
-                        }
-                        .foregroundStyle(.black.opacity(0.7))
-                    }
-
-                    if !entry.issue.noteText.isEmpty {
-                        Text(entry.issue.noteText)
-                            .font(.system(size: 11))
-                            .foregroundStyle(.black.opacity(0.8))
-                    }
-
-                    if !entry.issue.linkedLightSymbolIDs.isEmpty {
-                        let linked = allLights.filter { entry.issue.linkedLightSymbolIDs.contains($0.id) }
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("RELATED LIGHTS")
-                                .font(.system(size: 9, weight: .bold, design: .monospaced))
-                                .tracking(1.0)
-                                .foregroundStyle(.gray)
-                            ForEach(linked) { light in
-                                HStack(spacing: 6) {
-                                    Image(light.imageName)
-                                        .resizable()
-                                        .renderingMode(.template)
-                                        .scaledToFit()
-                                        .frame(width: 12, height: 12)
-                                        .foregroundStyle(severityColor(light.symbolType))
-                                    Text(light.name)
-                                        .font(.system(size: 11, weight: .semibold))
-                                }
-                            }
-                        }
-                        .padding(.top, 2)
-                    }
-
-                    if !entry.issue.markedZones.isEmpty {
-                        IssueDiagramSnapshot(vehicle: vehicle, markedZones: entry.issue.markedZones)
-                    }
-                    if let photo = entry.issue.photoImage {
-                        Image(uiImage: photo)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxWidth: 240, maxHeight: 180)
-                            .clipShape(RoundedRectangle(cornerRadius: 6))
-                            .padding(.top, 4)
-                    }
-                }
-                .padding(.vertical, 8)
-                .overlay(alignment: .bottom) {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.25))
-                        .frame(height: 0.75)
-                }
-            }
-        }
-    }
-
-    private func sectionLabel(_ title: String, count: Int) -> some View {
-        Text("\(title.uppercased()) (\(count))")
-            .font(.system(size: 11, weight: .bold, design: .monospaced))
-            .tracking(1.2)
-            .foregroundStyle(.gray)
-            .padding(.top, 4)
-    }
-
-    private func severityColor(_ type: SymbolType) -> Color {
-        switch type {
-        case .warning:      return .red
-        case .advisory:     return .orange
-        case .info:         return .green
-        }
-    }
-
-    private var footer: some View {
-        Text("Generated by Warning Light Camera")
-            .font(.system(size: 9))
-            .foregroundStyle(.gray.opacity(0.6))
-            .padding(.top, 12)
-    }
-}
-
-
-
-#Preview {
-    ReportDocumentView(
-        vehicle: Vehicle(name: "My Civic"),
-        lights: [],
-        issueEntries: [],
-        allLights: [],
-        ownerName: "John Doe",
-        ownerContact: "john@example.com"
-    )
 }

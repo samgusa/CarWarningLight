@@ -33,6 +33,7 @@ struct ReportBuilderView: View {
                         contactSection
                         if !viewModel.activeLights.isEmpty { lightsSection }
                         if !viewModel.activeIssues.isEmpty { issuesSection }
+                        if !viewModel.activeMaintenanceItems.isEmpty { maintenanceSection }
                     }
                     .padding(.top, 16)
                     .padding(.bottom, 110)
@@ -138,6 +139,51 @@ struct ReportBuilderView: View {
             .opacity(isIncluded ? 1 : 0.45)
         }
         .buttonStyle(.plain)
+    }
+
+    private var maintenanceSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("MAINTENANCE")
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
+                .tracking(1.2)
+                .foregroundStyle(ClusterTheme.Colors.textSecondary)
+                .padding(.horizontal)
+
+            ForEach(viewModel.activeMaintenanceItems) { item in
+                maintenanceRow(item)
+                    .padding(.horizontal)
+            }
+        }
+    }
+
+    private func maintenanceRow(_ item: MaintenanceItem) -> some View {
+        let isIncluded = viewModel.isMaintenanceIncluded(item)
+
+        return Button {
+            viewModel.toggleMaintenance(item)
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: item.category.icon)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(isIncluded ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
+                    .frame(width: 36, height: 36)
+                    .background(ClusterTheme.Colors.panel)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+
+                Text(item.title)
+                    .font(ClusterTheme.Fonts.body(14, weight: .semibold))
+                    .foregroundStyle(ClusterTheme.Colors.textPrimary)
+
+                Spacer()
+
+                Image(systemName: isIncluded ? "checkmark.square.fill" : "square")
+                    .font(.system(size: 18))
+                    .foregroundStyle(isIncluded ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
+            }
+            .padding(12)
+            .clusterPanel()
+            .opacity(isIncluded ? 1 : 0.45)
+        }
     }
 
     private var issuesSection: some View {

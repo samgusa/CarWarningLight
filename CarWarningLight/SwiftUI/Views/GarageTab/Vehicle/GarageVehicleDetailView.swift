@@ -81,8 +81,14 @@ struct GarageVehicleDetailView: View {
         .navigationDestination(for: VehicleIssue.self) { issue in
             IssueDetailView(issue: issue)
         }
+        .navigationDestination(for: MaintenanceItem.self) { item in
+            MaintenanceDetailView(item: item)
+        }
         .sheet(isPresented: $viewModel.showAddIssue) {
             AddIssueView(vehicle: vehicle)
+        }
+        .sheet(isPresented: $viewModel.showAddMaintenance) {
+            AddMaintenanceView(vehicle: vehicle)
         }
         .sheet(isPresented: $viewModel.showReportBuilder) {
             ReportBuilderView(vehicle: vehicle)
@@ -105,10 +111,32 @@ struct GarageVehicleDetailView: View {
             }
             .accessibilityLabel("Build a report")
 
-            ClusterAngledButton(icon: "plus", label: "Log Issue") {
-                viewModel.showAddIssue = true
+            Menu {
+                Button {
+                    viewModel.showAddIssue = true
+                } label: {
+                    Label("Log Issue", systemImage: "exclamationmark.triangle")
+                }
+                Button {
+                    viewModel.showAddMaintenance = true
+                } label: {
+                    Label("Log Maintenance", systemImage: "wrench.and.screwdriver")
+                }
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 12, weight: .bold))
+                    Text("LOG")
+                        .font(ClusterTheme.Fonts.mono(11, weight: .bold))
+                        .tracking(0.8)
+                }
+                .foregroundStyle(ClusterTheme.Colors.background)
+                .padding(.horizontal, 18)
+                .padding(.vertical, 9)
+                .background(ClusterTheme.Colors.amber)
+                .clipShape(ClusterParallelogramShape(skew: 8))
             }
-            .accessibilityLabel("Create an Issue")
+            .accessibilityLabel("Log an issue or maintenance item")
 
             ClusterSquareIconButton(icon: "pencil") {
                 showEditVehicle = true
@@ -129,6 +157,11 @@ struct GarageVehicleDetailView: View {
         case .issue(let issue):
             NavigationLink(value: issue) {
                 IssueCardView(issue: issue)
+            }
+            .buttonStyle(.plain)
+        case .maintenance(let item):
+            NavigationLink(value: item) {
+                MaintenanceCardView(item: item)
             }
             .buttonStyle(.plain)
         }

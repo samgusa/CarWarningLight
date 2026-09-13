@@ -295,8 +295,12 @@ struct ClusterAngledButton: View {
 
 struct ClusterStatusToggle: View {
     var isActive: Bool
-    var activeTint: Color = ClusterTheme.Colors.amber
-    var resolvedTint: Color = ClusterTheme.Colors.green
+    var activeLabel: String         = "ACTIVE"
+    var resolvedLabel: String       = "RESOLVED"
+    var activeSubtitle: String      = "Tap to mark resolved"
+    var resolvedSubtitle: String    = "Tap to mark active again"
+    var activeTint: Color           = ClusterTheme.Colors.amber
+    var resolvedTint: Color         = ClusterTheme.Colors.green
     var action: () -> Void
 
     private var tint: Color { isActive ? activeTint : resolvedTint }
@@ -320,11 +324,11 @@ struct ClusterStatusToggle: View {
                 .frame(width: 28, height: 28)
 
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(isActive ? "ACTIVE" : "RESOLVED")
+                    Text(isActive ? activeLabel : resolvedLabel)
                         .font(ClusterTheme.Fonts.mono(12, weight: .bold))
                         .tracking(1.0)
                         .foregroundStyle(tint)
-                    Text(isActive ? "Tap to mark resolved" : "Tap to mark active again")
+                    Text(isActive ? activeSubtitle : resolvedSubtitle)
                         .font(ClusterTheme.Fonts.body(12))
                         .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 }

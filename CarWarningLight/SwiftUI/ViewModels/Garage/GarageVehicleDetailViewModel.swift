@@ -11,6 +11,7 @@ import Foundation
 @Observable
 final class GarageVehicleDetailViewModel {
     var showAddIssue: Bool          = false
+    var showAddMaintenance: Bool    = false
     var showReportBuilder: Bool     = false
 
     private static let dayLabelFormatter: DateFormatter = {
