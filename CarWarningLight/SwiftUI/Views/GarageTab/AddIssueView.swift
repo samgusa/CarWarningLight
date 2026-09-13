@@ -34,7 +34,7 @@ struct AddIssueView: View {
                     VStack(alignment: .leading, spacing: 18) {
                         VStack(alignment: .leading, spacing: 10) {
                             Text("WHAT'S GOING ON?")
-                                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                                 .tracking(1.2)
                                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                                 .padding(.horizontal)
@@ -61,7 +61,7 @@ struct AddIssueView: View {
 
                         VStack(alignment: .leading, spacing: 8) {
                             Text("NOTES FOR THE MECHANIC")
-                                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                                 .tracking(1.2)
                                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
@@ -75,7 +75,7 @@ struct AddIssueView: View {
 
                             TextEditor(text: $viewModel.noteText)
                                 .focused($focusedField, equals: .note)
-                                .font(ClusterTheme.Types.body(15))
+                                .font(ClusterTheme.Fonts.body(15))
                                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                                 .scrollContentBackground(.hidden)
                                 .frame(height: 120)
@@ -95,7 +95,7 @@ struct AddIssueView: View {
                             dismiss()
                         } label: {
                             Text("Save Issue")
-                                .font(ClusterTheme.Types.body(16, weight: .bold))
+                                .font(ClusterTheme.Fonts.body(16, weight: .bold))
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
                                 .background(viewModel.isValid ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
@@ -130,7 +130,7 @@ struct AddIssueView: View {
                     Button("Done") {
                         focusedField        = nil
                     }
-                        .font(ClusterTheme.Types.body(15, weight: .semibold))
+                        .font(ClusterTheme.Fonts.body(15, weight: .semibold))
                         .foregroundStyle(ClusterTheme.Colors.amber)
                 }
             }
@@ -141,14 +141,14 @@ struct AddIssueView: View {
     private var optionalSection: some View {
         HStack(spacing: 10) {
             Text("MILEAGE")
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
             TextField("Optional", text: $viewModel.mileageText)
                 .focused($focusedField, equals: .mileage)
                 .keyboardType(.numberPad)
-                .font(ClusterTheme.Types.body(14))
+                .font(ClusterTheme.Fonts.body(14))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .multilineTextAlignment(.trailing)
 
@@ -163,7 +163,7 @@ struct AddIssueView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("RELATED WARNING LIGHTS")
-                    .font(ClusterTheme.Types.mono(11, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                     .tracking(1.2)
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 Spacer()
@@ -175,7 +175,7 @@ struct AddIssueView: View {
                         Image(systemName: "plus")
                             .font(.system(size: 10, weight: .bold))
                         Text("ADD")
-                            .font(ClusterTheme.Types.mono(10, weight: .bold))
+                            .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                     }
                     .foregroundStyle(ClusterTheme.Colors.amber)
                 }
@@ -195,7 +195,7 @@ struct AddIssueView: View {
                                     .scaledToFit()
                                     .frame(width: 12, height: 12)
                                 Text(light.name)
-                                    .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                                    .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                                 Image(systemName: "xmark")
                                     .font(.system(size: 8, weight: .bold))
                             }
@@ -210,7 +210,7 @@ struct AddIssueView: View {
                 }
             } else {
                 Text("None added yet")
-                    .font(ClusterTheme.Types.body(12))
+                    .font(ClusterTheme.Fonts.body(12))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary.opacity(0.6))
             }
         }

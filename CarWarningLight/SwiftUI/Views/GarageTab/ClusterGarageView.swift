@@ -85,10 +85,10 @@ struct ClusterGarageView: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Garage")
-                    .font(ClusterTheme.Types.display(24))
+                    .font(ClusterTheme.Fonts.display(24))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 Text(vehicles.isEmpty ? "Everything your mechanic needs to know" : "Pick a vehicle to see its history")
-                    .font(ClusterTheme.Types.body(13))
+                    .font(ClusterTheme.Fonts.body(13))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
             }
             Spacer()
@@ -108,10 +108,10 @@ struct ClusterGarageView: View {
                 .font(.system(size: 40))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Text("No vehicles yet")
-                .font(ClusterTheme.Types.body(17, weight: .semibold))
+                .font(ClusterTheme.Fonts.body(17, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
             Text("Add a vehicle to start tracking issues and warning lights you can hand straight to your mechanic.")
-                .font(ClusterTheme.Types.body(13))
+                .font(ClusterTheme.Fonts.body(13))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)

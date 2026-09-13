@@ -30,7 +30,7 @@ struct ClusterVehiclePickerSheet: View {
                             .foregroundStyle(ClusterTheme.Colors.forSymbolType(symbol.symbolType))
 
                         Text(symbol.name)
-                            .font(ClusterTheme.Types.body(14, weight: .semibold))
+                            .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                             .foregroundStyle(ClusterTheme.Colors.textPrimary)
                     }
                     .padding(.horizontal)
@@ -45,7 +45,7 @@ struct ClusterVehiclePickerSheet: View {
                                 ClusterVehicleImagePlate(imageName: vehicle.imageName, size: 36)
                                     .clipShape(RoundedRectangle(cornerRadius: 6))
                                 Text(vehicle.name)
-                                    .font(ClusterTheme.Types.body(15, weight: .semibold))
+                                    .font(ClusterTheme.Fonts.body(15, weight: .semibold))
                                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                                 Spacer()
                                 Image(systemName: "chevron.right")

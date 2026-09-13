@@ -108,7 +108,7 @@ struct ClusterScanFlowView: View {
     private var identifySection: some View {
         VStack(spacing: 14) {
             Text("Analyze dashboard warning light")
-                .font(ClusterTheme.Types.body(15, weight: .semibold))
+                .font(ClusterTheme.Fonts.body(15, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
             identifyButton
 
@@ -116,7 +116,7 @@ struct ClusterScanFlowView: View {
                 onRetakePhoto(capturedPhoto.source)
             } label: {
                 Text(capturedPhoto.source == .camera ? "Retake Photo" : "Choose a Different Photo")
-                    .font(ClusterTheme.Types.mono(12, weight: .semibold))
+                    .font(ClusterTheme.Fonts.mono(12, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
             }
             .buttonStyle(.plain)
@@ -131,7 +131,7 @@ struct ClusterScanFlowView: View {
                 switch buttonState {
                 case .idle:
                     Text("Identify Light")
-                        .font(ClusterTheme.Types.body(16, weight: .bold))
+                        .font(ClusterTheme.Fonts.body(16, weight: .bold))
                 case .loading:
                     ClusterGaugeLoader(color: ClusterTheme.Colors.background, size: 24)
                 case .success:
@@ -238,11 +238,11 @@ struct ClusterScanFlowView: View {
                     .shadow(color: telltale.opacity(0.6), radius: 8)
 
                 VStack(spacing: 2) {
-                    Text("\(Int(match.confidence * 100))%")
-                        .font(ClusterTheme.Types.mono(28, weight: .bold))
+                    Text(match.confidenceLabel)
+                        .font(ClusterTheme.Fonts.mono(28, weight: .bold))
                         .foregroundStyle(ClusterTheme.Colors.textPrimary)
                     Text("MATCH")
-                        .font(ClusterTheme.Types.mono(9, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(9, weight: .bold))
                         .tracking(1.2)
                         .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 }
@@ -262,10 +262,10 @@ struct ClusterScanFlowView: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(match.carSymbol.name)
-                        .font(ClusterTheme.Types.display(16))
+                        .font(ClusterTheme.Fonts.display(16))
                         .foregroundStyle(ClusterTheme.Colors.textPrimary)
                     Text(match.carSymbol.symbolType.title.uppercased())
-                        .font(ClusterTheme.Types.mono(9, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(9, weight: .bold))
                         .tracking(1.0)
                         .foregroundStyle(telltale)
                 }
@@ -289,7 +289,7 @@ struct ClusterScanFlowView: View {
     private var alternatesSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("OTHER POSSIBLE MATCHES")
-                .font(ClusterTheme.Types.mono(10, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                 .tracking(1.0)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .padding(.horizontal)
@@ -303,11 +303,11 @@ struct ClusterScanFlowView: View {
                         .frame(width: 18, height: 18)
                         .foregroundStyle(ClusterTheme.Colors.textSecondary)
                     Text(alt.carSymbol.name)
-                        .font(ClusterTheme.Types.body(13, weight: .medium))
+                        .font(ClusterTheme.Fonts.body(13, weight: .medium))
                         .foregroundStyle(ClusterTheme.Colors.textPrimary.opacity(0.85))
                     Spacer()
-                    Text("\(Int(alt.confidence * 100))%")
-                        .font(ClusterTheme.Types.mono(11, weight: .semibold))
+                    Text(alt.confidenceLabel)
+                        .font(ClusterTheme.Fonts.mono(11, weight: .semibold))
                         .foregroundStyle(ClusterTheme.Colors.textSecondary)
                     Image(systemName: "chevron.right")
                         .font(.system(size: 11, weight: .semibold))
@@ -331,7 +331,7 @@ struct ClusterScanFlowView: View {
             onNoMatch()
         } label: {
             Text("Can't find it? Browse the Encyclopedia")
-                .font(ClusterTheme.Types.mono(12, weight: .semibold))
+                .font(ClusterTheme.Fonts.mono(12, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .padding(.vertical, 10)
         }
@@ -344,10 +344,10 @@ struct ClusterScanFlowView: View {
                 .font(.system(size: 32))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Text("No confident match")
-                .font(ClusterTheme.Types.body(15, weight: .semibold))
+                .font(ClusterTheme.Fonts.body(15, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
             Text("Try again with the light centered and well lit.")
-                .font(ClusterTheme.Types.body(13))
+                .font(ClusterTheme.Fonts.body(13))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .multilineTextAlignment(.center)
         }

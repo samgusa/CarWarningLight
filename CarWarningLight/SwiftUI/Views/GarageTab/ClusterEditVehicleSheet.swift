@@ -28,11 +28,11 @@ struct ClusterEditVehicleSheet: View {
                     VStack(alignment: .leading, spacing: 8) {
                         detailsSection
                         Text("NICKNAME")
-                            .font(ClusterTheme.Types.mono(11, weight: .bold))
+                            .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
                         TextField("Vehicle name", text: $viewModel.name)
-                            .font(ClusterTheme.Types.body(16))
+                            .font(ClusterTheme.Fonts.body(16))
                             .foregroundStyle(ClusterTheme.Colors.textPrimary)
                             .padding(14)
                             .background(ClusterTheme.Colors.panel)
@@ -46,7 +46,7 @@ struct ClusterEditVehicleSheet: View {
 
                     VStack(alignment: .leading, spacing: 10) {
                         Text("BODY STYLE")
-                            .font(ClusterTheme.Types.mono(11, weight: .bold))
+                            .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
                             .padding(.horizontal)
@@ -64,7 +64,7 @@ struct ClusterEditVehicleSheet: View {
                         dismiss()
                     } label: {
                         Text("Save Changes")
-                            .font(ClusterTheme.Types.body(16, weight: .bold))
+                            .font(ClusterTheme.Fonts.body(16, weight: .bold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background((viewModel.isValid && viewModel.hasChanges) ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
@@ -84,7 +84,7 @@ struct ClusterEditVehicleSheet: View {
     private var detailsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("VEHICLE DETAILS (OPTIONAL)")
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
@@ -102,7 +102,7 @@ struct ClusterEditVehicleSheet: View {
     private func styledField(_ placeholder: String, text: Binding<String>, keyboard: UIKeyboardType = .default) -> some View {
         TextField(placeholder, text: text)
             .keyboardType(keyboard)
-            .font(ClusterTheme.Types.body(15))
+            .font(ClusterTheme.Fonts.body(15))
             .foregroundStyle(ClusterTheme.Colors.textPrimary)
             .padding(12)
             .background(ClusterTheme.Colors.panel)
@@ -120,7 +120,7 @@ struct ClusterEditVehicleSheet: View {
                     .padding(.top, 14)
 
                 Text(style.label.uppercased())
-                    .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                    .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                     .foregroundStyle(isSelected ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
                     .padding(.bottom, 14)
             }

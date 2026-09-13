@@ -20,11 +20,11 @@ struct ClusterSettingsView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("SUPPORT THE APP")
-                            .font(ClusterTheme.Types.mono(11, weight: .bold))
+                            .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
                         Text("This app has no ads and never will. If it's been useful, you can leave a tip — completely optional, nothing is unlocked or changed either way.")
-                            .font(ClusterTheme.Types.body(12))
+                            .font(ClusterTheme.Fonts.body(12))
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
                         ForEach(tipStore.products) { product in
@@ -63,7 +63,7 @@ struct ClusterSettingsView: View {
                 Image(systemName: "heart.fill")
                     .font(.system(size: 12, weight: .bold))
                 Text("YOU'VE SUPPORTED THIS APP — TAP TO SEE IT AGAIN")
-                    .font(ClusterTheme.Types.mono(10, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                     .tracking(0.4)
             }
             .foregroundStyle(ClusterTheme.Colors.amber)
@@ -79,11 +79,11 @@ struct ClusterSettingsView: View {
         } label: {
             HStack {
                 Text(product.displayName)
-                    .font(ClusterTheme.Types.body(14, weight: .semibold))
+                    .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 Spacer()
                 Text(product.displayPrice)
-                    .font(ClusterTheme.Types.mono(13, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(13, weight: .bold))
                     .foregroundStyle(ClusterTheme.Colors.amber)
             }
             .padding(14)

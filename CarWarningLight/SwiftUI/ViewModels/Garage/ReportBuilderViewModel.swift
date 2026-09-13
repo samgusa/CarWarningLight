@@ -114,7 +114,7 @@ final class ReportBuilderViewModel {
                 ownerContact: contactPhone
             )
             if let url {
-                self.shareURL = IdentifiableURL(url: url)
+                self.shareURL = IdentifiableURL(url: url, title: "\(vehicle.name) - Report")
             }
             self.isGenerating = false
         }

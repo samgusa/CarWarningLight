@@ -24,7 +24,7 @@ struct ClusterLightTagPicker: View {
             ClusterHeaderBar(title: "Related Lights") { dismiss() }
 
             TextField("Search lights", text: $searchText)
-                .font(ClusterTheme.Types.body(14))
+                .font(ClusterTheme.Fonts.body(14))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .padding(12)
                 .background(ClusterTheme.Colors.panel)
@@ -64,7 +64,7 @@ struct ClusterLightTagPicker: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
 
                 Text(light.name)
-                    .font(ClusterTheme.Types.body(14, weight: .semibold))
+                    .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
 
                 Spacer()

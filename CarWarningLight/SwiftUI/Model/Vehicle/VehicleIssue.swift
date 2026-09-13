@@ -107,7 +107,7 @@ final class VehicleIssue {
 
         let trimmedNote = noteText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmedNote.isEmpty {
-            return trimmedNote.count > 40 ? String(trimmedNote.prefix(40)) + "_" : trimmedNote
+            return Self.truncatedTitle(from: trimmedNote, limit: 40)
         }
 
         if let firstID = linkedLightSymbolIDs.first,
@@ -117,30 +117,43 @@ final class VehicleIssue {
         }
         return "Untitled Issue"
      }
+
+    private static func truncatedTitle(from text: String, limit: Int) -> String {
+        guard text.count > limit else { return text }
+        let prefix = String(text.prefix(limit))
+        if let lastSpace = prefix.lastIndex(of: " ") {
+            return String(prefix[..<lastSpace]) + "..."
+        }
+        return prefix + "..."
+    }
 }
 
 enum GarageTimelineItem: Identifiable {
     case light(LightLogEntry)
     case issue(VehicleIssue)
+    case maintenance(MaintenanceItem)
 
     var id: String {
         switch self {
-        case .light(let entry):     return "light-\(entry.id)"
-        case .issue(let issue):     return "issue-\(issue.id)"
+        case .light(let entry):         return "light-\(entry.id)"
+        case .issue(let issue):         return "issue-\(issue.id)"
+        case .maintenance(let item):    return "maintenance-\(item.id)"
         }
     }
 
     var date: Date {
         switch self {
-        case .light(let entry): return entry.dateLogged
-        case .issue(let issue): return issue.dateCreated
+        case .light(let entry):         return entry.dateLogged
+        case .issue(let issue):         return issue.dateCreated
+        case .maintenance(let item):    return item.dateCreated
         }
     }
 
     var isActive: Bool {
         switch self {
-        case .light(let entry): return entry.isActive
-        case .issue(let issue): return issue.isActive
+        case .light(let entry):         return entry.isActive
+        case .issue(let issue):         return issue.isActive
+        case .maintenance(let item):    return item.isActive
         }
     }
 }

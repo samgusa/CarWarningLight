@@ -29,7 +29,7 @@ struct ClusterAddVehicleView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
                             Text("BODY STYLE")
-                                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                                 .tracking(1.2)
                                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                             Spacer()
@@ -40,7 +40,7 @@ struct ClusterAddVehicleView: View {
                                     Image(systemName: "questionmark.circle")
                                         .font(.system(size: 11, weight: .semibold))
                                     Text("NOT SURE")
-                                        .font(ClusterTheme.Types.mono(10, weight: .bold))
+                                        .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                                         .tracking(0.6)
                                 }
                                 .foregroundStyle(showBodyStyleHint ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
@@ -73,7 +73,7 @@ struct ClusterAddVehicleView: View {
                         dismiss()
                     } label: {
                         Text("Add Vehicle")
-                            .font(ClusterTheme.Types.body(16, weight: .bold))
+                            .font(ClusterTheme.Fonts.body(16, weight: .bold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background(viewModel.isValid ? ClusterTheme.Colors.amber : ClusterTheme.Colors.bezel)
@@ -94,11 +94,11 @@ struct ClusterAddVehicleView: View {
     private var fieldSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("NICKNAME")
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             TextField("e.g. My Civic", text: $viewModel.name)
-                .font(ClusterTheme.Types.body(16))
+                .font(ClusterTheme.Fonts.body(16))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .padding(14)
                 .background(ClusterTheme.Colors.panel)
@@ -114,7 +114,7 @@ struct ClusterAddVehicleView: View {
     private var detailsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("VEHICLE DETAILS (OPTIONAL)")
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
@@ -132,7 +132,7 @@ struct ClusterAddVehicleView: View {
     private func styledField(_ placeholder: String, text: Binding<String>, keyboard: UIKeyboardType = .default) -> some View {
         TextField(placeholder, text: text)
             .keyboardType(keyboard)
-            .font(ClusterTheme.Types.body(15))
+            .font(ClusterTheme.Fonts.body(15))
             .foregroundStyle(ClusterTheme.Colors.textPrimary)
             .padding(12)
             .background(ClusterTheme.Colors.panel)
@@ -150,7 +150,7 @@ struct ClusterAddVehicleView: View {
                     .padding(.top, 14)
 
                 Text(style.label.uppercased())
-                    .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                    .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                     .foregroundStyle(isSelected ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
                     .padding(.bottom, 10)
             }

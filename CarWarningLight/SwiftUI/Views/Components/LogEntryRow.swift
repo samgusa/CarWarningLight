@@ -38,17 +38,17 @@ struct LogEntryRow: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(entry.carSymbol.name)
-                    .font(ClusterTheme.Types.body(14, weight: .semibold))
+                    .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                     .lineLimit(1)
                 Text(relativeDate.uppercased())
-                    .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                    .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
             }
             Spacer()
 
             Text(entry.isActive ? "ACTIVE" : "RESOLVED")
-                .font(ClusterTheme.Types.mono(9, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(9, weight: .bold))
                 .tracking(0.8)
                 .foregroundStyle(entry.isActive ? telltale : ClusterTheme.Colors.green)
         }

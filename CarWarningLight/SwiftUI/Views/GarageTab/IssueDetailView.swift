@@ -37,7 +37,7 @@ struct IssueDetailView: View {
 
                     VStack(alignment: .leading, spacing: 10) {
                         Text("CATEGORIES")
-                            .font(ClusterTheme.Types.mono(10, weight: .bold))
+                            .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
                             .padding(.horizontal)
@@ -66,7 +66,7 @@ struct IssueDetailView: View {
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("NOTES FOR THE MECHANIC")
-                            .font(ClusterTheme.Types.mono(10, weight: .bold))
+                            .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                             .tracking(1.2)
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
 
@@ -78,7 +78,7 @@ struct IssueDetailView: View {
 
                         TextEditor(text: Bindable(viewModel.issue).noteText)
                             .focused($noteFieldFocused)
-                            .font(ClusterTheme.Types.body(15))
+                            .font(ClusterTheme.Fonts.body(15))
                             .foregroundStyle(ClusterTheme.Colors.textPrimary)
                             .scrollContentBackground(.hidden)
                             .frame(height: 120)
@@ -96,7 +96,7 @@ struct IssueDetailView: View {
                         viewModel.requestDelete()
                     } label: {
                         Text("Delete Issue")
-                            .font(ClusterTheme.Types.body(14, weight: .semibold))
+                            .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                             .foregroundStyle(ClusterTheme.Colors.red)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
@@ -117,7 +117,7 @@ struct IssueDetailView: View {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
                 Button("Done") { noteFieldFocused = false }
-                    .font(ClusterTheme.Types.body(15, weight: .semibold))
+                    .font(ClusterTheme.Fonts.body(15, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.amber)
             }
         }
@@ -151,10 +151,10 @@ struct IssueDetailView: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(viewModel.issue.displayTitle(allLights: allLights))
-                    .font(ClusterTheme.Types.display(18))
+                    .font(ClusterTheme.Fonts.display(18))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 Text("LOGGED \(viewModel.dateLabel.uppercased())")
-                    .font(ClusterTheme.Types.mono(10, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                     .tracking(1.0)
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
             }
@@ -167,7 +167,7 @@ struct IssueDetailView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("RELATED WARNING LIGHTS")
-                    .font(ClusterTheme.Types.mono(10, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                     .tracking(1.2)
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 Spacer()
@@ -179,7 +179,7 @@ struct IssueDetailView: View {
                             .font(.system(size: 10, weight: .bold))
 
                         Text("ADD")
-                            .font(ClusterTheme.Types.mono(10, weight: .bold))
+                            .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                     }
                     .foregroundStyle(ClusterTheme.Colors.amber)
                 }
@@ -199,7 +199,7 @@ struct IssueDetailView: View {
                                     .scaledToFit()
                                     .frame(width: 12, height: 12)
                                 Text(light.name)
-                                    .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                                    .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                                 Image(systemName: "xmark")
                                     .font(.system(size: 8, weight: .bold))
                             }
@@ -214,7 +214,7 @@ struct IssueDetailView: View {
                 }
             } else {
                 Text("None added yet")
-                    .font(ClusterTheme.Types.body(12))
+                    .font(ClusterTheme.Fonts.body(12))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary.opacity(0.6))
             }
         }

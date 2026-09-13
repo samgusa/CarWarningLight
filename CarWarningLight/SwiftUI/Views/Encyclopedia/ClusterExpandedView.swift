@@ -166,10 +166,10 @@ struct ClusterExpandedView: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(carSymbol.name)
-                    .font(ClusterTheme.Types.display(18))
+                    .font(ClusterTheme.Fonts.display(18))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 Text(carSymbol.symbolType.title.uppercased())
-                    .font(ClusterTheme.Types.mono(10, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                     .tracking(1.2)
                     .foregroundStyle(telltale)
             }
@@ -218,7 +218,7 @@ struct ClusterExpandedView: View {
             showDeleteConfirm = true
         } label: {
             Text("Delete Light")
-                .font(ClusterTheme.Types.body(14, weight: .semibold))
+                .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.red)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
@@ -229,11 +229,11 @@ struct ClusterExpandedView: View {
     private func infoPanel(label: String, body: String) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(label)
-                .font(ClusterTheme.Types.mono(10, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Text(body)
-                .font(ClusterTheme.Types.body(14))
+                .font(ClusterTheme.Fonts.body(14))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary.opacity(0.9))
                 .fixedSize(horizontal: false, vertical: true)
         }

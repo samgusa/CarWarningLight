@@ -73,8 +73,8 @@ enum ReportPDFGenerator {
                 context.beginPage()
 
                 for image in images {
-                    let heightInPoints = image.size.height / renderScale
-                    let widthInPoints = image.size.width / renderScale
+                    let heightInPoints = image.size.height
+                    let widthInPoints = image.size.width
 
                     if y > margin, y + heightInPoints > pageHeight - margin {
                         context.beginPage()
@@ -121,7 +121,7 @@ enum ReportPDFGenerator {
         }
     }
 
-    private static func shortDateStamp() -> String {
+    nonisolated private static func shortDateStamp() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd-HHmm"
         return formatter.string(from: Date())

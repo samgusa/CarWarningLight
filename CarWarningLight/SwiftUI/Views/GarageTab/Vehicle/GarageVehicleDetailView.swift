@@ -45,7 +45,7 @@ struct GarageVehicleDetailView: View {
                         ForEach(viewModel.groupedTimeline(for: vehicle), id: \.day) { group in
                             VStack(alignment: .leading, spacing: 10) {
                                 Text(viewModel.dayLabel(group.day))
-                                    .font(ClusterTheme.Types.mono(11, weight: .bold))
+                                    .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                                     .tracking(1.2)
                                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
                                     .padding(.horizontal)
@@ -59,7 +59,7 @@ struct GarageVehicleDetailView: View {
                     }
                 }
                 .padding(.top, 16)
-                .padding(.bottom, 50)
+                .padding(.bottom, 100)
             }
         }
         .background(ClusterTheme.Colors.background)
@@ -95,7 +95,7 @@ struct GarageVehicleDetailView: View {
     private var controlsRow: some View {
         HStack {
             Text(vehicle.name)
-                .font(ClusterTheme.Types.mono(15, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(15, weight: .bold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
 
             Spacer()
@@ -140,10 +140,10 @@ struct GarageVehicleDetailView: View {
                 .font(.system(size: 32))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Text("Nothing logged yet")
-                .font(ClusterTheme.Types.body(15, weight: .semibold))
+                .font(ClusterTheme.Fonts.body(15, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
             Text("Add an issue, or scan a warning light, to start building this vehicle's history.")
-                .font(ClusterTheme.Types.body(13))
+                .font(ClusterTheme.Fonts.body(13))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)

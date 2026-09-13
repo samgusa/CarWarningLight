@@ -27,14 +27,14 @@ struct IssueCardView: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(issue.displayTitle(allLights: allLights))
-                    .font(ClusterTheme.Types.body(14, weight: .semibold))
+                    .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                     .lineLimit(1)
 
                 HStack {
                     if issue.sortedCategories.count > 1 {
                         Text("+\(issue.sortedCategories.count - 1) more")
-                            .font(ClusterTheme.Types.mono(9, weight: .semibold))
+                            .font(ClusterTheme.Fonts.mono(9, weight: .semibold))
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
@@ -42,14 +42,14 @@ struct IssueCardView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 4))
                     }
                     Text(relativeDate.uppercased())
-                        .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                        .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                         .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 }
             }
             Spacer()
 
             Text(issue.isActive ? "ACTIVE" : "RESOLVED")
-                .font(ClusterTheme.Types.mono(9, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(9, weight: .bold))
                 .tracking(1.0)
                 .foregroundStyle(issue.isActive ? ClusterTheme.Colors.amber : ClusterTheme.Colors.green)
         }

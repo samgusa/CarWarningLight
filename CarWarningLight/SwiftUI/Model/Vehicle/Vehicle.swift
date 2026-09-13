@@ -11,20 +11,23 @@ import SwiftData
 
 @Model
 final class Vehicle {
-    var id: UUID                = UUID()
-    var name: String            = ""
-    var imageName: String       = "vehicleSedan"
-    var dateCreated: Date       = Date()
-    var year: String            = ""
-    var make: String            = ""
-    var model: String           = ""
-    var vin: String             = ""
+    var id: UUID                                = UUID()
+    var name: String                            = ""
+    var imageName: String                       = "vehicleSedan"
+    var dateCreated: Date                       = Date()
+    var year: String                            = ""
+    var make: String                            = ""
+    var model: String                           = ""
+    var vin: String                             = ""
 
     @Relationship(deleteRule: .cascade, inverse: \VehicleIssue.vehicle)
-    var issues: [VehicleIssue]  = []
+    var issues: [VehicleIssue]                  = []
 
     @Relationship(deleteRule: .cascade, inverse: \LightLogEntry.vehicle)
-    var lightLogEntries: [LightLogEntry] = []
+    var lightLogEntries: [LightLogEntry]        = []
+
+    @Relationship(deleteRule: .cascade, inverse: \MaintenanceItem.vehicle)
+    var maintenanceItems: [MaintenanceItem]     = []
 
     init(name: String, imageName: String = "vehicleSedan", year: String = "", make: String = "", model: String = "", vin: String = "") {
         self.name               = name
@@ -39,8 +42,9 @@ final class Vehicle {
 
     var activeIssues: [VehicleIssue] { issues.filter(\.isActive) }
     var activeLightEntries: [LightLogEntry] { lightLogEntries.filter(\.isActive) }
+    var activeMaintenanceItems: [MaintenanceItem] { maintenanceItems.filter(\.isActive) }
 
-    var totalActive: Int { activeIssues.count + activeLightEntries.count }
+    var totalActive: Int { activeIssues.count + activeLightEntries.count + activeMaintenanceItems.count }
 
     var worstSeverity: SymbolType? {
         activeLightEntries
@@ -51,7 +55,8 @@ final class Vehicle {
     var timelineItems: [GarageTimelineItem] {
         let lights = lightLogEntries.map(GarageTimelineItem.light)
         let issueItems = issues.map(GarageTimelineItem.issue)
-        return (lights + issueItems).sorted { $0.date > $1.date }
+        let maintenanceEntries = maintenanceItems.map(GarageTimelineItem.maintenance)
+        return (lights + issueItems + maintenanceEntries).sorted { $0.date > $1.date }
     }
 
     func imageName(for kind: VehicleDiagramKind) -> String {

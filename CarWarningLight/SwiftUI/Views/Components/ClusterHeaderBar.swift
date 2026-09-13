@@ -16,7 +16,7 @@ struct ClusterHeaderBar: View {
     var body: some View {
         HStack {
             Text(title.uppercased())
-                .font(ClusterTheme.Types.mono(12, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(12, weight: .bold))
                 .tracking(1.5)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Spacer()

@@ -21,12 +21,12 @@ struct ClusterAlertCard: View {
         VStack(spacing: 0) {
             VStack(spacing: 8) {
                 Text(title.uppercased())
-                    .font(ClusterTheme.Types.mono(13, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(13, weight: .bold))
                     .tracking(0.8)
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
                     .multilineTextAlignment(.center)
                 Text(message)
-                    .font(ClusterTheme.Types.body(13))
+                    .font(ClusterTheme.Fonts.body(13))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
                     .multilineTextAlignment(.center)
             }
@@ -39,7 +39,7 @@ struct ClusterAlertCard: View {
             HStack(spacing: 1) {
                 Button(action: onCancel) {
                     Text(cancelLabel.uppercased())
-                        .font(ClusterTheme.Types.mono(12, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(12, weight: .bold))
                         .foregroundStyle(ClusterTheme.Colors.textSecondary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
@@ -49,7 +49,7 @@ struct ClusterAlertCard: View {
                     .frame(width: 1, height: 44)
                 Button(action: onConfirm) {
                     Text(confirmLabel.uppercased())
-                        .font(ClusterTheme.Types.mono(12, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(12, weight: .bold))
                         .foregroundStyle(isDestructive ? ClusterTheme.Colors.red : ClusterTheme.Colors.amber)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)

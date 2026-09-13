@@ -26,7 +26,7 @@ struct ReportBuilderView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         Text("Everything active is included by default. Tap anything to leave it out.")
-                            .font(ClusterTheme.Types.body(12))
+                            .font(ClusterTheme.Fonts.body(12))
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
                             .padding(.horizontal)
 
@@ -48,7 +48,7 @@ struct ReportBuilderView: View {
             viewModel.preselectAll()
         }
         .sheet(item: $viewModel.shareURL) { wrapped in
-            QuickLookPreview(url: wrapped.url)
+            QuickLookPreview(url: wrapped.url, title: wrapped.title)
                 .ignoresSafeArea()
         }
     }
@@ -56,7 +56,7 @@ struct ReportBuilderView: View {
     private var lightsSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("WARNING LIGHTS")
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .padding(.horizontal)
@@ -77,7 +77,7 @@ struct ReportBuilderView: View {
                     Image(systemName: "person.text.rectangle")
                         .font(.system(size: 11, weight: .semibold))
                     Text(viewModel.contactName.isEmpty ? "ADD YOUR CONTACT INFO (OPTIONAL)" : "CONTACT INFO ADDED")
-                        .font(ClusterTheme.Types.mono(10, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                         .tracking(0.6)
                     Spacer()
                     Image(systemName: showContactFields ? "chevron.up" : "chevron.down")
@@ -92,13 +92,13 @@ struct ReportBuilderView: View {
                     TextField("Your name", text: $viewModel.contactName)
                     TextField("Phone or email", text: $viewModel.contactPhone)
                 }
-                .font(ClusterTheme.Types.body(14))
+                .font(ClusterTheme.Fonts.body(14))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .padding(10)
                 .background(ClusterTheme.Colors.panel)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 Text("Only appears on the report if filled in — never shared otherwise.")
-                    .font(ClusterTheme.Types.body(10))
+                    .font(ClusterTheme.Fonts.body(10))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
             }
         }
@@ -124,7 +124,7 @@ struct ReportBuilderView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
 
                 Text(entry.carSymbol.name)
-                    .font(ClusterTheme.Types.body(14, weight: .semibold))
+                    .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
 
                 Spacer()
@@ -143,7 +143,7 @@ struct ReportBuilderView: View {
     private var issuesSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("ISSUES")
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .padding(.horizontal)
@@ -168,10 +168,10 @@ struct ReportBuilderView: View {
                         .opacity(isIncluded ? 1 : 0.4)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(issue.displayTitle(allLights: allLights))
-                            .font(ClusterTheme.Types.body(14, weight: .semibold))
+                            .font(ClusterTheme.Fonts.body(14, weight: .semibold))
                             .foregroundStyle(ClusterTheme.Colors.textPrimary)
                         Text(issue.dateCreated, style: .date)
-                            .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                            .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                             .foregroundStyle(ClusterTheme.Colors.textSecondary)
                     }
                     Spacer()
@@ -193,7 +193,7 @@ struct ReportBuilderView: View {
                             Image(systemName: category.icon)
                                 .font(.system(size: 10, weight: .semibold))
                             Text(category.label)
-                                .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                                .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                         }
                         .padding(.horizontal, 9)
                         .padding(.vertical, 6)
@@ -207,7 +207,7 @@ struct ReportBuilderView: View {
 
             if !issue.noteText.isEmpty {
                 Text(issue.noteText)
-                    .font(ClusterTheme.Types.body(12))
+                    .font(ClusterTheme.Fonts.body(12))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
                     .opacity(isIncluded ? 1 : 0.4)
             }
@@ -229,7 +229,7 @@ struct ReportBuilderView: View {
                         Image(systemName: "doc.text.fill")
                     }
                     Text(viewModel.isGenerating ? "Building…" : "Generate Report (\(viewModel.selectedCount))")
-                        .font(ClusterTheme.Types.body(16, weight: .bold))
+                        .font(ClusterTheme.Fonts.body(16, weight: .bold))
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
@@ -249,10 +249,10 @@ struct ReportBuilderView: View {
                 .font(.system(size: 32))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Text("Nothing active to report")
-                .font(ClusterTheme.Types.body(15, weight: .semibold))
+                .font(ClusterTheme.Fonts.body(15, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
             Text("Resolved items aren't included — log or reopen something first.")
-                .font(ClusterTheme.Types.body(13))
+                .font(ClusterTheme.Fonts.body(13))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)

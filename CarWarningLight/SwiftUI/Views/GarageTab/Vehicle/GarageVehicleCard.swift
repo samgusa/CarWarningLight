@@ -33,12 +33,12 @@ struct GarageVehicleCard: View {
             .padding(.top, 6)
 
             Text(vehicle.name)
-                .font(ClusterTheme.Types.body(15, weight: .bold))
+                .font(ClusterTheme.Fonts.body(15, weight: .bold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .lineLimit(1)
 
             Text(vehicle.totalActive > 0 ? "\(vehicle.totalActive) active" : "All clear")
-                .font(ClusterTheme.Types.mono(11, weight: .semibold))
+                .font(ClusterTheme.Fonts.mono(11, weight: .semibold))
                 .tracking(0.6)
                 .foregroundStyle(vehicle.totalActive > 0 ? statusColor : ClusterTheme.Colors.textSecondary)
         }

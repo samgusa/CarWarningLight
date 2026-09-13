@@ -24,18 +24,18 @@ struct ClusterThankYouOverlay: View {
                     .foregroundStyle(ClusterTheme.Colors.amber)
 
                 Text("THANK YOU")
-                    .font(ClusterTheme.Types.display(22))
+                    .font(ClusterTheme.Fonts.display(22))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
 
                 Text("Your support means a lot — it goes straight back into building this app.")
-                    .font(ClusterTheme.Types.body(13))
+                    .font(ClusterTheme.Fonts.body(13))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 30)
 
                 Button(action: onDismiss) {
                     Text("CLOSE")
-                        .font(ClusterTheme.Types.mono(12, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(12, weight: .bold))
                         .tracking(0.8)
                         .foregroundStyle(ClusterTheme.Colors.background)
                         .padding(.horizontal, 24)

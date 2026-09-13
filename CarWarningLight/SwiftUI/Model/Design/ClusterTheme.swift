@@ -39,7 +39,7 @@ enum ClusterTheme {
         }
     }
 
-    enum Types {
+    enum Fonts {
         static func display(_ size: CGFloat, weight: Font.Weight = .heavy) -> Font {
             .system(size: size, weight: weight, design: .monospaced)
         }

@@ -33,11 +33,11 @@ struct ClusterVehicleDiagramPicker: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 2){
             Text("MARK THE LOCATION")
-                .font(ClusterTheme.Types.mono(11, weight: .bold))
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                 .tracking(1.2)
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Text("Left/right as if sitting in the driver's seat facing forward — same on any car, anywhere.")
-                .font(ClusterTheme.Types.body(11))
+                .font(ClusterTheme.Fonts.body(11))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary.opacity(0.8))
         }
     }
@@ -50,7 +50,7 @@ struct ClusterVehicleDiagramPicker: View {
                     activeKind = kind
                 } label: {
                     Text(kind.title.uppercased())
-                        .font(ClusterTheme.Types.mono(10, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                         .tracking(0.4)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 7)
@@ -93,7 +93,7 @@ struct ClusterVehicleDiagramPicker: View {
                 .font(.system(size: 22))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
             Text("No vehicle attached to this issue")
-                .font(ClusterTheme.Types.body(12, weight: .semibold))
+                .font(ClusterTheme.Fonts.body(12, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textSecondary)
         }
         .frame(maxWidth: .infinity)
@@ -117,7 +117,7 @@ struct ClusterVehicleDiagramPicker: View {
             } label: {
                 HStack(spacing: 4) {
                     Text("\(kindLabel): \(zoneLabel)")
-                        .font(ClusterTheme.Types.mono(10, weight: .semibold))
+                        .font(ClusterTheme.Fonts.mono(10, weight: .semibold))
                     Image(systemName: "xmark")
                         .font(.system(size: 8, weight: .bold))
                 }

@@ -29,7 +29,7 @@ struct ClusterWarningLightCell: View {
             glowingIcon
             Spacer()
             Text(carData.name)
-                .font(ClusterTheme.Types.body(13, weight: .semibold))
+                .font(ClusterTheme.Fonts.body(13, weight: .semibold))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .lineLimit(3)
                 .minimumScaleFactor(0.9)

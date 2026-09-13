@@ -12,4 +12,12 @@ struct ScanMatch: Identifiable {
     let carSymbol: CarSymbol
     let confidence: Double
     var id: Int { carSymbol.id }
+
+    var confidenceLabel: String {
+        let percent = confidence * 100
+        if percent < 1 {
+            return "<1%"
+        }
+        return "\(Int(percent))%"
+    }
 }

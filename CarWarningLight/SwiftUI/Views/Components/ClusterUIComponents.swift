@@ -41,7 +41,7 @@ struct ClusterTagButton: View {
                 Image(systemName: icon)
                     .font(.system(size: 12, weight: .bold))
                 Text(label.uppercased())
-                    .font(ClusterTheme.Types.mono(11, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                     .tracking(0.8)
             }
             .foregroundStyle(ClusterTheme.Colors.background)
@@ -67,7 +67,7 @@ struct ClusterDashedActionTile: View {
                     .font(.system(size: 22, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.amber)
                 Text(label)
-                    .font(ClusterTheme.Types.body(14, weight: .bold))
+                    .font(ClusterTheme.Fonts.body(14, weight: .bold))
                     .foregroundStyle(ClusterTheme.Colors.textPrimary)
             }
             .frame(maxWidth: .infinity)
@@ -101,10 +101,10 @@ struct ClusterAccentBanner: View {
                     .padding(.top, 1)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
-                        .font(ClusterTheme.Types.body(14, weight: .bold))
+                        .font(ClusterTheme.Fonts.body(14, weight: .bold))
                         .foregroundStyle(ClusterTheme.Colors.textPrimary)
                     Text(subtitle)
-                        .font(ClusterTheme.Types.body(12))
+                        .font(ClusterTheme.Fonts.body(12))
                         .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 }
                 Spacer(minLength: 0)
@@ -151,7 +151,7 @@ struct ClusterCategoryChip: View {
                 Image(systemName: icon)
                     .font(.system(size: 16, weight: .semibold))
                 Text(label.uppercased())
-                    .font(ClusterTheme.Types.mono(9, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(9, weight: .bold))
                     .tracking(0.4)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
@@ -238,11 +238,11 @@ struct ClusterCautionLabel: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title.uppercased())
-                    .font(ClusterTheme.Types.mono(12, weight: .heavy))
+                    .font(ClusterTheme.Fonts.mono(12, weight: .heavy))
                     .tracking(0.6)
                     .foregroundStyle(ClusterTheme.Colors.background)
                 Text(subtitle)
-                    .font(ClusterTheme.Types.body(12, weight: .semibold))
+                    .font(ClusterTheme.Fonts.body(12, weight: .semibold))
                     .foregroundStyle(ClusterTheme.Colors.background.opacity(0.8))
             }
             Spacer(minLength: 0)
@@ -279,7 +279,7 @@ struct ClusterAngledButton: View {
                 Image(systemName: icon)
                     .font(.system(size: 12, weight: .bold))
                 Text(label.uppercased())
-                    .font(ClusterTheme.Types.mono(11, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(11, weight: .bold))
                     .tracking(0.8)
             }
             .foregroundStyle(ClusterTheme.Colors.background)
@@ -321,11 +321,11 @@ struct ClusterStatusToggle: View {
 
                 VStack(alignment: .leading, spacing: 1) {
                     Text(isActive ? "ACTIVE" : "RESOLVED")
-                        .font(ClusterTheme.Types.mono(12, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(12, weight: .bold))
                         .tracking(1.0)
                         .foregroundStyle(tint)
                     Text(isActive ? "Tap to mark resolved" : "Tap to mark active again")
-                        .font(ClusterTheme.Types.body(12))
+                        .font(ClusterTheme.Fonts.body(12))
                         .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 }
 
@@ -360,7 +360,7 @@ struct ClusterConsoleActionButton: View {
                 Image(systemName: icon)
                     .font(.system(size: 15, weight: .bold))
                 Text(label.uppercased())
-                    .font(ClusterTheme.Types.mono(13, weight: .bold))
+                    .font(ClusterTheme.Fonts.mono(13, weight: .bold))
                     .tracking(0.6)
                 Spacer(minLength: 0)
             }
@@ -441,7 +441,7 @@ struct ClusterSegmentedToggle<Option: Hashable>: View {
                     selection = option
                 } label: {
                     Text(label(option).uppercased())
-                        .font(ClusterTheme.Types.mono(10, weight: .bold))
+                        .font(ClusterTheme.Fonts.mono(10, weight: .bold))
                         .tracking(0.4)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
