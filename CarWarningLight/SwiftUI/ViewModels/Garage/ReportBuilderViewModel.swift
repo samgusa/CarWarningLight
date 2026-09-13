@@ -17,6 +17,7 @@ final class ReportBuilderViewModel {
     var includedLightIDs: Set<UUID>                                 = []
     var includedIssueIDs: Set<UUID>                                 = []
     var includedCategoriesByIssue: [UUID: Set<IssueCategory>]       = [:]
+    var includedMaintenanceIDs: Set<UUID>                           = []
     var isGenerating: Bool                                          = false
     var shareURL: IdentifiableURL?
 
@@ -42,18 +43,23 @@ final class ReportBuilderViewModel {
         vehicle.activeIssues.sorted { $0.dateCreated > $1.dateCreated }
     }
 
+    var activeMaintenanceItems: [MaintenanceItem] {
+        vehicle.activeMaintenanceItems.sorted { $0.dateCreated > $1.dateCreated }
+    }
+
     var hasAnythingToReport: Bool {
-        !activeLights.isEmpty || !activeIssues.isEmpty
+        !activeLights.isEmpty || !activeIssues.isEmpty || !activeMaintenanceItems.isEmpty
     }
 
     var selectedCount: Int {
-        includedLightIDs.count + includedIssueIDs.count
+        includedLightIDs.count + includedIssueIDs.count + includedMaintenanceIDs.count
     }
 
     func preselectAll() {
         includedLightIDs = Set(activeLights.map(\.id))
         includedIssueIDs = Set(activeIssues.map(\.id))
         includedCategoriesByIssue = Dictionary(uniqueKeysWithValues: activeIssues.map { ($0.id, $0.categories) })
+        includedMaintenanceIDs = Set(activeMaintenanceItems.map(\.id))
     }
 
     func isIssueIncluded(_ issue: VehicleIssue) -> Bool {
@@ -91,6 +97,18 @@ final class ReportBuilderViewModel {
         includedCategoriesByIssue[issue.id] = updated
     }
 
+    func isMaintenanceIncluded(_ item: MaintenanceItem) -> Bool {
+        includedMaintenanceIDs.contains(item.id)
+    }
+
+    func toggleMaintenance(_ item: MaintenanceItem) {
+        if includedMaintenanceIDs.contains(item.id) {
+            includedMaintenanceIDs.remove(item.id)
+        } else {
+            includedMaintenanceIDs.insert(item.id)
+        }
+    }
+
     func generateReport(allLights: [CarSymbol]) {
         isGenerating = true
 
@@ -102,6 +120,7 @@ final class ReportBuilderViewModel {
             
             return ReportIssueEntry(issue: issue, categories: ordered)
         }
+        let maintenanceItems = activeMaintenanceItems.filter { includedMaintenanceIDs.contains($0.id) }
 
         Task { [weak self] in
             guard let self else { return }
@@ -109,6 +128,7 @@ final class ReportBuilderViewModel {
                 vehicle: vehicle,
                 lights: lights,
                 issueEntries: issueEntries,
+                maintenanceItems: maintenanceItems,
                 allLights: allLights,
                 ownerName: contactName,
                 ownerContact: contactPhone
