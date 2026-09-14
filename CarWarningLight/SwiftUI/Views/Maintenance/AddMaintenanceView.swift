@@ -39,9 +39,8 @@ struct AddMaintenanceView: View {
 
                             LazyVGrid(columns: columns, spacing: 10) {
                                 ForEach(MaintenanceCategory.allCases) { category in
-                                    ClusterCategoryChip(
-                                        icon: category.icon,
-                                        label: category.label,
+                                    MaintenanceCategoryChip(
+                                        category: category,
                                         isSelected: viewModel.selectedCategory == category) {
                                             viewModel.selectedCategory = category
                                         }
@@ -153,4 +152,19 @@ struct AddMaintenanceView: View {
 
 #Preview {
     AddMaintenanceView(vehicle: Vehicle(name: "My Civic"))
+}
+
+#Preview {
+    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 16) {
+        ForEach(MaintenanceCategory.allCases) { category in
+            VStack(spacing: 6) {
+                MaintenanceIconView(category: category, color: .white, size: 32)
+                Text(category.label)
+                    .font(.system(size: 9))
+                    .foregroundStyle(.white.opacity(0.7))
+            }
+        }
+    }
+    .padding(24)
+    .background(Color.black)
 }

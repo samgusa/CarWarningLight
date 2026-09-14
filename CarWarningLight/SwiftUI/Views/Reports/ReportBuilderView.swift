@@ -75,16 +75,27 @@ struct ReportBuilderView: View {
                 withAnimation(.easeInOut(duration: 0.2)) { showContactFields.toggle() }
             } label: {
                 HStack(spacing: 6) {
-                    Image(systemName: "person.text.rectangle")
-                        .font(.system(size: 11, weight: .semibold))
-                    Text(viewModel.contactName.isEmpty ? "ADD YOUR CONTACT INFO (OPTIONAL)" : "CONTACT INFO ADDED")
-                        .font(ClusterTheme.Fonts.mono(10, weight: .bold))
-                        .tracking(0.6)
+                    Image(systemName: "person.text.rectangle.fill")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(ClusterTheme.Colors.amber)
+                        .frame(width: 32, height: 32)
+                        .background(ClusterTheme.Colors.amber.opacity(0.15))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(viewModel.contactName.isEmpty ? "Add your contact info" : "Contact info added")
+                            .font(ClusterTheme.Fonts.mono(14, weight: .semibold))
+                            .foregroundStyle(ClusterTheme.Colors.textPrimary)
+                        Text("Optional — helps your mechanic reach you")
+                            .font(ClusterTheme.Fonts.body(11))
+                            .foregroundStyle(ClusterTheme.Colors.textSecondary)
+                    }
                     Spacer()
                     Image(systemName: showContactFields ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 10, weight: .bold))
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundStyle(ClusterTheme.Colors.textSecondary)
                 }
-                .foregroundStyle(viewModel.contactName.isEmpty ? ClusterTheme.Colors.textSecondary : ClusterTheme.Colors.amber)
+                .padding(12)
             }
             .buttonStyle(.plain)
 
@@ -96,13 +107,19 @@ struct ReportBuilderView: View {
                 .font(ClusterTheme.Fonts.body(14))
                 .foregroundStyle(ClusterTheme.Colors.textPrimary)
                 .padding(10)
-                .background(ClusterTheme.Colors.panel)
+                .background(ClusterTheme.Colors.background.opacity(0.4))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                .padding(.horizontal, 12)
+                .padding(.bottom, 10)
+
                 Text("Only appears on the report if filled in — never shared otherwise.")
                     .font(ClusterTheme.Fonts.body(10))
                     .foregroundStyle(ClusterTheme.Colors.textSecondary)
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 12)
             }
         }
+        .clusterPanel()
         .padding(.horizontal)
     }
 
@@ -184,6 +201,7 @@ struct ReportBuilderView: View {
             .clusterPanel()
             .opacity(isIncluded ? 1 : 0.45)
         }
+        .buttonStyle(.plain)
     }
 
     private var issuesSection: some View {

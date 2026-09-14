@@ -320,18 +320,33 @@ extension View {
 
 struct ScrollTrackerModifier: ViewModifier {
     @Binding var isScrolledDown: Bool
+    @State private var previousOffset: CGFloat = 0
 
     func body(content: Content) -> some View {
         content
             .onScrollGeometryChange(for: CGFloat.self) { geometry in
                 geometry.contentOffset.y + geometry.contentInsets.top
             } action: { _, newValue in
-                let shouldBeScrolled = newValue > 40
-                guard shouldBeScrolled != isScrolledDown else { return }
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.82)) {
-                    isScrolledDown = shouldBeScrolled
+                defer { previousOffset = newValue }
+
+                // always expanded near top, regardless of direction
+                guard newValue > 40 else {
+                    setScrolledDown(false)
+                    return
                 }
+                let delta = newValue - previousOffset
+
+                guard abs(delta) > 4 else { return }
+
+                setScrolledDown(delta > 0)
             }
 
+    }
+
+    private func setScrolledDown(_ value: Bool) {
+        guard value != isScrolledDown else { return }
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.82)) {
+            isScrolledDown = value
+        }
     }
 }

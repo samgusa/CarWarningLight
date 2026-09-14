@@ -12,9 +12,9 @@ enum ReportBlock: Identifiable {
     case header(vehicle: Vehicle, ownerName: String, ownerContact: String, generatedDate: Date)
     case disclaimer
     case sectionLabel(title: String, count: Int)
-    case light(LightLogEntry)
-    case issue(ReportIssueEntry, allLights: [CarSymbol], vehicle: Vehicle)
-    case maintenanceItem(MaintenanceItem)
+    case light(LightLogEntry, index: Int)
+    case issue(ReportIssueEntry, index: Int, allLights: [CarSymbol], vehicle: Vehicle)
+    case maintenanceItem(MaintenanceItem, index: Int)
     case footer
 
     var id: String {
@@ -22,9 +22,9 @@ enum ReportBlock: Identifiable {
         case .header:                       return "header"
         case .disclaimer:                   return "disclaimer"
         case .sectionLabel(let title, _):   return "section-\(title)"
-        case .light(let entry):             return "light-\(entry.id)"
-        case .issue(let entry, _, _):       return "issue-\(entry.issue.id)"
-        case .maintenanceItem(let item):    return "maintenance-\(item.id)"
+        case .light(let entry, _):          return "light-\(entry.id)"
+        case .issue(let entry, _, _, _):    return "issue-\(entry.issue.id)"
+        case .maintenanceItem(let item, _): return "maintenance-\(item.id)"
         case .footer:                       return "footer"
         }
     }
@@ -38,25 +38,25 @@ enum ReportBlock: Identifiable {
             ReportDisclaimerBlock()
         case .sectionLabel(let title, let count):
             ReportSectionLabelBlock(title: title, count: count)
-        case .light(let entry):
-            ReportLightBlock(entry: entry)
-        case .issue(let entry, let allLights, let vehicle):
-            ReportIssueBlock(entry: entry, allLights: allLights, vehicle: vehicle)
-        case .maintenanceItem(let item):
-            ReportMaintenanceBlock(item: item)
+        case .light(let entry, let index):
+            ReportLightBlock(entry: entry, index: index)
+        case .issue(let entry, let index, let allLights, let vehicle):
+            ReportIssueBlock(entry: entry, index: index, allLights: allLights, vehicle: vehicle)
+        case .maintenanceItem(let item, let index):
+            ReportMaintenanceBlock(item: item, index: index)
         case .footer:
             ReportFooterBlock()
         }
     }
 
     static func build(
-            vehicle: Vehicle,
-            lights: [LightLogEntry],
-            issueEntries: [ReportIssueEntry],
-            maintenanceItems: [MaintenanceItem],
-            allLights: [CarSymbol],
-            ownerName: String,
-            ownerContact: String
+            vehicle:            Vehicle,
+            lights:             [LightLogEntry],
+            issueEntries:       [ReportIssueEntry],
+            maintenanceItems:   [MaintenanceItem],
+            allLights:          [CarSymbol],
+            ownerName:          String,
+            ownerContact:       String
     ) -> [ReportBlock] {
         var blocks: [ReportBlock] = [
             .header(vehicle: vehicle, ownerName: ownerName, ownerContact: ownerContact, generatedDate: Date())
@@ -64,18 +64,20 @@ enum ReportBlock: Identifiable {
 
         if !lights.isEmpty {
             blocks.append(.sectionLabel(title: "Warning Lights", count: lights.count))
-            blocks.append(contentsOf: lights.map(ReportBlock.light))
+            blocks.append(contentsOf: lights.enumerated().map { ReportBlock.light($1, index: $0 + 1) })
             blocks.append(.disclaimer)
         }
 
         if !issueEntries.isEmpty {
             blocks.append(.sectionLabel(title: "Issues", count: issueEntries.count))
-            blocks.append(contentsOf: issueEntries.map { .issue($0, allLights: allLights, vehicle: vehicle) })
+            blocks.append(contentsOf: issueEntries.enumerated().map {
+                ReportBlock.issue($1, index: $0 + 1, allLights: allLights, vehicle: vehicle)
+            })
         }
 
         if !maintenanceItems.isEmpty {
             blocks.append(.sectionLabel(title: "Maintenance", count: maintenanceItems.count))
-            blocks.append(contentsOf: maintenanceItems.map(ReportBlock.maintenanceItem))
+            blocks.append(contentsOf: maintenanceItems.enumerated().map { ReportBlock.maintenanceItem($1, index: $0 + 1) })
         }
 
         blocks.append(.footer)
@@ -88,6 +90,21 @@ private func reportSeverityColor(_ type: SymbolType) -> Color {
     case .advisory:     return .orange
     case .info:         return .green
     case .warning:      return .red
+    }
+}
+
+private struct ReportNumberBadge: View {
+    let number: Int
+
+    var body: some View {
+        Text("\(number)")
+            .font(.system(size: 10, weight: .bold, design: .monospaced))
+            .foregroundStyle(.white)
+            .frame(width: 18, height: 18)
+            .background(
+                Circle()
+                    .fill(Color.black)
+            )
     }
 }
 
@@ -111,12 +128,11 @@ private struct ReportHeaderBlock: View {
                 .foregroundStyle(.gray)
             Text(vehicle.name)
                 .font(.system(size: 26, weight: .heavy, design: .monospaced))
-            if vehicleSubtitle.isEmpty {
+            if !vehicleSubtitle.isEmpty {
                 Text(vehicleSubtitle)
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.gray)
             }
-
             if !ownerName.isEmpty {
                 Text("\(ownerName)\(ownerContact.isEmpty ? "" : " · \(ownerContact)")")
                     .font(.system(size: 11, weight: .semibold))
@@ -174,10 +190,12 @@ private struct ReportSectionLabelBlock: View {
 
 private struct ReportLightBlock: View {
     let entry: LightLogEntry
+    let index: Int
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
             HStack {
+                ReportNumberBadge(number: index)
                 Image(entry.carSymbol.imageName)
                     .resizable()
                     .renderingMode(.template)
@@ -218,12 +236,14 @@ private struct ReportLightBlock: View {
 
 private struct ReportIssueBlock: View {
     let entry: ReportIssueEntry
+    let index: Int
     let allLights: [CarSymbol]
     let vehicle: Vehicle
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
+                ReportNumberBadge(number: index)
                 Text(entry.categories.isEmpty ?
                      entry.issue.displayTitle(allLights: allLights) :
                         entry.categories.map(\.label).joined(separator: " + ")
@@ -335,10 +355,12 @@ private struct IssueDiagramSnapshot: View {
 
 private struct ReportMaintenanceBlock: View {
     let item: MaintenanceItem
+    let index: Int
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
+                ReportNumberBadge(number: index)
                 Image(systemName: item.category.icon)
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(.gray)

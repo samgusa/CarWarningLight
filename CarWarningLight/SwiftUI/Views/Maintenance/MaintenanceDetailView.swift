@@ -115,9 +115,11 @@ struct MaintenanceDetailView: View {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
                     )
-                Image(systemName: viewModel.item.category.icon)
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundStyle(viewModel.item.isActive ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
+                MaintenanceIconView(
+                    category: viewModel.item.category,
+                    color: viewModel.item.isActive ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary,
+                    size: 28
+                )
             }
             .frame(width: 54, height: 54)
 

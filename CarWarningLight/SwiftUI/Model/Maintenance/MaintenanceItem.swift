@@ -31,15 +31,15 @@ enum MaintenanceCategory: String, Codable, CaseIterable, Identifiable {
 
     var icon: String {
         switch self {
-        case .wiperBlades:   return "wind"
-        case .oilChange:     return "drop.fill"
-        case .airFilter:     return "aqi.medium"
-        case .cabinFilter:   return "fan.fill"
-        case .brakePads:     return "octagon.fill"
-        case .tires:         return "circle.dashed"
-        case .battery:       return "bolt.fill"
-        case .beltsHoses:    return "arrow.triangle.2.circlepath"
-        case .sparkPlugs:    return "sparkles"
+        case .wiperBlades:   return "Wiperblades"
+        case .oilChange:     return "Oilchange"
+        case .airFilter:     return "AirFilter"
+        case .cabinFilter:   return "CabinFilter"
+        case .brakePads:     return "Brakepads"
+        case .tires:         return "Tires"
+        case .battery:       return "Battery"
+        case .beltsHoses:    return "BeltHose"
+        case .sparkPlugs:    return "Sparkplug"
         case .other:         return "wrench.and.screwdriver"
         }
     }

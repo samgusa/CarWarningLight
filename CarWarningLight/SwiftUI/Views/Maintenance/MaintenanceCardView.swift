@@ -26,9 +26,11 @@ struct MaintenanceCardView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(ClusterTheme.Colors.bezel, lineWidth: 1)
                     )
-                Image(systemName: item.category.icon)
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundStyle(item.isActive ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary)
+                MaintenanceIconView(
+                    category: item.category,
+                    color: item.isActive ? ClusterTheme.Colors.amber : ClusterTheme.Colors.textSecondary,
+                    size: 22
+                )
             }
             .frame(width: 44, height: 44)
 
