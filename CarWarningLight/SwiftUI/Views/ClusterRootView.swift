@@ -336,9 +336,11 @@ struct ScrollTrackerModifier: ViewModifier {
                 }
                 let delta = newValue - previousOffset
 
-                guard abs(delta) > 4 else { return }
-
-                setScrolledDown(delta > 0)
+                if delta > 0.5 {
+                    setScrolledDown(true)
+                } else if delta < -0.5 {
+                    setScrolledDown(false)
+                }
             }
 
     }
