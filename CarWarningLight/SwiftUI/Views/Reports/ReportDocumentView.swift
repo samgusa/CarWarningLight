@@ -301,7 +301,7 @@ private struct ReportIssueBlock: View {
                 Image(uiImage: photo)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 240, maxHeight: 180)
+                    .frame(maxWidth: 460, maxHeight: 360)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .padding(.top, 4)
             }
@@ -361,9 +361,14 @@ private struct ReportMaintenanceBlock: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
                 ReportNumberBadge(number: index)
-                Image(systemName: item.category.icon)
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(.gray)
+
+                MaintenanceIconView(
+                    category: item.category,
+                    color: .gray,
+                    size: 14,
+                    lineWidth: 1.4
+                )
+
                 Text(item.title)
                     .font(.system(size: 14, weight: .bold))
                 Spacer()
@@ -373,7 +378,7 @@ private struct ReportMaintenanceBlock: View {
             }
 
             if let mileage = item.mileage {
-                HStack {
+                HStack(spacing: 5) {
                     Image(systemName: "gauge.with.dots.needle.67percent")
                         .font(.system(size: 10, weight: .semibold))
                     Text("\(mileage.formatted()) \(item.mileageUnit.abbreviation)")

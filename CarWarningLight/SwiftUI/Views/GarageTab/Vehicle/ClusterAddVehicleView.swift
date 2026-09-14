@@ -140,6 +140,10 @@ struct ClusterAddVehicleView: View {
             .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
+    private func sideImageName(for topDownName: String) -> String {
+        topDownName.replacingOccurrences(of: "vehicle", with: "side")
+    }
+
     private func bodyStyleTile(_ style: (label: String, imageName: String)) -> some View {
         let isSelected = viewModel.selectedImageName == style.imageName
         return Button {
