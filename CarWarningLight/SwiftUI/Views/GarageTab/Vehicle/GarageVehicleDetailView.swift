@@ -111,32 +111,15 @@ struct GarageVehicleDetailView: View {
             }
             .accessibilityLabel("Build a report")
 
-            Menu {
-                Button {
-                    viewModel.showAddIssue = true
-                } label: {
-                    Label("Log Issue", systemImage: "exclamationmark.triangle")
-                }
-                Button {
-                    viewModel.showAddMaintenance = true
-                } label: {
-                    Label("Log Maintenance", systemImage: "wrench.and.screwdriver")
-                }
-            } label: {
-                HStack(spacing: 6) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 12, weight: .bold))
-                    Text("LOG")
-                        .font(ClusterTheme.Fonts.mono(11, weight: .bold))
-                        .tracking(0.8)
-                }
-                .foregroundStyle(ClusterTheme.Colors.background)
-                .padding(.horizontal, 18)
-                .padding(.vertical, 9)
-                .background(ClusterTheme.Colors.amber)
-                .clipShape(ClusterParallelogramShape(skew: 8))
+            ClusterSquareIconButton(icon: "exclamationmark.triangle.fill") {
+                viewModel.showAddIssue = true
             }
-            .accessibilityLabel("Log an issue or maintenance item")
+            .accessibilityLabel("Log an issue")
+
+            ClusterSquareIconButton(icon: "wrench.and.screwdriver.fill") {
+                viewModel.showAddMaintenance = true
+            }
+            .accessibilityLabel("Log maintenance")
 
             ClusterSquareIconButton(icon: "pencil") {
                 showEditVehicle = true

@@ -49,7 +49,7 @@ struct GarageVehicleCard: View {
 }
 
 #Preview {
-    let vehicle = Vehicle(name: "My Civic", imageName: "vehicleSedan")
+    let vehicle = Vehicle(name: "My Civic", imageName: "sideSedan")
     return HStack {
         GarageVehicleCard(vehicle: vehicle)
     }
