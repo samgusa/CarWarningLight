@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FEBD56B6304E4D81009ACDB2 /* CarImgMLModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FEBD56B5304E4D81009ACDB2 /* CarImgMLModel.mlmodel */; };
 		FEBD583D304F59F3009ACDB2 /* TipDetails.storekit in Resources */ = {isa = PBXBuildFile; fileRef = FEBD583C304F54D1009ACDB2 /* TipDetails.storekit */; };
+		FEBD5B48305C9D4F009ACDB2 /* WarningLightCamera.icon in Resources */ = {isa = PBXBuildFile; fileRef = FEBD5B47305C9D4F009ACDB2 /* WarningLightCamera.icon */; };
 		FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53A223F22A10056F464 /* Assets.xcassets */; };
 		FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */; };
 		FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */; };
@@ -17,6 +18,7 @@
 /* Begin PBXFileReference section */
 		FEBD56B5304E4D81009ACDB2 /* CarImgMLModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CarImgMLModel.mlmodel; sourceTree = "<group>"; };
 		FEBD583C304F54D1009ACDB2 /* TipDetails.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = TipDetails.storekit; sourceTree = "<group>"; };
+		FEBD5B47305C9D4F009ACDB2 /* WarningLightCamera.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = WarningLightCamera.icon; sourceTree = "<group>"; };
 		FEBDF530223F229D0056F464 /* CarWarningLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarWarningLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEBDF53A223F22A10056F464 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEBDF53D223F22A10056F464 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */,
 				FEBDF53F223F22A10056F464 /* Info.plist */,
 				FEBD56B5304E4D81009ACDB2 /* CarImgMLModel.mlmodel */,
+				FEBD5B47305C9D4F009ACDB2 /* WarningLightCamera.icon */,
 			);
 			path = CarWarningLight;
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 			files = (
 				FEBD583D304F59F3009ACDB2 /* TipDetails.storekit in Resources */,
 				FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */,
+				FEBD5B48305C9D4F009ACDB2 /* WarningLightCamera.icon in Resources */,
 				FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,7 +318,7 @@
 		FEBDF543223F22A10056F464 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = WarningLightCamera;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				"EXCLUDED_ARCHS[sdk=*]" = "";
@@ -345,7 +349,7 @@
 		FEBDF544223F22A10056F464 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = WarningLightCamera;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
