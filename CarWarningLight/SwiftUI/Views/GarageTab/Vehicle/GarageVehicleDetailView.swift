@@ -100,9 +100,12 @@ struct GarageVehicleDetailView: View {
 
     private var controlsRow: some View {
         HStack {
-            Text(vehicle.name)
-                .font(ClusterTheme.Fonts.mono(15, weight: .bold))
-                .foregroundStyle(ClusterTheme.Colors.textPrimary)
+            Text("TAP AN ICON TO GET STARTED")
+                .font(ClusterTheme.Fonts.mono(11, weight: .bold))
+                .tracking(1.0)
+                .foregroundStyle(ClusterTheme.Colors.textSecondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
 
             Spacer()
 

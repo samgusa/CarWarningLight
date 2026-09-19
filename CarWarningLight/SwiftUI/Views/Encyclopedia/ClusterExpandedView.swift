@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ClusterExpandedView: View {
     @EnvironmentObject private var uiState: UIStateManager
-    @State var viewModel              = ClusterExpandedViewModel()
+    @State var viewModel                            = ClusterExpandedViewModel()
     @Environment(\.dismiss) private var dismiss
 
     let carSymbol: CarSymbol
@@ -18,20 +18,24 @@ struct ClusterExpandedView: View {
     @Binding var isShowingLarge: Bool
     let bigImageId: Int
     @Binding var index: Int?
-    var isStandAlone: Bool                  = false
+    var isStandAlone: Bool                          = false
 
-    var logEntry: LightLogEntry?            = nil
-    var onToggleResolved: (() -> Void)?     = nil
-    var headerTitle: String                 = "WARNING LIGHT"
-    var onDismiss: (() -> Void)?            = nil
-    var onConfirmMatch: (() -> Void)?       = nil
-    var onLogEntry: (() -> Void)?           = nil
-    var onDeleteEntry: (() -> Void)?        = nil
+    var logEntry: LightLogEntry?                    = nil
+    var onToggleResolved: (() -> Void)?             = nil
+    var headerTitle: String                         = "WARNING LIGHT"
+    var onDismiss: (() -> Void)?                    = nil
+    var onConfirmMatch: (() -> Void)?               = nil
+    var onLogEntry: (() -> Void)?                   = nil
+    var onDeleteEntry: (() -> Void)?                = nil
 
 
-    @State private var hasConfirmed: Bool       = false
-    @State private var hasLoggedNow: Bool       = false
-    @State private var showDeleteConfirm: Bool  = false
+    @State private var hasConfirmed: Bool           = false
+    @State private var showDeleteConfirm: Bool      = false
+
+    private enum LogButtonState: Equatable {
+        case idle, logged
+    }
+    @State private var logButtonState: LogButtonState = .idle
 
     private var telltale: Color { ClusterTheme.Colors.forSymbolType(carSymbol.symbolType) }
     private var safetyColor: Color { ClusterTheme.Colors.forDrivable(carSymbol.drivable) }
@@ -196,14 +200,48 @@ struct ClusterExpandedView: View {
     }
 
     private var logThisLightControl: some View {
-        ClusterConsoleActionButton(
-            icon: "plus",
-            label: "Log This Light",
-            isEnabled: !hasLoggedNow) {
-                onLogEntry?()
+        Button(action: performLog) {
+            Group {
+                switch logButtonState {
+                case .idle:
+                    HStack(spacing: 10) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 15, weight: .bold))
+                        Text("LOG THIS LIGHT")
+                            .font(ClusterTheme.Fonts.mono(13, weight: .bold))
+                            .tracking(0.6)
+                        Spacer(minLength: 0)
+                    }
+                    .frame(maxWidth: .infinity)
+
+                case .logged:
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 15 ,weight: .bold))
+                        Text("LOGGED")
+                            .font(ClusterTheme.Fonts.mono(13, weight: .bold))
+                            .tracking(0.6)
+                    }
+                    .frame(width: 130)
+                }
             }
-            .padding(.horizontal)
-            .animation(.spring(response: 0.35, dampingFraction: 0.85), value: hasLoggedNow)
+            .foregroundStyle(ClusterTheme.Colors.background)
+            .padding(14)
+            .background(logButtonState == .logged ? ClusterTheme.Colors.green : ClusterTheme.Colors.amber)
+            .clipShape(ClusterCornerCutShape(cut: 10))
+        }
+        .buttonStyle(PressedButtonStyle())
+        .disabled(logButtonState != .idle)
+        .animation(.spring(response: 0.35, dampingFraction: 0.8), value: logButtonState)
+        .padding(.horizontal)
+    }
+
+    private func performLog() {
+        guard logButtonState == .idle else { return }
+        onLogEntry?()
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+            logButtonState = .logged
+        }
     }
 
     private func resolvedControl(for entry: LightLogEntry) -> some View {

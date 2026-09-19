@@ -19,7 +19,7 @@ struct GarageVehicleCard: View {
     var body: some View {
         VStack(spacing: 10) {
             ZStack(alignment: .topTrailing) {
-                ClusterVehicleImagePlate(imageName: vehicle.imageName, size: 80)
+                ClusterVehicleImagePlate(imageName: vehicle.sideProfileImageName, size: 80)
 
                 Circle()
                     .fill(statusColor)

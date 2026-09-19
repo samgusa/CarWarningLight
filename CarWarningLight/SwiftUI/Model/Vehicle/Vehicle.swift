@@ -65,5 +65,8 @@ final class Vehicle {
         case .leftSide, .rightSide:     return imageName.replacingOccurrences(of: "vehicle", with: "side")
         }
     }
-}
 
+    var sideProfileImageName: String {
+        imageName.replacingOccurrences(of: "vehicle", with: "side")
+    }
+}

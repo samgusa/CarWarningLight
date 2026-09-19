@@ -21,14 +21,14 @@ final class VehicleFormViewModel {
     let existingVehicle: Vehicle?
 
     let bodyStyles: [(label: String, imageName: String)] = [
-        ("Sedan",                                   "sideSedan"),
-        ("SUV",                                     "sideSUV"),
-        ("Pickup",                                  "sidePickup"),
-        ("Hatchback",                               "sideHatchback"),
-        ("Minivan",                                 "sideMinivan"),
-        ("Coupe",                                   "sideCoupe"),
-        ("Sports Car",                              "sideSportsCar"),
-        ("Wagon",                                   "sideWagon")
+        ("Sedan",                                   "vehicleSedan"),
+        ("SUV",                                     "vehicleSUV"),
+        ("Pickup",                                  "vehiclePickup"),
+        ("Hatchback",                               "vehicleHatchback"),
+        ("Minivan",                                 "vehicleMinivan"),
+        ("Coupe",                                   "vehicleCoupe"),
+        ("Sports Car",                              "vehicleSportsCar"),
+        ("Wagon",                                   "vehicleWagon")
     ]
 
     init(existingVehicle: Vehicle? = nil) {

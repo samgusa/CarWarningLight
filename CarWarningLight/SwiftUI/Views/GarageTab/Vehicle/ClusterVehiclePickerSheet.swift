@@ -42,7 +42,7 @@ struct ClusterVehiclePickerSheet: View {
                             dismiss()
                         } label: {
                             HStack(spacing: 12) {
-                                ClusterVehicleImagePlate(imageName: vehicle.imageName, size: 36)
+                                ClusterVehicleImagePlate(imageName: vehicle.sideProfileImageName, size: 36)
                                     .clipShape(RoundedRectangle(cornerRadius: 6))
                                 Text(vehicle.name)
                                     .font(ClusterTheme.Fonts.body(15, weight: .semibold))

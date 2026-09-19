@@ -150,7 +150,7 @@ struct ClusterAddVehicleView: View {
             viewModel.selectedImageName = style.imageName
         } label: {
             VStack(spacing: 8) {
-                ClusterVehicleImagePlate(imageName: style.imageName, size: 108)
+                ClusterVehicleImagePlate(imageName: sideImageName(for: style.imageName), size: 108)
                     .padding(.top, 14)
 
                 Text(style.label.uppercased())

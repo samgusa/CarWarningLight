@@ -110,13 +110,17 @@ struct ClusterEditVehicleSheet: View {
             .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
+    private func sideImageName(for topDownName: String) -> String {
+        topDownName.replacingOccurrences(of: "vehicle", with: "side")
+    }
+
     private func bodyStyleTile(_ style: (label: String, imageName: String)) -> some View {
         let isSelected = viewModel.selectedImageName == style.imageName
         return Button {
             viewModel.selectedImageName = style.imageName
         } label: {
             VStack(spacing: 8) {
-                ClusterVehicleImagePlate(imageName: style.imageName, size: 108)
+                ClusterVehicleImagePlate(imageName: sideImageName(for: style.imageName), size: 108)
                     .padding(.top, 14)
 
                 Text(style.label.uppercased())
