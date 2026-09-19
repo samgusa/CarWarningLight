@@ -90,6 +90,14 @@ enum SymbolType: String, Codable {
         case .info:     return "info.circle.fill"
         }
     }
+
+    var severityRank: Int {
+        switch self {
+        case .advisory:     return 1
+        case .info:         return 2
+        case .warning:      return 0
+        }
+    }
 }
 
 struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
@@ -100,7 +108,6 @@ struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
     let symbolType: SymbolType
     let fixDescription: String
     let drivable: Drivable
-    let categories: [String]?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -110,7 +117,6 @@ struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
         case symbolType
         case fixDescription = "fixDescr"
         case drivable
-        case categories
     }
 
     var image: Image {
@@ -137,7 +143,6 @@ struct CarSymbol: Identifiable, Codable, Hashable, Equatable {
         symbolType: .warning, // Or a sensible default
         fixDescription: "",
         drivable: .yes, // Or a sensible default
-        categories: []
     )
 
     static func == (lhs: CarSymbol, rhs: CarSymbol) -> Bool {

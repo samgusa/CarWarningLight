@@ -1,0 +1,38 @@
+{
+  "fill" : {
+    "solid" : "srgb:0.04314,0.05098,0.06275,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill" : "none",
+          "glass" : false,
+          "image-name" : "MagnifierIcon_cutout 2.png",
+          "name" : "MagnifierIcon_cutout 2",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              25.2265625,
+              109.484375
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

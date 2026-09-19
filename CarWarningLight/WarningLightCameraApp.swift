@@ -7,15 +7,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct WarningLightCameraApp: App {
     @StateObject private var uiState = UIStateManager()
+    @State private var tipStore = TipJarStore()
+    private let allLights: [CarSymbol] = CarSymbol.bundledLibrary
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ClusterRootView()
                 .environmentObject(uiState)
+                .environment(tipStore)
+                .environment(\.allLights, allLights)
         }
+        .modelContainer(for: [Vehicle.self, VehicleIssue.self, LightLogEntry.self, MaintenanceItem.self])
     }
 }

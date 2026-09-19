@@ -7,29 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FEBD56B6304E4D81009ACDB2 /* CarImgMLModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FEBD56B5304E4D81009ACDB2 /* CarImgMLModel.mlmodel */; };
+		FEBD583D304F59F3009ACDB2 /* TipDetails.storekit in Resources */ = {isa = PBXBuildFile; fileRef = FEBD583C304F54D1009ACDB2 /* TipDetails.storekit */; };
+		FEBD5B48305C9D4F009ACDB2 /* WarningLightCamera.icon in Resources */ = {isa = PBXBuildFile; fileRef = FEBD5B47305C9D4F009ACDB2 /* WarningLightCamera.icon */; };
 		FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53A223F22A10056F464 /* Assets.xcassets */; };
 		FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */; };
-		FEBFEB3B2DD9197600057ED4 /* MainCarLightMLModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FEBFEB3A2DD9197600057ED4 /* MainCarLightMLModel.mlmodel */; };
-		FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB22DB9990100D16AA3 /* ContentView.swift */; };
 		FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FEBD56B5304E4D81009ACDB2 /* CarImgMLModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CarImgMLModel.mlmodel; sourceTree = "<group>"; };
+		FEBD583C304F54D1009ACDB2 /* TipDetails.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = TipDetails.storekit; sourceTree = "<group>"; };
+		FEBD5B47305C9D4F009ACDB2 /* WarningLightCamera.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = WarningLightCamera.icon; sourceTree = "<group>"; };
 		FEBDF530223F229D0056F464 /* CarWarningLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarWarningLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEBDF53A223F22A10056F464 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEBDF53D223F22A10056F464 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FEBDF53F223F22A10056F464 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FEBFEB3A2DD9197600057ED4 /* MainCarLightMLModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MainCarLightMLModel.mlmodel; sourceTree = "<group>"; };
-		FEC2CBB22DB9990100D16AA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FEC2CBB52DB9994200D16AA3 /* WarningLightCameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningLightCameraApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		FEBD03802DBE975B00B45AE6 /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
-		FEBD051F2DC6DA5B00B45AE6 /* Helper */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helper; sourceTree = "<group>"; };
-		FEBD064E2DCAAD0000B45AE6 /* Shapes */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shapes; sourceTree = "<group>"; };
 		FEBD06552DCC08A600B45AE6 /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
-		FEBD06562DCC08AB00B45AE6 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
+		FEBD562E304E0CD6009ACDB2 /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
+		FEBD567B304E3D9C009ACDB2 /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
+		FEBD56C3304F407C009ACDB2 /* Animation */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Animation; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +47,7 @@
 		FEBDF527223F229D0056F464 = {
 			isa = PBXGroup;
 			children = (
+				FEBD583C304F54D1009ACDB2 /* TipDetails.storekit */,
 				FEBDF532223F229D0056F464 /* CarWarningLight */,
 				FEBDF531223F229D0056F464 /* Products */,
 			);
@@ -67,7 +69,8 @@
 				FEBDF53A223F22A10056F464 /* Assets.xcassets */,
 				FEBDF53C223F22A10056F464 /* LaunchScreen.storyboard */,
 				FEBDF53F223F22A10056F464 /* Info.plist */,
-				FEBFEB3A2DD9197600057ED4 /* MainCarLightMLModel.mlmodel */,
+				FEBD56B5304E4D81009ACDB2 /* CarImgMLModel.mlmodel */,
+				FEBD5B47305C9D4F009ACDB2 /* WarningLightCamera.icon */,
 			);
 			path = CarWarningLight;
 			sourceTree = "<group>";
@@ -75,12 +78,10 @@
 		FEC2CBB42DB9993000D16AA3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				FEBD06562DCC08AB00B45AE6 /* View */,
+				FEBD56C3304F407C009ACDB2 /* Animation */,
 				FEBD06552DCC08A600B45AE6 /* Model */,
-				FEBD064E2DCAAD0000B45AE6 /* Shapes */,
-				FEBD051F2DC6DA5B00B45AE6 /* Helper */,
-				FEBD03802DBE975B00B45AE6 /* ViewModels */,
-				FEC2CBB22DB9990100D16AA3 /* ContentView.swift */,
+				FEBD562E304E0CD6009ACDB2 /* ViewModels */,
+				FEBD567B304E3D9C009ACDB2 /* Views */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -101,11 +102,10 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				FEBD03802DBE975B00B45AE6 /* ViewModels */,
-				FEBD051F2DC6DA5B00B45AE6 /* Helper */,
-				FEBD064E2DCAAD0000B45AE6 /* Shapes */,
 				FEBD06552DCC08A600B45AE6 /* Model */,
-				FEBD06562DCC08AB00B45AE6 /* View */,
+				FEBD562E304E0CD6009ACDB2 /* ViewModels */,
+				FEBD567B304E3D9C009ACDB2 /* Views */,
+				FEBD56C3304F407C009ACDB2 /* Animation */,
 			);
 			name = CarWarningLight;
 			packageProductDependencies = (
@@ -122,7 +122,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 2660;
 				ORGANIZATIONNAME = simplyAmazingMachines;
 				TargetAttributes = {
 					FEBDF52F223F229D0056F464 = {
@@ -156,7 +156,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEBD583D304F59F3009ACDB2 /* TipDetails.storekit in Resources */,
 				FEBDF53E223F22A10056F464 /* LaunchScreen.storyboard in Resources */,
+				FEBD5B48305C9D4F009ACDB2 /* WarningLightCamera.icon in Resources */,
 				FEBDF53B223F22A10056F464 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,9 +170,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEBFEB3B2DD9197600057ED4 /* MainCarLightMLModel.mlmodel in Sources */,
-				FEC2CBB32DB9990100D16AA3 /* ContentView.swift in Sources */,
 				FEC2CBB62DB9994A00D16AA3 /* WarningLightCameraApp.swift in Sources */,
+				FEBD56B6304E4D81009ACDB2 /* CarImgMLModel.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +193,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -224,6 +226,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 4LBT7283WA;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -246,6 +249,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -255,6 +259,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -287,6 +292,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 4LBT7283WA;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -302,6 +308,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -311,10 +318,9 @@
 		FEBDF543223F22A10056F464 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = WarningLightCamera;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4LBT7283WA;
+				CURRENT_PROJECT_VERSION = 2;
 				"EXCLUDED_ARCHS[sdk=*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -322,12 +328,12 @@
 					"$(PROJECT_DIR)/CarWarningLight",
 				);
 				INFOPLIST_FILE = CarWarningLight/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.simple.CarWarningLight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -343,22 +349,21 @@
 		FEBDF544223F22A10056F464 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = WarningLightCamera;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4LBT7283WA;
+				CURRENT_PROJECT_VERSION = 2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CarWarningLight",
 				);
 				INFOPLIST_FILE = CarWarningLight/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.simple.CarWarningLight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
