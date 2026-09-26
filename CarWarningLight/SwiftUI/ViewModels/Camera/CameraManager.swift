@@ -71,6 +71,7 @@ class CameraManager: NSObject {
     private let logger              = Logger(subsystem: "com.simplyAmazingMachines.CarWarningLight", category: "CameraManager")
 
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    private var videoDevice: AVCaptureDevice?
 
     var lastCapturedPhoto: CapturedPhoto?
     var isSessionRunning: Bool      = false
@@ -79,6 +80,23 @@ class CameraManager: NSObject {
     var cropsToFocusSquare: Bool    = true
 
     private let focusSize: CGFloat  = 150
+
+    var maxZoomFactor: CGFloat {
+        guard let videoDevice else { return 1.0 }
+        return min(videoDevice.activeFormat.videoMaxZoomFactor, 8.0)
+    }
+
+    func setZoomFactor(_ factor: CGFloat) {
+        guard let videoDevice else { return }
+        let clamped = max(1.0, min(factor, maxZoomFactor))
+        do {
+            try videoDevice.lockForConfiguration()
+            videoDevice.videoZoomFactor = clamped
+            videoDevice.unlockForConfiguration()
+        } catch {
+            logger.error("Failed to set zoom factor: \(error.localizedDescription)")
+        }
+    }
 
     override init() {
         super.init()
@@ -116,6 +134,7 @@ class CameraManager: NSObject {
         guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             throw CameraError.deviceNotAvailable
         }
+        videoDevice = device
         do {
             let input = try AVCaptureDeviceInput(device: device)
             if session.canAddInput(input) {
@@ -252,7 +271,7 @@ extension CameraManager: AVCapturePhotoCaptureDelegate {
 
     private func processAndStoreCapturedImage(_ image: UIImage) {
         guard cropsToFocusSquare, let previewLayer = self.videoPreviewLayer else {
-            let resizedImage = image.resized(toMax: 1024)
+            let resizedImage = image.resized(toMax: 1600)
             self.lastCapturedPhoto = CapturedPhoto(image: resizedImage)
             return
         }
