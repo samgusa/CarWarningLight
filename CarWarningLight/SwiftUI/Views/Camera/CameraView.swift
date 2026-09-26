@@ -40,6 +40,10 @@ struct CameraView: View {
 
     private let focusSquareSize: CGFloat    = 150
 
+    @State private var committedZoom: CGFloat       = 1.0
+    @State private var liveZoomDisplay: CGFloat     = 1.0
+    @State private var showZoomIndicator: Bool      = false
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -47,6 +51,32 @@ struct CameraView: View {
 
                 cameraPreview
                     .opacity(cameraManager.isSessionRunning ? 1: 0)
+                    .gesture(
+                        MagnificationGesture()
+                            .onChanged { scale in
+                                showZoomIndicator = true
+                                let newZoom = committedZoom * scale
+                                cameraManager.setZoomFactor(newZoom)
+                                liveZoomDisplay = min(max(newZoom, 1.0), cameraManager.maxZoomFactor)
+                            }
+                            .onEnded { scale in
+                                committedZoom = min(max(committedZoom * scale, 1.0), cameraManager.maxZoomFactor)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    showZoomIndicator = false
+                                }
+                            }
+                    )
+
+                if showZoomIndicator {
+                    Text(String(format: "%.1fx", liveZoomDisplay))
+                        .font(.system(size: 13, weight: .bold, design: .monospaced))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(.black.opacity(0.4))
+                        .clipShape(Capsule())
+                        .transition(.opacity)
+                }
 
                 VStack {
                     headerToolBar

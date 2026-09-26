@@ -211,6 +211,7 @@ struct ClusterScanFlowView: View {
                     } else {
                         noMatchState
                     }
+                    aiAccuracyDisclaimer
                     if !alternates.isEmpty { alternatesSection }
                     noneOfTheseButton
                 }
@@ -220,6 +221,16 @@ struct ClusterScanFlowView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(ClusterTheme.Colors.background)
+    }
+
+    private var aiAccuracyDisclaimer: some View {
+        ClusterAccentBanner(
+            icon: "sparkles",
+            title: "AI Matches Aren't Guaranteed",
+            subtitle: "Always confirm against the description below, and check your owner's manual or a mechanic if you're unsure.",
+            tint: ClusterTheme.Colors.textSecondary
+        )
+        .padding(.horizontal)
     }
 
     private func confidenceGauge(for match: ScanMatch) -> some View {
